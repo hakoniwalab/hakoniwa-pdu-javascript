@@ -1,7 +1,5 @@
 import { ICommunicationService } from './ICommunicationService.js';
 import { DataPacket, PDU_DATA, PDU_DATA_RPC_REQUEST, PDU_DATA_RPC_REPLY, DECLARE_PDU_FOR_READ, DECLARE_PDU_FOR_WRITE, REQUEST_PDU_READ, REGISTER_RPC_CLIENT } from './DataPacket.js';
-import { pduToJs_ServiceRequestHeader } from '../pdu_msgs/hako_srv_msgs/pdu_conv_ServiceRequestHeader.js';
-import { pduToJs_ServiceResponseHeader } from '../pdu_msgs/hako_srv_msgs/pdu_conv_ServiceResponseHeader.js';
 
 /**
  * Base class for WebSocket communication, containing common logic for clients and servers.
@@ -122,12 +120,8 @@ export class WebSocketBaseCommunicationService extends ICommunicationService {
                 if (this.data_handler) {
                     await this.data_handler(packet);
                 }
-            } else if (req_type === PDU_DATA_RPC_REQUEST) {
-                const header = pduToJs_ServiceRequestHeader(packet.get_pdu_data());
-                this.comm_buffer.put_rpc_packet(header.service_name, header.client_name, packet.get_pdu_data());
-            } else if (req_type === PDU_DATA_RPC_REPLY) {
-                const header = pduToJs_ServiceResponseHeader(packet.get_pdu_data());
-                this.comm_buffer.put_rpc_packet(header.service_name, header.client_name, packet.get_pdu_data());
+            } else if (req_type === PDU_DATA_RPC_REQUEST || req_type === PDU_DATA_RPC_REPLY) {
+                this.comm_buffer.set_rpc_channel_buffer(packet.robot_name, packet.channel_id, packet.get_pdu_data());
             } else if ([DECLARE_PDU_FOR_READ, DECLARE_PDU_FOR_WRITE, REQUEST_PDU_READ, REGISTER_RPC_CLIENT].includes(req_type)) {
                 if (this.handler) {
                     await this.handler(packet);

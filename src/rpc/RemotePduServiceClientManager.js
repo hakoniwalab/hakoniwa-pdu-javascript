@@ -54,7 +54,11 @@ export class RemotePduServiceClientManager extends RemotePduServiceBaseManager {
 
         const pdu_data = jsToPdu_RegisterClientRequestPacket(packet);
         const raw_data = this._build_binary(REGISTER_RPC_CLIENT, service_name, -1, pdu_data);
-        
+
+        if (this.comm_buffer) {
+            this.comm_buffer.register_pending_rpc(service_name, client_name);
+        }
+
         if (!await this.comm_service.send_binary(raw_data)) {
             return null;
         }
@@ -65,8 +69,8 @@ export class RemotePduServiceClientManager extends RemotePduServiceBaseManager {
         while (Date.now() < end_time) {
             // In Python, the response is put in the regular comm_buffer with a special name.
             // We will use service_name and client_name to identify the response.
-            if (this.comm_buffer.contains_buffer(service_name, client_name)) {
-                response_buffer = this.comm_buffer.get_buffer(service_name, client_name);
+            if (this.comm_buffer.has_rpc_packet(service_name, client_name)) {
+                response_buffer = this.comm_buffer.get_rpc_packet(service_name, client_name);
                 break;
             }
             await this.sleep(0.05);
@@ -81,6 +85,10 @@ export class RemotePduServiceClientManager extends RemotePduServiceBaseManager {
         if (response.header.result_code !== codes.API_RESULT_CODE_OK) {
             console.error(`Failed to register client '${client_name}' to service '${service_name}': ${response.header.result_code}`);
             return null;
+        }
+        if (this.comm_buffer) {
+            this.comm_buffer.register_rpc_channel(service_name, response.body.request_channel_id, client_name);
+            this.comm_buffer.register_rpc_channel(service_name, response.body.response_channel_id, client_name);
         }
         return response.body; // This is the ClientId
     }

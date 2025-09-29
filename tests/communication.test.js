@@ -1,9 +1,8 @@
-import { spawn } from 'child_process';
 import { PduManager } from '../src/PduManager.js';
 import { WebSocketCommunicationService } from '../src/impl/WebSocketCommunicationService.js';
-import { PduChannelConfig } from '../src/impl/PduChannelConfig.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { WebSocketServer } from 'ws';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,34 +12,49 @@ const URI = `ws://localhost:${PORT}`;
 const PDU_CONFIG_PATH = path.join(__dirname, './pdu_config.json');
 
 describe('Client-Server Communication', () => {
-    let pythonServer;
+    let wsServer;
     let pduManager;
     let commService;
 
-    beforeAll((done) => {
-        console.log('Starting Python WebSocket server...');
-        pythonServer = spawn('python3', ['-u', 'tests/python_test_server.py', PORT.toString()]);
+    beforeAll(async () => {
+        wsServer = new WebSocketServer({ port: PORT });
 
-        pythonServer.stdout.on('data', (data) => {
-            console.log(`Python Server: ${data}`);
-            if (data.toString().includes('Starting WebSocket server')) {
-                done();
-            }
+        wsServer.on('connection', (socket) => {
+            console.log('WebSocket server: client connected.');
+            socket.on('message', (message) => {
+                console.log('WebSocket server: received message, echoing back.');
+                socket.send(message);
+            });
         });
 
-        pythonServer.stderr.on('data', (data) => {
-            console.error(`Python Server Error: ${data}`);
+        await new Promise((resolve, reject) => {
+            wsServer.once('listening', () => {
+                console.log(`WebSocket server: listening on port ${PORT}.`);
+                resolve();
+            });
+            wsServer.once('error', (err) => {
+                console.error(`WebSocket server error: ${err}`);
+                reject(err);
+            });
         });
     });
 
     afterAll(async () => {
-        console.log('Stopping Python WebSocket server...');
-        if (pduManager && pduManager.is_service_enabled()) {
+        console.log('Stopping WebSocket server...');
+        if (pduManager) {
             await pduManager.stop_service();
         }
-        pythonServer.kill();
-        // Give a moment for the Python process to fully terminate and flush logs
-        await new Promise(resolve => setTimeout(resolve, 100));
+        if (wsServer) {
+            await new Promise((resolve, reject) => {
+                wsServer.close((err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve();
+                    }
+                });
+            });
+        }
     });
 
     beforeEach(() => {

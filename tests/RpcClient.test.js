@@ -7,10 +7,10 @@ import {
     WebSocketCommunicationService,
     WebSocketServerCommunicationService,
 } from '../src/index.js';
-import { createAddTwoIntsRequest } from '../src/pdu_msgs/hako_srv_msgs/pdu_jstype_AddTwoIntsRequest.js';
-import { createAddTwoIntsResponse } from '../src/pdu_msgs/hako_srv_msgs/pdu_jstype_AddTwoIntsResponse.js';
-import { js_to_pdu_AddTwoIntsRequest, pdu_to_js_AddTwoIntsRequest } from '../src/pdu_msgs/hako_srv_msgs/pdu_conv_AddTwoIntsRequest.js';
-import { pdu_to_js_AddTwoIntsResponse, js_to_pdu_AddTwoIntsResponse } from '../src/pdu_msgs/hako_srv_msgs/pdu_conv_AddTwoIntsResponse.js';
+import { AddTwoIntsRequest } from '../src/pdu_msgs/hako_srv_msgs/pdu_jstype_AddTwoIntsRequest.js';
+import { AddTwoIntsResponse } from '../src/pdu_msgs/hako_srv_msgs/pdu_jstype_AddTwoIntsResponse.js';
+import { jsToPdu_AddTwoIntsRequest, pduToJs_AddTwoIntsRequest } from '../src/pdu_msgs/hako_srv_msgs/pdu_conv_AddTwoIntsRequest.js';
+import { pduToJs_AddTwoIntsResponse, jsToPdu_AddTwoIntsResponse } from '../src/pdu_msgs/hako_srv_msgs/pdu_conv_AddTwoIntsResponse.js';
 import * as codes from '../src/rpc/codes.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -39,12 +39,12 @@ describe('RemotePduServiceClientManager and ServerManager RPC Calls', () => {
                     const [client_handle, raw_data] = serverPduManager.get_request();
                     
                     if (serviceName === 'Service/Add') {
-                        const req = pdu_to_js_AddTwoIntsRequest(raw_data);
+                        const req = pduToJs_AddTwoIntsRequest(raw_data);
                         console.log(`JS Server: AddTwoInts request: a=${req.a}, b=${req.b}`);
                         
-                        const res = createAddTwoIntsResponse();
+                        const res = new AddTwoIntsResponse();
                         res.sum = req.a + req.b;
-                        const response_pdu_data = js_to_pdu_AddTwoIntsResponse(res);
+                        const response_pdu_data = jsToPdu_AddTwoIntsResponse(res);
                         
                         await serverPduManager.put_response(client_handle, response_pdu_data);
                     }
@@ -80,10 +80,10 @@ describe('RemotePduServiceClientManager and ServerManager RPC Calls', () => {
     afterAll(async () => {
         console.log('Stopping JavaScript RPC test server...');
         serverLoopActive = false;
-        if (clientPduManager && clientPduManager.is_service_enabled()) {
+        if (clientPduManager) {
             await clientPduManager.stop_service();
         }
-        if (serverPduManager && serverPduManager.is_service_enabled()) {
+        if (serverPduManager) {
             await serverPduManager.stop_service();
         }
         await new Promise(resolve => setTimeout(resolve, 100));
@@ -116,10 +116,10 @@ describe('RemotePduServiceClientManager and ServerManager RPC Calls', () => {
         expect(clientId.response_channel_id).toBe(1);
 
         // 3. Make RPC call
-        const req = createAddTwoIntsRequest();
-        req.a = 10;
-        req.b = 20;
-        const pduData = js_to_pdu_AddTwoIntsRequest(req);
+        const req = new AddTwoIntsRequest();
+        req.a = 10n;
+        req.b = 20n;
+        const pduData = jsToPdu_AddTwoIntsRequest(req);
 
         const callRequested = await clientPduManager.call_request(clientId, pduData, 5000);
         expect(callRequested).toBe(true);
@@ -142,8 +142,8 @@ describe('RemotePduServiceClientManager and ServerManager RPC Calls', () => {
         expect(responseRawData).not.toBeNull();
 
         // 5. Verify response
-        const res = pdu_to_js_AddTwoIntsResponse(responseRawData);
+        const res = pduToJs_AddTwoIntsResponse(responseRawData);
         expect(res).not.toBeNull();
-        expect(res.sum).toBe(30);
+        expect(res.sum).toBe(30n);
     }, 10000); // Increase timeout for this test
 });
