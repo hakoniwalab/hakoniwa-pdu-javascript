@@ -8,9 +8,13 @@ import {
     WebSocketServerCommunicationService,
 } from '../src/index.js';
 import { makeProtocolClient } from '../src/rpc/autoWire.js';
-import { pduToJs_AddTwoIntsRequest } from '../src/pdu_msgs/hako_srv_msgs/pdu_conv_AddTwoIntsRequest.js';
-import { AddTwoIntsResponse } from '../src/pdu_msgs/hako_srv_msgs/pdu_jstype_AddTwoIntsResponse.js';
-import { jsToPdu_AddTwoIntsResponse } from '../src/pdu_msgs/hako_srv_msgs/pdu_conv_AddTwoIntsResponse.js';
+import { pduToJs_AddTwoIntsRequestPacket } from '../src/pdu_msgs/hako_srv_msgs/pdu_conv_AddTwoIntsRequestPacket.js';
+import { AddTwoIntsResponsePacket } from '../src/pdu_msgs/hako_srv_msgs/pdu_jstype_AddTwoIntsResponsePacket.js';
+import { jsToPdu_AddTwoIntsResponsePacket } from '../src/pdu_msgs/hako_srv_msgs/pdu_conv_AddTwoIntsResponsePacket.js';
+import {
+    API_RESULT_CODE_OK,
+    API_STATUS_DONE
+} from '../src/rpc/codes.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -36,12 +40,19 @@ describe('RpcProtocolClient High-Level RPC Calls', () => {
                     const [client_handle, raw_data] = serverPduManager.get_request();
                     
                     if (serviceName === 'Service/Add') {
-                        const req = pduToJs_AddTwoIntsRequest(raw_data);
-                        
-                        const res = new AddTwoIntsResponse();
-                        res.sum = req.a + req.b;
-                        const response_pdu_data = jsToPdu_AddTwoIntsResponse(res);
-                        
+                        const reqPacket = pduToJs_AddTwoIntsRequestPacket(raw_data);
+
+                        const resPacket = new AddTwoIntsResponsePacket();
+                        resPacket.header.request_id = reqPacket.header.request_id;
+                        resPacket.header.service_name = reqPacket.header.service_name || serviceName;
+                        resPacket.header.client_name = reqPacket.header.client_name;
+                        resPacket.header.status = API_STATUS_DONE;
+                        resPacket.header.processing_percentage = 100;
+                        resPacket.header.result_code = API_RESULT_CODE_OK;
+                        resPacket.body.sum = reqPacket.body.a + reqPacket.body.b;
+
+                        const response_pdu_data = jsToPdu_AddTwoIntsResponsePacket(resPacket);
+
                         await serverPduManager.put_response(client_handle, response_pdu_data);
                     }
                 }
