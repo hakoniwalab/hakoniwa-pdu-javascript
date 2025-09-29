@@ -1,0 +1,21 @@
+{
+  "name": "hakoniwa-pdu-javascript",
+  "version": "1.0.0",
+  "description": "A communication library for Hakoniwa simulators, providing pub/sub and RPC on PDU (Packet Data Unit) over WebSocket, inspired by ROS.",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hakoniwalab/hakoniwa-pdu-javascript.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hakoniwalab/hakoniwa-pdu-javascript/issues"
+  },
+  "homepage": "https://github.com/hakoniwalab/hakoniwa-pdu-javascript#readme"
+}
