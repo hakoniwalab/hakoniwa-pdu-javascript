@@ -7,6 +7,7 @@ import * as pdu_constants from './impl/DataPacket.js';
 import { WebSocketCommunicationService } from './impl/WebSocketCommunicationService.js';
 import { WebSocketServerCommunicationService } from './impl/WebSocketServerCommunicationService.js';
 import { RemotePduServiceClientManager } from './rpc/RemotePduServiceClientManager.js';
+import { RemotePduServiceServerManager } from './rpc/RemotePduServiceServerManager.js';
 import { ServiceConfig } from './rpc/ServiceConfig.js';
 import * as rpc_codes from './rpc/codes.js';
 
@@ -21,7 +22,7 @@ export {
 };
 
 // RPC
-export { RemotePduServiceClientManager, ServiceConfig as RpcServiceConfig, rpc_codes };
+export { RemotePduServiceClientManager, RemotePduServiceServerManager, ServiceConfig as RpcServiceConfig, rpc_codes };
 
 // Utility and configuration classes
 export { PduChannelConfig, PduConvertor };

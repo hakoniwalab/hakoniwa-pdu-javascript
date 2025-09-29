@@ -19,15 +19,8 @@ hakoniwa.sayHello();
 
 To run the integration tests, you need to start the Python test server first. This server will listen for WebSocket connections and echo back PDU data, and also handle RPC requests.
 
-1.  **Start the Python Test Server**:
 
-    ```bash
-    python3 tests/python_test_server.py
-    ```
-
-    Keep this terminal open and running.
-
-2.  **Run JavaScript Tests**:
+  **Run JavaScript Tests**:
 
     In a separate terminal, run the Jest tests:
 

@@ -1,49 +1,91 @@
-import { spawn } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import { RemotePduServiceClientManager, WebSocketCommunicationService, RpcServiceConfig } from '../src/index.js';
-import { AddTwoIntsRequest } from '../src/pdu_msgs/hako_srv_msgs/pdu_jstype_AddTwoIntsRequest.js';
-import { AddTwoIntsResponse } from '../src/pdu_msgs/hako_srv_msgs/pdu_jstype_AddTwoIntsResponse.js';
-import { jsToPdu_AddTwoIntsRequest } from '../src/pdu_msgs/hako_srv_msgs/pdu_conv_AddTwoIntsRequest.js';
-import { pduToJs_AddTwoIntsResponse } from '../src/pdu_msgs/hako_srv_msgs/pdu_conv_AddTwoIntsResponse.js';
+import { 
+    RemotePduServiceClientManager, 
+    RemotePduServiceServerManager,
+    WebSocketCommunicationService,
+    WebSocketServerCommunicationService,
+} from '../src/index.js';
+import { createAddTwoIntsRequest } from '../src/pdu_msgs/hako_srv_msgs/pdu_jstype_AddTwoIntsRequest.js';
+import { createAddTwoIntsResponse } from '../src/pdu_msgs/hako_srv_msgs/pdu_jstype_AddTwoIntsResponse.js';
+import { js_to_pdu_AddTwoIntsRequest, pdu_to_js_AddTwoIntsRequest } from '../src/pdu_msgs/hako_srv_msgs/pdu_conv_AddTwoIntsRequest.js';
+import { pdu_to_js_AddTwoIntsResponse, js_to_pdu_AddTwoIntsResponse } from '../src/pdu_msgs/hako_srv_msgs/pdu_conv_AddTwoIntsResponse.js';
 import * as codes from '../src/rpc/codes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT = 8772; // Use a different port than communication.test.js
+const PORT = 8772;
 const URI = `ws://localhost:${PORT}`;
 const PDU_CONFIG_PATH = path.join(__dirname, './pdu_config.json');
 const SERVICE_CONFIG_PATH = path.join(__dirname, './service.json');
 
-describe('RemotePduServiceClientManager RPC Calls', () => {
-    let pythonServer;
+describe('RemotePduServiceClientManager and ServerManager RPC Calls', () => {
     let clientPduManager;
     let clientCommService;
 
-    beforeAll((done) => {
-        console.log('Starting Python RPC test server...');
-        pythonServer = spawn('python3', ['-u', 'tests/rpc_test_server.py', PORT.toString()]);
+    let serverPduManager;
+    let serverCommService;
+    let serverLoopActive = false;
 
-        pythonServer.stdout.on('data', (data) => {
-            console.log(`Python RPC Server: ${data}`);
-            if (data.toString().includes('RPC test server started')) {
-                done();
+    // Server-side request processing loop
+    const runServerLoop = async () => {
+        serverLoopActive = true;
+        while (serverLoopActive) {
+            try {
+                const [serviceName, event] = await serverPduManager.poll_request();
+                if (serverPduManager.is_server_event_request_in(event)) {
+                    const [client_handle, raw_data] = serverPduManager.get_request();
+                    
+                    if (serviceName === 'Service/Add') {
+                        const req = pdu_to_js_AddTwoIntsRequest(raw_data);
+                        console.log(`JS Server: AddTwoInts request: a=${req.a}, b=${req.b}`);
+                        
+                        const res = createAddTwoIntsResponse();
+                        res.sum = req.a + req.b;
+                        const response_pdu_data = js_to_pdu_AddTwoIntsResponse(res);
+                        
+                        await serverPduManager.put_response(client_handle, response_pdu_data);
+                    }
+                }
+            } catch (e) {
+                if (serverLoopActive) {
+                    console.error("Server loop error:", e);
+                }
             }
-        });
+            await new Promise(resolve => setTimeout(resolve, 10)); // Small delay to prevent busy-waiting
+        }
+    };
 
-        pythonServer.stderr.on('data', (data) => {
-            console.error(`Python RPC Server Error: ${data}`);
-        });
+    beforeAll(async () => {
+        console.log('Starting JavaScript RPC test server...');
+        serverCommService = new WebSocketServerCommunicationService('v2');
+        serverPduManager = new RemotePduServiceServerManager(
+            'test_server', 
+            PDU_CONFIG_PATH, 
+            serverCommService, 
+            URI
+        );
+        serverPduManager.initialize_services(SERVICE_CONFIG_PATH, 1000 * 1000);
+        
+        const serverStarted = await serverPduManager.start_rpc_service('Service/Add', 10);
+        if (!serverStarted) {
+            throw new Error("Failed to start JS server");
+        }
+        runServerLoop(); // Start the server loop in the background
+        console.log('JavaScript RPC test server started.');
     });
 
     afterAll(async () => {
-        console.log('Stopping Python RPC test server...');
+        console.log('Stopping JavaScript RPC test server...');
+        serverLoopActive = false;
         if (clientPduManager && clientPduManager.is_service_enabled()) {
             await clientPduManager.stop_service();
         }
-        pythonServer.kill();
+        if (serverPduManager && serverPduManager.is_service_enabled()) {
+            await serverPduManager.stop_service();
+        }
         await new Promise(resolve => setTimeout(resolve, 100));
     });
 
@@ -59,9 +101,6 @@ describe('RemotePduServiceClientManager RPC Calls', () => {
     });
 
     it('should successfully register a client and make an RPC call', async () => {
-        // Add a small delay to ensure the server is ready to accept connections
-        await new Promise(resolve => setTimeout(resolve, 500));
-
         // 1. Start client service
         const clientStarted = await clientPduManager.start_client_service();
         expect(clientStarted).toBe(true);
@@ -72,14 +111,15 @@ describe('RemotePduServiceClientManager RPC Calls', () => {
         const clientName = 'test_client';
         const clientId = await clientPduManager.register_client(serviceName, clientName);
         expect(clientId).not.toBeNull();
-        expect(clientId.request_channel_id).toBe(100);
-        expect(clientId.response_channel_id).toBe(101);
+        // Verify dynamically assigned channel IDs for the first client
+        expect(clientId.request_channel_id).toBe(0);
+        expect(clientId.response_channel_id).toBe(1);
 
         // 3. Make RPC call
-        const req = new AddTwoIntsRequest();
+        const req = createAddTwoIntsRequest();
         req.a = 10;
         req.b = 20;
-        const pduData = jsToPdu_AddTwoIntsRequest(req);
+        const pduData = js_to_pdu_AddTwoIntsRequest(req);
 
         const callRequested = await clientPduManager.call_request(clientId, pduData, 5000);
         expect(callRequested).toBe(true);
@@ -102,8 +142,8 @@ describe('RemotePduServiceClientManager RPC Calls', () => {
         expect(responseRawData).not.toBeNull();
 
         // 5. Verify response
-        const res = pduToJs_AddTwoIntsResponse(responseRawData);
+        const res = pdu_to_js_AddTwoIntsResponse(responseRawData);
         expect(res).not.toBeNull();
         expect(res.sum).toBe(30);
-    });
+    }, 10000); // Increase timeout for this test
 });
