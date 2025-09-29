@@ -1,3 +1,5 @@
+import { DataPacket } from './DataPacket.js';
+
 /**
  * Holds and manages the raw binary data for PDU channels and RPC packets.
  */
@@ -59,13 +61,35 @@ export class CommunicationBuffer {
     }
 
     /**
-     * Retrieves the buffer for a given PDU.
+     * Stores a DataPacket's body data into the buffer.
+     * @param {DataPacket} packet 
+     */
+    put_packet(packet) {
+        const pduInfo = this.pduConfig.getPduInfoByChannelId(packet.robot_name, packet.channel_id);
+        if (pduInfo) {
+            this.set_buffer(packet.robot_name, pduInfo.org_name, packet.body_data);
+        } else {
+            console.warn(`CommunicationBuffer: Cannot put packet for unknown channel ID: ${packet.channel_id}`);
+        }
+    }
+
+    /**
+     * Retrieves the buffer for a given PDU and consumes it (removes it from the buffer).
      * @param {string} robotName 
      * @param {string} pduName 
      * @returns {ArrayBuffer | undefined}
      */
     get_buffer(robotName, pduName) {
-        return this.buffers.get(robotName)?.get(pduName)?.buffer;
+        const robotBuffers = this.buffers.get(robotName);
+        if (robotBuffers && robotBuffers.has(pduName)) {
+            const data = robotBuffers.get(pduName).buffer;
+            robotBuffers.delete(pduName); // Consume the buffer
+            if (robotBuffers.size === 0) {
+                this.buffers.delete(robotName);
+            }
+            return data;
+        }
+        return undefined;
     }
 
     /**

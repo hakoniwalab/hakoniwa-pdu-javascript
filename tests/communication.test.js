@@ -33,12 +33,14 @@ describe('Client-Server Communication', () => {
         });
     });
 
-    afterAll(() => {
+    afterAll(async () => {
         console.log('Stopping Python WebSocket server...');
         if (pduManager && pduManager.is_service_enabled()) {
-            pduManager.stop_service();
+            await pduManager.stop_service();
         }
         pythonServer.kill();
+        // Give a moment for the Python process to fully terminate and flush logs
+        await new Promise(resolve => setTimeout(resolve, 100));
     });
 
     beforeEach(() => {
