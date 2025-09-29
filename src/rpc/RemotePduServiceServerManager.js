@@ -6,10 +6,10 @@ import {
     REQUEST_PDU_READ,
     REGISTER_RPC_CLIENT,
     PDU_DATA_RPC_REPLY
-} from '../impl/data_packet.js';
-import { pdu_to_js_RegisterClientRequestPacket } from '../pdu_msgs/hako_srv_msgs/pdu_conv_RegisterClientRequestPacket.js';
-import { js_to_pdu_RegisterClientResponsePacket } from '../pdu_msgs/hako_srv_msgs/pdu_conv_RegisterClientResponsePacket.js';
-import { createRegisterClientResponsePacket } from '../pdu_msgs/hako_srv_msgs/pdu_jstype_RegisterClientResponsePacket.js';
+} from '../impl/DataPacket.js';
+import { pduToJs_RegisterClientRequestPacket } from '../pdu_msgs/hako_srv_msgs/pdu_conv_RegisterClientRequestPacket.js';
+import { jsToPdu_RegisterClientResponsePacket } from '../pdu_msgs/hako_srv_msgs/pdu_conv_RegisterClientResponsePacket.js';
+import { RegisterClientResponsePacket } from '../pdu_msgs/hako_srv_msgs/pdu_jstype_RegisterClientResponsePacket.js';
 import { 
     API_RESULT_CODE_OK,
     API_STATUS_DONE,
@@ -61,7 +61,7 @@ export class RemotePduServiceServerManager extends RemotePduServiceBaseManager {
     }
 
     async _handler_register_client(packet, transport_client_id) {
-        const body_pdu_data = pdu_to_js_RegisterClientRequestPacket(packet.body_data);
+        const body_pdu_data = pduToJs_RegisterClientRequestPacket(packet.body_data);
         const service_name = body_pdu_data.header.service_name;
         // get_service_index is not available in JS ServiceConfig, assuming it's not critical for JS version
         // const service_id = this.service_config.get_service_index(service_name);
@@ -86,9 +86,14 @@ export class RemotePduServiceServerManager extends RemotePduServiceBaseManager {
         );
         registry.clients.set(body_pdu_data.header.client_name, client_handle);
 
+        if (this.comm_buffer) {
+            this.comm_buffer.register_rpc_channel(service_name, client_handle.request_channel_id, body_pdu_data.header.client_name);
+            this.comm_buffer.register_rpc_channel(service_name, client_handle.response_channel_id, body_pdu_data.header.client_name);
+        }
+
         console.debug(`Registered RPC client: ${body_pdu_data.header.client_name}`);
         
-        const register_client_res_packet = createRegisterClientResponsePacket();
+        const register_client_res_packet = new RegisterClientResponsePacket();
         register_client_res_packet.header.request_id = 0;
         register_client_res_packet.header.service_name = body_pdu_data.header.service_name;
         register_client_res_packet.header.client_name = body_pdu_data.header.client_name;
@@ -98,7 +103,7 @@ export class RemotePduServiceServerManager extends RemotePduServiceBaseManager {
         register_client_res_packet.body.request_channel_id = client_handle.request_channel_id;
         register_client_res_packet.body.response_channel_id = client_handle.response_channel_id;
 
-        const pdu_data = js_to_pdu_RegisterClientResponsePacket(register_client_res_packet);
+        const pdu_data = jsToPdu_RegisterClientResponsePacket(register_client_res_packet);
         const raw_data = this._build_binary(
             PDU_DATA_RPC_REPLY,
             service_name,
@@ -208,6 +213,10 @@ export class RemotePduServiceServerManager extends RemotePduServiceBaseManager {
         for (const [svc, registry] of this.service_registries.entries()) {
             for (const [cname, handle] of registry.clients.entries()) {
                 if (handle.transport_client_id === client_id) {
+                    if (this.comm_buffer) {
+                        this.comm_buffer.unregister_rpc_channel(svc, handle.request_channel_id);
+                        this.comm_buffer.unregister_rpc_channel(svc, handle.response_channel_id);
+                    }
                     registry.clients.delete(cname);
                     console.debug(`removed RPC client '${cname}' from service '${svc}' on disconnect`);
                 }
@@ -302,7 +311,8 @@ export class RemotePduServiceServerManager extends RemotePduServiceBaseManager {
         py_pdu_data.header.status = status;
         py_pdu_data.header.processing_percentage = 100;
         py_pdu_data.header.result_code = result_code;
-        console.debug(`Sending response: ${JSON.stringify(py_pdu_data)}`);
+        const sanitized = JSON.stringify(py_pdu_data, (_, value) => typeof value === 'bigint' ? value.toString() : value);
+        console.debug(`Sending response: ${sanitized}`);
         return this.res_encoder(py_pdu_data);
     }
 
@@ -314,12 +324,19 @@ export class RemotePduServiceServerManager extends RemotePduServiceBaseManager {
             for (const [client_name, _handle] of registry.clients.entries()) {
                 if (this.comm_buffer.contains_buffer(service_name, client_name)) {
                     const raw_data = this.comm_buffer.peek_buffer(service_name, client_name);
-                    const decoder = this.req_decoders.get(service_name) || this.req_decoder;
-                    const request = decoder(raw_data);
+                    const specificDecoder = this.req_decoders.get(service_name);
+                    const decoder = typeof specificDecoder === 'function'
+                        ? specificDecoder
+                        : (typeof this.req_decoder === 'function' ? this.req_decoder : null);
+                    let request = null;
+                    if (decoder) {
+                        request = decoder(raw_data);
+                    }
                     this.current_client_name = client_name;
                     this.current_service_name = service_name;
-                    this.request_id = request.header.request_id;
-                    if (request.header.opcode === CLIENT_API_OPCODE_CANCEL) {
+                    this.request_id = request?.header?.request_id ?? 0;
+                    const opcode = request?.header?.opcode ?? 0;
+                    if (opcode === CLIENT_API_OPCODE_CANCEL) {
                         return [service_name, SERVER_API_EVENT_REQUEST_CANCEL];
                     }
                     return [service_name, SERVER_API_EVENT_REQUEST_IN];

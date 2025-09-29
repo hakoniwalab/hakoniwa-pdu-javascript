@@ -49,6 +49,22 @@ export class DataPacket {
         this.set_real_time_usec(0);
     }
 
+    /**
+     * Returns the raw PDU body payload.
+     * @returns {ArrayBuffer}
+     */
+    get_pdu_data() {
+        return this.body_data;
+    }
+
+    /**
+     * Replaces the packet body payload.
+     * @param {ArrayBuffer} data
+     */
+    set_pdu_data(data) {
+        this.body_data = data;
+    }
+
     set_hako_time_usec(time_usec) {
         this.meta_pdu.hako_time_us = time_usec;
     }
