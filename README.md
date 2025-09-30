@@ -1,6 +1,6 @@
 # hakoniwa-pdu-javascript
 
-`hakoniwa-pdu-javascript` is the official JavaScript/TypeScript runtime library for exchanging Packet Data Units (PDUs) with Hakoniwa-based simulators over WebSockets. It provides high level helpers for setting up client or server style transports, marshaling binary payloads, and exposing RPC services so that simulator components can collaborate in real time.
+`hakoniwa-pdu-javascript` is the official JavaScript/TypeScript runtime library for exchanging Protocol Data Units (PDUs) with Hakoniwa-based simulators over WebSockets. It provides high level helpers for setting up client or server style transports, marshaling binary payloads, and exposing RPC services so that simulator components can collaborate in real time.
 
 ## Features
 
