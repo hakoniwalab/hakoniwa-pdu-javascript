@@ -8,10 +8,8 @@ import {
     WebSocketServerCommunicationService,
 } from '../src/index.js';
 import { AddTwoIntsRequest } from '../src/pdu_msgs/hako_srv_msgs/pdu_jstype_AddTwoIntsRequest.js';
-import { makeProtocolClient } from '../src/rpc/autoWire.js';
-import { pduToJs_AddTwoIntsRequestPacket } from '../src/pdu_msgs/hako_srv_msgs/pdu_conv_AddTwoIntsRequestPacket.js';
-import { AddTwoIntsResponsePacket } from '../src/pdu_msgs/hako_srv_msgs/pdu_jstype_AddTwoIntsResponsePacket.js';
-import { jsToPdu_AddTwoIntsResponsePacket } from '../src/pdu_msgs/hako_srv_msgs/pdu_conv_AddTwoIntsResponsePacket.js';
+import { AddTwoIntsResponse } from '../src/pdu_msgs/hako_srv_msgs/pdu_jstype_AddTwoIntsResponse.js';
+import { makeProtocolClient, makeProtocolServer } from '../src/rpc/autoWire.js';
 import {
     API_RESULT_CODE_OK,
     API_STATUS_DONE
@@ -26,44 +24,27 @@ const URI = `ws://localhost:${PORT}`;
 const PDU_CONFIG_PATH = path.join(__dirname, './pdu_config.json');
 const SERVICE_CONFIG_PATH = path.join(__dirname, './service.json');
 
+async function handler(req) {
+    const res = new AddTwoIntsResponse();
+    res.sum = req.a + req.b;
+    console.log(`Handled AddTwoInts: ${req.a} + ${req.b} = ${res.sum}`);
+    return res;
+}
+
 describe('RpcProtocolClient High-Level RPC Calls', () => {
     let serverPduManager;
     let serverCommService;
-    let serverLoopActive = false;
+    let protocolServer;
+
 
     // Server-side setup is the same as in RpcClient.test.js
-    const runServerLoop = async () => {
-        serverLoopActive = true;
-        while (serverLoopActive) {
-            try {
-                const [serviceName, event] = await serverPduManager.poll_request();
-                if (serverPduManager.is_server_event_request_in(event)) {
-                    const [client_handle, raw_data] = serverPduManager.get_request();
-                    
-                    if (serviceName === 'Service/Add') {
-                        const reqPacket = pduToJs_AddTwoIntsRequestPacket(raw_data);
-
-                        const resPacket = new AddTwoIntsResponsePacket();
-                        resPacket.header.request_id = reqPacket.header.request_id;
-                        resPacket.header.service_name = reqPacket.header.service_name || serviceName;
-                        resPacket.header.client_name = reqPacket.header.client_name;
-                        resPacket.header.status = API_STATUS_DONE;
-                        resPacket.header.processing_percentage = 100;
-                        resPacket.header.result_code = API_RESULT_CODE_OK;
-                        resPacket.body.sum = reqPacket.body.a + reqPacket.body.b;
-
-                        const response_pdu_data = jsToPdu_AddTwoIntsResponsePacket(resPacket);
-
-                        await serverPduManager.put_response(client_handle, response_pdu_data);
-                    }
-                }
-            } catch (e) {
-                if (serverLoopActive) {
-                    console.error("Server loop error:", e);
-                }
-            }
-            await new Promise(resolve => setTimeout(resolve, 10));
+    const runServerLoop = async (protocolServer) => {
+        try {
+            await protocolServer.serve(handler);
+        } catch (e) {
+            console.error("Server loop error:", e);
         }
+
     };
 
     beforeAll(async () => {
@@ -76,20 +57,22 @@ describe('RpcProtocolClient High-Level RPC Calls', () => {
             URI
         );
         serverPduManager.initialize_services(SERVICE_CONFIG_PATH, 1000 * 1000);
-        
-        const serverStarted = await serverPduManager.start_rpc_service('Service/Add', 10);
-        if (!serverStarted) {
-            throw new Error("Failed to start JS server for high-level test");
-        }
-        runServerLoop();
+        protocolServer = await makeProtocolServer({
+            pduManager: serverPduManager,
+            serviceName: 'Service/Add',
+            srv: 'AddTwoInts',
+            maxClients: 1,
+            pkg: 'hako_srv_msgs'
+        });
+        await protocolServer.startServices();
+        runServerLoop(protocolServer);
         console.log('JavaScript High-Level RPC test server started.');
     });
 
     afterAll(async () => {
         console.log('Stopping JavaScript High-Level RPC test server...');
-        serverLoopActive = false;
-        if (serverPduManager) {
-            await serverPduManager.stop_service();
+        if (protocolServer) {
+            await protocolServer.stop();
         }
         await new Promise(resolve => setTimeout(resolve, 200));
     });
