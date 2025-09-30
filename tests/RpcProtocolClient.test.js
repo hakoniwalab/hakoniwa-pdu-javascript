@@ -7,6 +7,7 @@ import {
     WebSocketCommunicationService,
     WebSocketServerCommunicationService,
 } from '../src/index.js';
+import { AddTwoIntsRequest } from '../src/pdu_msgs/hako_srv_msgs/pdu_jstype_AddTwoIntsRequest.js';
 import { makeProtocolClient } from '../src/rpc/autoWire.js';
 import { pduToJs_AddTwoIntsRequestPacket } from '../src/pdu_msgs/hako_srv_msgs/pdu_conv_AddTwoIntsRequestPacket.js';
 import { AddTwoIntsResponsePacket } from '../src/pdu_msgs/hako_srv_msgs/pdu_jstype_AddTwoIntsResponsePacket.js';
@@ -119,12 +120,14 @@ describe('RpcProtocolClient High-Level RPC Calls', () => {
         expect(registered).toBe(true);
 
         // 4. Make the RPC call with just the request body
-        const reqBody = { a: 100n, b: 200n };
-        const resBody = await protocolClient.call(reqBody);
+        const req = new AddTwoIntsRequest();
+        req.a = 100n;
+        req.b = 200n;
+        const res = await protocolClient.call(req);
 
         // 5. Verify the response
-        expect(resBody).not.toBeNull();
-        expect(resBody.sum).toBe(300n);
+        expect(res).not.toBeNull();
+        expect(res.sum).toBe(300n);
         
         // 6. Stop the client service
         await pduManager.stop_service();
