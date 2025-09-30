@@ -35,6 +35,7 @@ describe('RpcProtocolClient High-Level RPC Calls', () => {
     let serverPduManager;
     let serverCommService;
     let protocolServer;
+    let serverLoopPromise;
 
 
     // Server-side setup is the same as in RpcClient.test.js
@@ -65,7 +66,7 @@ describe('RpcProtocolClient High-Level RPC Calls', () => {
             pkg: 'hako_srv_msgs'
         });
         await protocolServer.startServices();
-        runServerLoop(protocolServer);
+        serverLoopPromise = runServerLoop(protocolServer);
         console.log('JavaScript High-Level RPC test server started.');
     });
 
@@ -73,6 +74,15 @@ describe('RpcProtocolClient High-Level RPC Calls', () => {
         console.log('Stopping JavaScript High-Level RPC test server...');
         if (protocolServer) {
             await protocolServer.stop();
+        }
+        if (serverLoopPromise) {
+            await serverLoopPromise;
+        }
+        if (serverPduManager) {
+            await serverPduManager.stop_service();
+        }
+        if (serverCommService) {
+            await serverCommService.stop_service();
         }
         await new Promise(resolve => setTimeout(resolve, 200));
     });
