@@ -1,0 +1,23 @@
+{
+  "robots": [
+    {
+      "name": "sample_robot",
+      "shm_pdu_readers": [
+        {
+          "org_name": "sensor_state",
+          "channel_id": 1,
+          "pdu_size": 8,
+          "type": "std_msgs/UInt64"
+        }
+      ],
+      "shm_pdu_writers": [
+        {
+          "org_name": "actuator_command",
+          "channel_id": 2,
+          "pdu_size": 8,
+          "type": "std_msgs/UInt64"
+        }
+      ]
+    }
+  ]
+}
