@@ -34,9 +34,9 @@ export class RemotePduServiceBaseManager extends PduManager {
      * @param {number} delta_time_usec 
      * @returns {number}
      */
-    initialize_services(service_config_path, delta_time_usec) {
+    async initialize_services(service_config_path, delta_time_usec) {
         this.service_config_path = service_config_path;
-        this.service_config = new ServiceConfig(service_config_path);
+        this.service_config = await ServiceConfig.load(service_config_path);
         this.delta_time_usec = delta_time_usec;
         this.delta_time_sec = delta_time_usec / 1_000_000.0;
         return 0;

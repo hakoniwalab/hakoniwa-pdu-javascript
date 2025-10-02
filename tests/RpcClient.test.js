@@ -67,7 +67,7 @@ describe('RemotePduServiceClientManager and ServerManager RPC Calls', () => {
             serverCommService, 
             URI
         );
-        serverPduManager.initialize_services(SERVICE_CONFIG_PATH, 1000 * 1000);
+        await serverPduManager.initialize_services(SERVICE_CONFIG_PATH, 1000 * 1000);
         
         const serverStarted = await serverPduManager.start_rpc_service('Service/Add', 10);
         if (!serverStarted) {
@@ -89,7 +89,7 @@ describe('RemotePduServiceClientManager and ServerManager RPC Calls', () => {
         await new Promise(resolve => setTimeout(resolve, 100));
     });
 
-    beforeEach(() => {
+    beforeEach(async () => {
         clientCommService = new WebSocketCommunicationService('v2');
         clientPduManager = new RemotePduServiceClientManager(
             'test_client', 
@@ -97,7 +97,7 @@ describe('RemotePduServiceClientManager and ServerManager RPC Calls', () => {
             clientCommService, 
             URI
         );
-        clientPduManager.initialize_services(SERVICE_CONFIG_PATH, 1000 * 1000);
+        await clientPduManager.initialize_services(SERVICE_CONFIG_PATH, 1000 * 1000);
     });
 
     it('should successfully register a client and make an RPC call', async () => {

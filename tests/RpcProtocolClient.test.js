@@ -57,7 +57,7 @@ describe('RpcProtocolClient High-Level RPC Calls', () => {
             serverCommService, 
             URI
         );
-        serverPduManager.initialize_services(SERVICE_CONFIG_PATH, 1000 * 1000);
+        await serverPduManager.initialize_services(SERVICE_CONFIG_PATH, 1000 * 1000);
         protocolServer = await makeProtocolServer({
             pduManager: serverPduManager,
             serviceName: 'Service/Add',
@@ -96,7 +96,7 @@ describe('RpcProtocolClient High-Level RPC Calls', () => {
             clientCommService, 
             URI
         );
-        pduManager.initialize_services(SERVICE_CONFIG_PATH, 1000 * 1000);
+        await pduManager.initialize_services(SERVICE_CONFIG_PATH, 1000 * 1000);
 
         // 2. Create the high-level client using the auto-wire helper
         const protocolClient = await makeProtocolClient({
