@@ -11,6 +11,9 @@ import { RemotePduServiceServerManager } from './rpc/RemotePduServiceServerManag
 import { ServiceConfig } from './rpc/ServiceConfig.js';
 import * as rpc_codes from './rpc/codes.js';
 
+import { SystemControlRequest } from './pdu_msgs/hako_srv_msgs/pdu_jstype_SystemControlRequest.js';
+import { SystemControlOpCode } from './rpc/codes.js';
+
 // Main class
 export { PduManager };
 
@@ -32,3 +35,8 @@ export { pdu_utils, pdu_constants };
 
 // RPC auto-wire helpers
 export { makeProtocolClient } from './rpc/autoWire.js';
+
+export {
+  SystemControlRequest,
+  SystemControlOpCode
+};

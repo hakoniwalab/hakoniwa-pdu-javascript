@@ -79,6 +79,7 @@ export class WebSocketBaseCommunicationService extends ICommunicationService {
       // ブラウザの WebSocket#send は同期で例外throw、Node(ws) は send(data, cb)
       if (this._isBrowser(ws) || ws.send.length < 2) {
         ws.send(data);
+        console.log('[WSBase] Data sent (sync)');
         return Promise.resolve();
       } else {
         return new Promise((resolve, reject) => {
@@ -138,6 +139,7 @@ export class WebSocketBaseCommunicationService extends ICommunicationService {
       return false;
     }
     try {
+      console.log('[WSBase] Sending binary data...');
       await this._sendCompat(this.websocket, raw_data);
       return true;
     } catch (e) {
@@ -185,10 +187,11 @@ export class WebSocketBaseCommunicationService extends ICommunicationService {
   }
 
   async _receive_loop_v2(message, _ws) {
+    console.log('[WSBase] _receive_loop_v2');
     try {
       const packet = DataPacket.decode(message, this.version);
       if (!packet || !this.comm_buffer) return;
-
+      console.log(`[WSBase] Received packet: robot=${packet.robot_name}, channel_id=${packet.channel_id}, req_type=${packet.meta_pdu?.meta_request_type}`);
       const req_type = packet.meta_pdu.meta_request_type;
 
       if (req_type === PDU_DATA) {

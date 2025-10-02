@@ -47,9 +47,9 @@ export class ProtocolClient {
      * Registers this client with the remote service by calling the pduManager.
      * @returns {Promise<boolean>} - True if registration is successful.
      */
-    async register() {
+    async register(timeout = 5.0) {
         // We pass the serviceName and clientName, which the pduManager will use.
-        this.clientId = await this.pduManager.register_client(this.serviceName, this.clientName);
+        this.clientId = await this.pduManager.register_client(this.serviceName, this.clientName, timeout);
         if (this.clientId) {
             console.log(`Client '${this.clientName}' registered with service '${this.serviceName}' (ID: ${JSON.stringify(this.clientId)})`);
             return true;
@@ -65,20 +65,21 @@ export class ProtocolClient {
      * @param {number} [pollInterval=0.01] - Poll interval in seconds.
      * @returns {Promise<any|null>} - The body of the response PDU, or null on timeout/error.
      */
-    async call(requestData, timeoutMsec = 1000, pollInterval = 0.01) {
+    async call(requestData, timeoutMsec = -1, pollInterval = 0.01) {
         if (this.clientId === null) {
             console.error("Client is not registered. Call register() first.");
             return null;
         }
 
         try {
+            console.log(`Calling service '${this.serviceName}' with client ID: ${JSON.stringify(this.clientId)}`);
             const reqPduData = this._createRequestPacket(requestData, pollInterval);
 
             if (!await this.pduManager.call_request(this.clientId, reqPduData, timeoutMsec)) {
                 console.error("Failed to send request via pduManager.call_request.");
                 return null;
             }
-
+            console.log("Request sent, waiting for response...");
             const [isTimeout, responseBody] = await this._waitResponse(pollInterval, timeoutMsec);
 
             if (isTimeout) {
@@ -112,6 +113,8 @@ export class ProtocolClient {
         if (!reqPacket.header) {
             reqPacket.header = {};
         }
+        reqPacket.header.service_name = this.serviceName;
+        reqPacket.header.client_name = this.clientName;
         reqPacket.header.request_id = currentRequestId;
         reqPacket.header.opcode = codes.CLIENT_API_OPCODE_REQUEST;
         reqPacket.header.status_poll_interval_msec = Math.floor(pollInterval * 1000);
@@ -129,35 +132,26 @@ export class ProtocolClient {
      * @returns {Promise<[boolean, any]>} - A tuple [isTimeout, responseBody].
      */
     async _waitResponse(pollInterval, timeoutMsec) {
-        const endTime = Date.now() + timeoutMsec;
+        const noTimeout = timeoutMsec < 0;
+        const endTime = noTimeout ? Infinity : Date.now() + timeoutMsec;
 
         while (Date.now() < endTime) {
+            console.log("Polling for response...");
             const event = this.pduManager.poll_response(this.clientId);
 
             if (this.pduManager.is_client_event_response_in(event)) {
-                const resPduData = this.pduManager.get_response(this.serviceName, this.clientId);
-                if (!resPduData) {
-                    console.error("get_response() returned null even though response event was signaled.");
-                    continue;
-                }
-                const responseData = this.resDecoder(resPduData);
+            const resPduData = this.pduManager.get_response(this.serviceName, this.clientId);
+            if (!resPduData) continue;
+            const responseData = this.resDecoder(resPduData);
+            if (responseData.header.request_id !== this.lastRequestId) continue;
+            return [false, responseData.body]; // 成功
+            }
 
-                if (responseData.header.request_id !== this.lastRequestId) {
-                    console.warn(`Warning: Mismatched request_id. Expected ${this.lastRequestId}, got ${responseData.header.request_id}. Discarding.`);
-                    continue;
-                }
-                return [false, responseData.body]; // [isTimeout = false, responseBody]
+            if (this.pduManager.is_client_event_timeout(event) && !noTimeout) {
+            return [true, null]; // タイムアウト
             }
-            
-            if (this.pduManager.is_client_event_timeout(event)) {
-                return [true, null]; // [isTimeout = true, responseBody = null]
-            }
-            
-            if (this.pduManager.is_client_event_none(event)) {
-                await this.sleep(pollInterval);
-            } else {
-                await this.sleep(pollInterval);
-            }
+
+            await this.sleep(pollInterval);
         }
         return [true, null];
     }
