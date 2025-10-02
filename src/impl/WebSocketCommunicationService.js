@@ -1,6 +1,4 @@
-// ★ ここでは 'ws' をトップレベル import しない！
-// import WebSocket from 'ws'; // ←削除
-
+// impl/WebSocketCommunicationService.js
 import { WebSocketBaseCommunicationService } from './WebSocketBaseCommunicationService.js';
 
 // 実行環境判定
@@ -8,14 +6,12 @@ function isNodeEnv() {
   return (typeof window === 'undefined') && (typeof process !== 'undefined') && !!process.versions?.node;
 }
 
-// WebSocket コンストラクタを実行時に解決
+// WebSocket コンストラクタを実行時に解決（ブラウザ: window.WebSocket / Node: ws）
 async function resolveWebSocketCtor() {
   if (isNodeEnv()) {
-    // Node: 'ws' を動的 import（ブラウザバンドルから除外される）
     const mod = await import('ws');
     return mod.WebSocket || mod.default; // ws@8 以降は default
   }
-  // Browser: ネイティブ WebSocket
   return window.WebSocket;
 }
 
@@ -26,8 +22,9 @@ export class WebSocketCommunicationService extends WebSocketBaseCommunicationSer
   constructor(version = 'v1') {
     super(version);
     console.log('[INFO] WebSocketCommunicationService created');
-    /** @type {WebSocket|null} */
     this.websocket = null;
+    this.uri = null;
+    this.comm_buffer = null;
   }
 
   /**
@@ -45,7 +42,7 @@ export class WebSocketCommunicationService extends WebSocketBaseCommunicationSer
       console.log(`[INFO] Connecting to WebSocket at ${uri}...`);
       this.websocket = new WS(this.uri);
 
-      // ブラウザではバイナリを ArrayBuffer で受ける
+      // ブラウザ: バイナリは ArrayBuffer で受ける
       if (!isNodeEnv() && this.websocket && 'binaryType' in this.websocket) {
         this.websocket.binaryType = 'arraybuffer';
       }
@@ -86,7 +83,6 @@ export class WebSocketCommunicationService extends WebSocketBaseCommunicationSer
           this.websocket.addEventListener('error', onError);
           this.websocket.addEventListener('close', onClose);
         } else {
-          // Node(ws)
           this.websocket.on('open', onOpen);
           this.websocket.on('error', onError);
           this.websocket.on('close', onClose);

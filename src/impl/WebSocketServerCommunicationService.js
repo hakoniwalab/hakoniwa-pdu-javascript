@@ -1,6 +1,4 @@
-// import { WebSocketServer } from 'ws'; // ←削除！
-// import { parse } from 'url';          // ←削除！
-
+// import { WebSocketServer } from 'ws'; // ←使わない（ブラウザバンドル回避）
 import { WebSocketBaseCommunicationService } from './WebSocketBaseCommunicationService.js';
 
 function isNodeEnv() {
@@ -11,14 +9,13 @@ async function resolveWsServerCtor() {
   if (!isNodeEnv()) {
     throw new Error('WebSocketServerCommunicationService is only available in Node.js runtime.');
   }
-  const mod = await import('ws');
-  // ws@8 以降は default に WebSocket クラス、Server は named export
+  const mod = await import('ws'); // ESM: package.json に "type": "module" が必要
+  // ws@8+: Server は named export。環境差吸収。
   return mod.WebSocketServer || mod.Server || mod.default?.Server;
 }
 
 /**
- * WebSocket server communication service.
- * This implementation allows only one client to be connected at a time.
+ * WebSocket server communication service (単一クライアント想定)
  */
 export class WebSocketServerCommunicationService extends WebSocketBaseCommunicationService {
   constructor(version = 'v1') {
@@ -29,9 +26,9 @@ export class WebSocketServerCommunicationService extends WebSocketBaseCommunicat
   }
 
   /**
-   * Starts the WebSocket server.
+   * Start WebSocket server
    * @param {import('./CommunicationBuffer').CommunicationBuffer} commBuffer
-   * @param {string} uri e.g. "ws://localhost:8773"
+   * @param {string} uri e.g. "ws://localhost:8773" or "ws://0.0.0.0:8773/ws"
    * @returns {Promise<boolean>}
    */
   async start_service(commBuffer, uri) {
@@ -42,31 +39,51 @@ export class WebSocketServerCommunicationService extends WebSocketBaseCommunicat
     this.comm_buffer = commBuffer;
     this.uri = uri;
 
-    // URL は Node/ブラウザ両対応（ただしここは Node 想定）
     const u = new URL(uri);
     const host = u.hostname || '0.0.0.0';
     const port = Number(u.port || 0);
+    const path = u.pathname && u.pathname !== '/' ? u.pathname : undefined; // ws は path を受け取れる
+    // ws サーバのオプション（必要に応じて調整）
+    const wsOptions = {
+      host,
+      port,
+      path,
+      // 安全・互換
+      perMessageDeflate: false,
+      clientTracking: true,
+      maxPayload: 10 * 1024 * 1024 // 10MB
+    };
 
     try {
       const WSServerCtor = await resolveWsServerCtor();
-      this.server = new WSServerCtor({ host, port });
+      this.server = new WSServerCtor(wsOptions);
 
       return await new Promise((resolve) => {
-        this.server.on('listening', () => {
-          console.log(`[INFO] WebSocket server started at ${host}:${port}`);
+        const onListening = () => {
+          console.log(`[INFO] WebSocket server started at ${host}:${port}${path ? path : ''}`);
           this.service_enabled = true;
           resolve(true);
-        });
-
-        this.server.on('connection', (ws) => {
-          this._client_handler(ws);
-        });
-
-        this.server.on('error', (err) => {
+        };
+        const onConnection = (ws, req) => {
+          // 1クライアント限定：すでに接続中なら新規を閉じる
+          if (this.websocket) {
+            console.warn('[WARN] Another client tried to connect. Closing new connection (single-client mode).');
+            try { ws.close(); } catch {}
+            return;
+          }
+          // 受信フォーマット：Base 側で ArrayBuffer に正規化するが、念のため
+          if (typeof ws.binaryType === 'string') ws.binaryType = 'arraybuffer';
+          this._client_handler(ws, req);
+        };
+        const onError = (err) => {
           console.error(`[ERROR] Failed to start WebSocket server: ${err?.message || err}`);
           this.service_enabled = false;
           resolve(false);
-        });
+        };
+
+        this.server.on('listening', onListening);
+        this.server.on('connection', onConnection);
+        this.server.on('error', onError);
       });
     } catch (e) {
       console.error(`[ERROR] Exception during server startup: ${e?.message || e}`);
@@ -76,35 +93,28 @@ export class WebSocketServerCommunicationService extends WebSocketBaseCommunicat
   }
 
   /**
-   * Handles a new client connection.
+   * Handle a client connection (single client)
    * @private
-   * @param {any} websocket  // 型参照に ws を使わないことでブラウザバンドルを回避
    */
-  _client_handler(websocket) {
-    if (this.websocket) {
-      console.warn('[WARN] Another client tried to connect. Closing new connection as only one client is allowed.');
-      try { websocket.close(); } catch {}
-      return;
-    }
-
+  _client_handler(websocket /*, req */) {
     console.log('[INFO] Client connected.');
     this.websocket = websocket;
+    // 受信ループ開始（Base 側がブラウザ/Nodeの差異を吸収）
     this._start_receive_loop(this.websocket);
 
     this.websocket.on('close', () => {
       console.log('[INFO] Client disconnected.');
-      this.websocket = null; // Allow a new client to connect
+      this.websocket = null; // 次のクライアントを受け入れ可能に
     });
   }
 
   /**
-   * Stops the WebSocket server.
+   * Stop server
    * @returns {Promise<boolean>}
    */
   async stop_service() {
     this.service_enabled = false;
 
-    // Close the active client connection if it exists
     if (this.websocket) {
       try { this.websocket.close(); } catch {}
       this.websocket = null;

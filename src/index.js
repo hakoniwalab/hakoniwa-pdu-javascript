@@ -29,3 +29,6 @@ export { PduChannelConfig, PduConvertor };
 
 // Low-level utilities and constants
 export { pdu_utils, pdu_constants };
+
+// RPC auto-wire helpers
+export { makeProtocolClient } from './rpc/autoWire.js';
