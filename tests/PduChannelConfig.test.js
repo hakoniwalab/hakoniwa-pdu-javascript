@@ -33,10 +33,10 @@ describe('PduChannelConfig and CommunicationBuffer config queries', () => {
     let pduConfig;
     let commBuffer;
 
-    beforeAll(() => {
+    beforeAll(async () => {
         configFilePath = path.join(__dirname, 'temp_pdu_channel_config.json');
         fs.writeFileSync(configFilePath, JSON.stringify(SAMPLE_CONFIG));
-        pduConfig = new PduChannelConfig(configFilePath);
+        pduConfig = await PduChannelConfig.load(configFilePath);
         commBuffer = new CommunicationBuffer(pduConfig);
     });
 

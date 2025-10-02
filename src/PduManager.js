@@ -31,12 +31,12 @@ export class PduManager {
      * @param {string} config_path - Path to the JSON file defining the PDU channel configuration.
      * @param {import('./impl/ICommunicationService').ICommunicationService} comm_service - An instance of a communication service.
      */
-    initialize(config_path, comm_service) {
+    async initialize(config_path, comm_service) {
         if (!comm_service) {
             throw new Error("CommService is null or undefined");
         }
 
-        this.pdu_config = new PduChannelConfig(config_path);
+        this.pdu_config = await PduChannelConfig.load(config_path);
         comm_service.set_channel_config(this.pdu_config);
 
         this.comm_buffer = new CommunicationBuffer(this.pdu_config);

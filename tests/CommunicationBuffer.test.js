@@ -34,8 +34,8 @@ describe('CommunicationBuffer', () => {
         fs.unlinkSync(configFilePath);
     });
 
-    it('should correctly put and get a packet, consuming it upon retrieval', () => {
-        const cfg = new PduChannelConfig(configFilePath);
+    it('should correctly put and get a packet, consuming it upon retrieval', async () => {
+        const cfg = await PduChannelConfig.load(configFilePath);
         const buffer = new CommunicationBuffer(cfg);
         const robotName = "RobotA";
         const channelId = 1;
@@ -62,8 +62,8 @@ describe('CommunicationBuffer', () => {
         expect(buffer.contains_buffer(robotName, pduName)).toBe(false);
     });
 
-    it('should correctly put and get an RPC packet', () => {
-        const cfg = new PduChannelConfig(configFilePath);
+    it('should correctly put and get an RPC packet', async () => {
+        const cfg = await PduChannelConfig.load(configFilePath);
         const buffer = new CommunicationBuffer(cfg);
         const serviceName = "Service/Add";
         const clientName = "client1";
