@@ -205,8 +205,8 @@ export class WebSocketBaseCommunicationService extends ICommunicationService {
         if (this.data_handler) await this.data_handler(packet);
 
       } else if (req_type === PDU_DATA_RPC_REQUEST || req_type === PDU_DATA_RPC_REPLY) {
+        console.log(`[WSBase] Received RPC ${req_type === PDU_DATA_RPC_REQUEST ? 'REQUEST' : 'REPLY'} for channel ID: ${packet.channel_id}`);
         this.comm_buffer.set_rpc_channel_buffer(packet.robot_name, packet.channel_id, packet.get_pdu_data());
-
       } else if (
         req_type === DECLARE_PDU_FOR_READ ||
         req_type === DECLARE_PDU_FOR_WRITE ||

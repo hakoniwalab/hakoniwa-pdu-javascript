@@ -90,6 +90,84 @@ async function makeProtocolClient({
 }
 
 /**
+ * Creates multiple ProtocolClient instances from a list of service specs.
+ * Python make_protocol_clients 相当。
+ * 
+ * @param {{
+ *   pduManager: any,
+ *   services: Array<{
+ *     service_name?: string,  // snake
+ *     serviceName?: string,   // camel
+ *     client_name?: string,
+ *     clientName?: string,
+ *     srv: string,
+ *     pkg?: string,
+ *     pdu_manager?: any,
+ *     pduManager?: any
+ *   }>,
+ *   pkg?: string,
+ *   ProtocolClientClass?: any
+ * }} options
+ * @returns {Promise<Record<string, any>>} // { [serviceName]: ProtocolClient }
+ */
+async function makeProtocolClients({
+  pduManager,
+  services,
+  pkg = 'hako_srv_msgs',
+  ProtocolClientClass = null
+}) {
+  if (!Array.isArray(services)) {
+    throw new Error('makeProtocolClients: "services" must be an array');
+  }
+
+  // 1サービスずつクライアントを作る（並列）
+  const pairs = await Promise.all(services.map(async (spec) => {
+    const serviceName = spec.serviceName ?? spec.service_name;
+    const clientName  = spec.clientName  ?? spec.client_name;
+    const srv         = spec.srv;
+    const servicePkg  = spec.pkg ?? pkg;
+    const manager     = spec.pduManager ?? spec.pdu_manager ?? pduManager;
+
+    if (!serviceName || !clientName || !srv) {
+      throw new Error(`makeProtocolClients: invalid spec: ${JSON.stringify(spec)}`);
+    }
+
+    let client;
+    if (ProtocolClientClass) {
+      // 明示クラスが指定された場合：コンポーネントをロードして手動 new
+      const {
+        ReqPacket, ResPacket, reqEncoder, reqDecoder, resEncoder, resDecoder
+      } = await loadProtocolComponents(srv, servicePkg);
+
+      client = new ProtocolClientClass(
+        manager,
+        serviceName,
+        clientName,
+        ReqPacket,
+        reqEncoder,
+        reqDecoder,
+        ResPacket,
+        resEncoder,
+        resDecoder
+      );
+    } else {
+      // 既存ヘルパーに委譲
+      client = await makeProtocolClient({
+        pduManager: manager,
+        serviceName,
+        clientName,
+        srv,
+        pkg: servicePkg
+      });
+    }
+
+    return [serviceName, client];
+  }));
+
+  return Object.fromEntries(pairs);
+}
+
+/**
  * Creates a ProtocolServer instance from a service name.
  * @param {{
  *   pduManager: any,
@@ -127,5 +205,6 @@ async function makeProtocolServer({
 export {
     loadProtocolComponents,
     makeProtocolClient,
+    makeProtocolClients,
     makeProtocolServer
 };

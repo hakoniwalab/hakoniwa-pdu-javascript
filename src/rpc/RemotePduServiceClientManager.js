@@ -129,7 +129,7 @@ export class RemotePduServiceClientManager extends RemotePduServiceBaseManager {
      */
     poll_response(client_id) {
         // The response is expected in the regular comm_buffer, keyed by service_name/client_name
-        if (this.comm_buffer.contains_buffer(this.service_name, this.client_name)) {
+        if (this.comm_buffer.has_rpc_packet(this.service_name, this.client_name)) {
             // In Python, peek_buffer is used. Here we just check for existence.
             // The actual data is retrieved with get_response.
             this.request_buffer = null; // Clear request buffer on response
@@ -151,7 +151,7 @@ export class RemotePduServiceClientManager extends RemotePduServiceBaseManager {
      * @returns {ArrayBuffer}
      */
     get_response(service_name, client_id) {
-        const data = this.comm_buffer.get_buffer(this.service_name, this.client_name);
+        const data = this.comm_buffer.get_rpc_packet(this.service_name, this.client_name);
         if (data) {
             // Unlike Python, we don't need to manage the buffer removal manually here
             // as get_buffer just returns the data. Let's assume it's consumed.

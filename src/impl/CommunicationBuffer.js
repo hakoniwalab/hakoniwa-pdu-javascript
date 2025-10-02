@@ -10,6 +10,7 @@ function makeRpcChannelTempKey(channelId) {
  * Holds and manages the raw binary data for PDU channels and RPC packets.
  */
 export class CommunicationBuffer {
+    static _instanceCounter = 0;
     /**
      * @param {import('./PduChannelConfig').PduChannelConfig} pduConfig
      */
@@ -36,6 +37,8 @@ export class CommunicationBuffer {
          * @type {Map<string, string[]>}
          */
         this.pending_rpc_clients = new Map();
+
+        this._instanceId = CommunicationBuffer._instanceCounter++;
     }
 
     /**
@@ -67,6 +70,7 @@ export class CommunicationBuffer {
      * @param {ArrayBuffer} buffer 
      */
     set_buffer(robotName, pduName, buffer) {
+        //console.log(`[CommBuffer] set_buffer: robot=${robotName}, pdu=${pduName}, size=${buffer.byteLength}`);
         if (!this.buffers.has(robotName)) {
             this.buffers.set(robotName, new Map());
         }
@@ -126,6 +130,7 @@ export class CommunicationBuffer {
      * @returns {boolean}
      */
     contains_buffer(robotName, pduName) {
+        //console.log(`[CommBuffer] contains_buffer: robot=${robotName}, pdu=${pduName}`);
         return this.buffers.get(robotName)?.has(pduName) ?? false;
     }
 
@@ -181,6 +186,7 @@ export class CommunicationBuffer {
         if (!this.rpc_buffers.has(serviceName)) {
             this.rpc_buffers.set(serviceName, new Map());
         }
+        //console.log(`[CommBuffer] put_rpc_packet: instance_id=${this._instanceId} service=${serviceName}, client=${clientName}, size=${packetData.byteLength}`);
         this.rpc_buffers.get(serviceName).set(clientName, packetData);
     }
 
@@ -191,6 +197,7 @@ export class CommunicationBuffer {
      * @returns {ArrayBuffer | undefined}
      */
     get_rpc_packet(serviceName, clientName) {
+        //console.log(`[CommBuffer] get_rpc_packet: instance_id=${this._instanceId} service=${serviceName}, client=${clientName}`);
         const serviceMap = this.rpc_buffers.get(serviceName);
         if (!serviceMap) {
             return undefined;
@@ -212,6 +219,7 @@ export class CommunicationBuffer {
      * @returns {boolean}
      */
     has_rpc_packet(serviceName, clientName) {
+        //console.log(`[CommBuffer] has_rpc_packet: instance_id=${this._instanceId} service=${serviceName}, client=${clientName}`);
         return this.rpc_buffers.get(serviceName)?.has(clientName) ?? false;
     }
 

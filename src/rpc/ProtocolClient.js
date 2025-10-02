@@ -113,6 +113,12 @@ export class ProtocolClient {
         if (!reqPacket.header) {
             reqPacket.header = {};
         }
+        if (this.pduManager.service_name !== this.serviceName) {
+            this.pduManager.service_name = this.serviceName;
+        }
+        if (this.pduManager.client_name !== this.clientName) {
+            this.pduManager.client_name = this.clientName;
+        }
         reqPacket.header.service_name = this.serviceName;
         reqPacket.header.client_name = this.clientName;
         reqPacket.header.request_id = currentRequestId;
@@ -136,19 +142,26 @@ export class ProtocolClient {
         const endTime = noTimeout ? Infinity : Date.now() + timeoutMsec;
 
         while (Date.now() < endTime) {
-            console.log("Polling for response...");
+            //console.log("Polling for response...");
             const event = this.pduManager.poll_response(this.clientId);
 
             if (this.pduManager.is_client_event_response_in(event)) {
-            const resPduData = this.pduManager.get_response(this.serviceName, this.clientId);
-            if (!resPduData) continue;
-            const responseData = this.resDecoder(resPduData);
-            if (responseData.header.request_id !== this.lastRequestId) continue;
-            return [false, responseData.body]; // 成功
+                const resPduData = this.pduManager.get_response(this.serviceName, this.clientId);
+                if (!resPduData) {
+                    console.warn("Received null response PDU data, continuing to poll...");
+                    continue;
+                }
+                const responseData = this.resDecoder(resPduData);
+                if (responseData.header.request_id !== this.lastRequestId) {
+                    console.warn("Received response with mismatched request ID, continuing to poll...: responseData.header.request_id =", responseData.header.request_id, ", this.lastRequestId =", this.lastRequestId);
+                    continue;
+                }
+                //console.log("Received response:", responseData);
+                return [false, responseData.body]; // 成功
             }
 
             if (this.pduManager.is_client_event_timeout(event) && !noTimeout) {
-            return [true, null]; // タイムアウト
+                return [true, null]; // タイムアウト
             }
 
             await this.sleep(pollInterval);
