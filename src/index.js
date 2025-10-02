@@ -14,6 +14,17 @@ import * as rpc_codes from './rpc/codes.js';
 import { SystemControlRequest } from './pdu_msgs/hako_srv_msgs/pdu_jstype_SystemControlRequest.js';
 import { SystemControlOpCode } from './rpc/codes.js';
 
+// Drone Services
+//DroneSetReady, DroneTakeOff, DroneLand, DroneGetState, DroneGoTo, CameraSetTilt, MagnetGrab
+import { DroneSetReadyRequest } from './pdu_msgs/drone_srv_msgs/pdu_jstype_DroneSetReadyRequest.js';
+import { DroneTakeOffRequest } from './pdu_msgs/drone_srv_msgs/pdu_jstype_DroneTakeOffRequest.js';
+import { DroneLandRequest } from './pdu_msgs/drone_srv_msgs/pdu_jstype_DroneLandRequest.js';
+import { DroneGetStateRequest } from './pdu_msgs/drone_srv_msgs/pdu_jstype_DroneGetStateRequest.js';
+import { DroneGoToRequest } from './pdu_msgs/drone_srv_msgs/pdu_jstype_DroneGoToRequest.js';
+import { CameraSetTiltRequest } from './pdu_msgs/drone_srv_msgs/pdu_jstype_CameraSetTiltRequest.js';
+import { MagnetGrabRequest } from './pdu_msgs/drone_srv_msgs/pdu_jstype_MagnetGrabRequest.js';
+import { Vector3 } from './pdu_msgs/geometry_msgs/pdu_jstype_Vector3.js';
+
 // Main class
 export { PduManager };
 
@@ -38,5 +49,13 @@ export { makeProtocolClient } from './rpc/autoWire.js';
 
 export {
   SystemControlRequest,
-  SystemControlOpCode
+  SystemControlOpCode,
+  DroneSetReadyRequest,
+  DroneTakeOffRequest,
+  DroneLandRequest,
+  DroneGetStateRequest,
+  DroneGoToRequest,
+  CameraSetTiltRequest,
+  MagnetGrabRequest,
+  Vector3
 };
