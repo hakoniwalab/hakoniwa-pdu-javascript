@@ -181,9 +181,22 @@ export class WebSocketBaseCommunicationService extends ICommunicationService {
     });
   }
 
-  _receive_loop_v1(_message, _ws) {
-    // Python版に合わせて未実装。必要ならここにv1プロトコル処理を実装。
-    console.warn('[WSBase] _receive_loop_v1 is not implemented.');
+  async _receive_loop_v1(message, _ws) {
+      const packet = DataPacket.decode(message, this.version);
+      if (!packet || !this.comm_buffer) return;
+      console.log(`[WSBase] Received packet: robot=${packet.robot_name}, channel_id=${packet.channel_id}, req_type=${packet.meta_pdu?.meta_request_type}`);
+      try {
+        const pduInfo = this.config?.getPduInfoByChannelId?.(packet.robot_name, packet.channel_id);
+        if (pduInfo) {
+          this.comm_buffer.set_buffer(packet.robot_name, pduInfo.org_name, packet.body_data);
+        } else {
+          console.warn(`[WSBase] Received PDU_DATA for unknown channel ID: ${packet.channel_id}`);
+        }
+        if (this.data_handler) await this.data_handler(packet);
+      } catch (e) {
+        console.error(`[WSBase] Receive loop failed: ${e?.message || e}`);
+      }
+
   }
 
   async _receive_loop_v2(message, _ws) {
