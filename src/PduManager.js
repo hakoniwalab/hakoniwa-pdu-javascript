@@ -108,7 +108,7 @@ export class PduManager {
         if (this.wire_version === "v1") {
             return await this.comm_service.send_data(robot_name, channel_id, pdu_raw_data);
         } else {
-            const raw_data = this._build_binary(PDU_DATA, robot_name, channel_id, pdu_raw_data);
+            const raw_data = this._build_binary("v2", PDU_DATA, robot_name, channel_id, pdu_raw_data);
             return await this.comm_service.send_binary(raw_data);
         }
     }
@@ -136,7 +136,7 @@ export class PduManager {
                 return null;
             }
         } else {
-            const raw_data = this._build_binary(REQUEST_PDU_READ, robot_name, channel_id, null);
+            const raw_data = this._build_binary("v2", REQUEST_PDU_READ, robot_name, channel_id, null);
             if (!await this.comm_service.send_binary(raw_data)) {
                 return null;
             }
@@ -178,18 +178,21 @@ export class PduManager {
             return false;
         }
 
+        const meta_request_type = is_read ? DECLARE_PDU_FOR_READ : DECLARE_PDU_FOR_WRITE;
         if (this.wire_version === "v1") {
-            throw new Error("register rpc service for v1 is not implemented");
+            const meta_request_type_binary_data = new ArrayBuffer(4);
+            new DataView(meta_request_type_binary_data).setUint32(0, meta_request_type, true);
+            const raw_data = this._build_binary("v1", meta_request_type, robot_name, channel_id, meta_request_type_binary_data);
+            return await this.comm_service.send_binary(raw_data);
         } else {
-            const meta_request_type = is_read ? DECLARE_PDU_FOR_READ : DECLARE_PDU_FOR_WRITE;
-            const raw_data = this._build_binary(meta_request_type, robot_name, channel_id, null);
+            const raw_data = this._build_binary("v2", meta_request_type, robot_name, channel_id, null);
             return await this.comm_service.send_binary(raw_data);
         }
     }
 
-    _build_binary(meta_request_type, robot_name, channel_id, pdu_data) {
+    _build_binary(version, meta_request_type, robot_name, channel_id, pdu_data) {
         console.log(`[DEBUG] Building binary packet: type=${meta_request_type}, robot=${robot_name}, channel=${channel_id}, pdu_data_length=${pdu_data ? pdu_data.byteLength : 0}`);
         const packet = new DataPacket(robot_name, channel_id, pdu_data);
-        return packet.encode("v2", meta_request_type);
+        return packet.encode(version, meta_request_type);
     }
 }
