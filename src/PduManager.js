@@ -191,7 +191,7 @@ export class PduManager {
     }
 
     _build_binary(version, meta_request_type, robot_name, channel_id, pdu_data) {
-        console.log(`[DEBUG] Building binary packet: type=${meta_request_type}, robot=${robot_name}, channel=${channel_id}, pdu_data_length=${pdu_data ? pdu_data.byteLength : 0}`);
+        //console.log(`[DEBUG] Building binary packet: type=${meta_request_type}, robot=${robot_name}, channel=${channel_id}, pdu_data_length=${pdu_data ? pdu_data.byteLength : 0}`);
         const packet = new DataPacket(robot_name, channel_id, pdu_data);
         return packet.encode(version, meta_request_type);
     }

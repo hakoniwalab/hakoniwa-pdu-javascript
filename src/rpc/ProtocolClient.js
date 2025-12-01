@@ -51,7 +51,7 @@ export class ProtocolClient {
         // We pass the serviceName and clientName, which the pduManager will use.
         this.clientId = await this.pduManager.register_client(this.serviceName, this.clientName, timeout);
         if (this.clientId) {
-            console.log(`Client '${this.clientName}' registered with service '${this.serviceName}' (ID: ${JSON.stringify(this.clientId)})`);
+            //console.log(`Client '${this.clientName}' registered with service '${this.serviceName}' (ID: ${JSON.stringify(this.clientId)})`);
             return true;
         }
         console.error(`Failed to register client '${this.clientName}' with service '${this.serviceName}'`);
@@ -72,14 +72,14 @@ export class ProtocolClient {
         }
 
         try {
-            console.log(`Calling service '${this.serviceName}' with client ID: ${JSON.stringify(this.clientId)}`);
+            //console.log(`Calling service '${this.serviceName}' with client ID: ${JSON.stringify(this.clientId)}`);
             const reqPduData = this._createRequestPacket(requestData, pollInterval);
 
             if (!await this.pduManager.call_request(this.clientId, reqPduData, timeoutMsec)) {
                 console.error("Failed to send request via pduManager.call_request.");
                 return null;
             }
-            console.log("Request sent, waiting for response...");
+            //console.log("Request sent, waiting for response...");
             const [isTimeout, responseBody] = await this._waitResponse(pollInterval, timeoutMsec);
 
             if (isTimeout) {

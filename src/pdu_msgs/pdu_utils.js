@@ -91,14 +91,14 @@ export class PduMetaDataParser {
      * @returns {object|null} Parsed metadata or null if invalid.
      */
     load_pdu_meta(binary_data) {
-        console.log(`[DEBUG] load_pdu_meta: received ${binary_data.byteLength} bytes.`);
+        //console.log(`[DEBUG] load_pdu_meta: received ${binary_data.byteLength} bytes.`);
         if (binary_data.byteLength < PDU_META_DATA_SIZE) {
             console.error("[DEBUG] Data length is less than metadata size.");
             return null;
         }
         const view = new DataView(binary_data);
         const magic = view.getUint32(0, true);
-        console.log(`[DEBUG] Magic number read: 0x${magic.toString(16)}`);
+        //console.log(`[DEBUG] Magic number read: 0x${magic.toString(16)}`);
         if (magic !== 0x12345678) {
             return null;
         }

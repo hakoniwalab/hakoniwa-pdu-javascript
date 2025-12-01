@@ -79,7 +79,7 @@ export class WebSocketBaseCommunicationService extends ICommunicationService {
       // ブラウザの WebSocket#send は同期で例外throw、Node(ws) は send(data, cb)
       if (this._isBrowser(ws) || ws.send.length < 2) {
         ws.send(data);
-        console.log('[WSBase] Data sent (sync)');
+        //console.log('[WSBase] Data sent (sync)');
         return Promise.resolve();
       } else {
         return new Promise((resolve, reject) => {
@@ -139,7 +139,7 @@ export class WebSocketBaseCommunicationService extends ICommunicationService {
       return false;
     }
     try {
-      console.log('[WSBase] Sending binary data...');
+      //console.log('[WSBase] Sending binary data...');
       await this._sendCompat(this.websocket, raw_data);
       return true;
     } catch (e) {
@@ -184,7 +184,7 @@ export class WebSocketBaseCommunicationService extends ICommunicationService {
   async _receive_loop_v1(message, _ws) {
       const packet = DataPacket.decode(message, this.version);
       if (!packet || !this.comm_buffer) return;
-      console.log(`[WSBase] Received packet: robot=${packet.robot_name}, channel_id=${packet.channel_id}, req_type=${packet.meta_pdu?.meta_request_type}`);
+      //console.log(`[WSBase] Received packet: robot=${packet.robot_name}, channel_id=${packet.channel_id}, req_type=${packet.meta_pdu?.meta_request_type}`);
       try {
         const pduInfo = this.config?.getPduInfoByChannelId?.(packet.robot_name, packet.channel_id);
         if (pduInfo) {
@@ -200,11 +200,11 @@ export class WebSocketBaseCommunicationService extends ICommunicationService {
   }
 
   async _receive_loop_v2(message, _ws) {
-    console.log('[WSBase] _receive_loop_v2');
+    //console.log('[WSBase] _receive_loop_v2');
     try {
       const packet = DataPacket.decode(message, this.version);
       if (!packet || !this.comm_buffer) return;
-      console.log(`[WSBase] Received packet: robot=${packet.robot_name}, channel_id=${packet.channel_id}, req_type=${packet.meta_pdu?.meta_request_type}`);
+      //console.log(`[WSBase] Received packet: robot=${packet.robot_name}, channel_id=${packet.channel_id}, req_type=${packet.meta_pdu?.meta_request_type}`);
       const req_type = packet.meta_pdu.meta_request_type;
 
       if (req_type === PDU_DATA) {
@@ -218,7 +218,7 @@ export class WebSocketBaseCommunicationService extends ICommunicationService {
         if (this.data_handler) await this.data_handler(packet);
 
       } else if (req_type === PDU_DATA_RPC_REQUEST || req_type === PDU_DATA_RPC_REPLY) {
-        console.log(`[WSBase] Received RPC ${req_type === PDU_DATA_RPC_REQUEST ? 'REQUEST' : 'REPLY'} for channel ID: ${packet.channel_id}`);
+        //console.log(`[WSBase] Received RPC ${req_type === PDU_DATA_RPC_REQUEST ? 'REQUEST' : 'REPLY'} for channel ID: ${packet.channel_id}`);
         this.comm_buffer.set_rpc_channel_buffer(packet.robot_name, packet.channel_id, packet.get_pdu_data());
       } else if (
         req_type === DECLARE_PDU_FOR_READ ||
