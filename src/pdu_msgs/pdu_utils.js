@@ -195,8 +195,8 @@ export function binToArrayValues(type_name, bin, count) {
     for (let i = 0; i < count; i++) {
         switch (type_name) {
             case 'bool':
-                values.push(view.getUint8(offset) !== 0);
-                type_size = 1;
+                values.push(view.getUint32(offset, littleEndian) !== 0);
+                type_size = 4;
                 break;
             case 'byte':
             case 'uint8':
@@ -260,7 +260,7 @@ export function typeToBin(type_name, value, size) {
     const littleEndian = true;
 
     switch (type_name) {
-        case 'bool': view.setUint8(0, value ? 1 : 0); break;
+        case 'bool': view.setUint32(0, value ? 1 : 0, littleEndian); break;
         case 'byte':
         case 'uint8': view.setUint8(0, value); break;
         case 'int8': view.setInt8(0, value); break;
