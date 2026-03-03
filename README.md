@@ -1,28 +1,63 @@
 # hakoniwa-pdu-javascript
 
-`hakoniwa-pdu-javascript` is the official JavaScript/TypeScript runtime library for exchanging Protocol Data Units (PDUs) with Hakoniwa-based simulators over WebSockets. It provides high level helpers for setting up client or server style transports, marshaling binary payloads, and exposing RPC services so that simulator components can collaborate in real time.
+[日本語](./README.md) | [English](./README.en.md)
 
-## Features
+`hakoniwa-pdu-javascript` は、箱庭シミュレータの PDU を WebSocket 経由で扱うための JavaScript ライブラリです。
 
-- 🔌 **Drop-in WebSocket transport** – client and server implementations that speak the Hakoniwa wire protocol.
-- 📦 **PDU aware buffer management** – track channel IDs, sizes, and raw shared-memory compatible buffers.
-- 🔁 **RPC helpers** – quickly expose remote services or talk to existing ones without wiring by hand.
-- 🧩 **Utility converters** – encode/decode PDUs generated from Hakoniwa definitions.
+箱庭では、シミュレータ間や外部アプリケーションとの通信を PDU で行います。PDU は ROS IDL をもとにした独自バイナリ形式で表現されます。このライブラリは、その PDU 通信をブラウザや Node.js から扱いやすくするための実装です。
 
-## Prerequisites
+最初の具体例としては、箱庭ドローンシミュレータに接続し、ブラウザから状態を監視したり可視化したりする用途を想定しています。
 
-- Node.js **18.x** or newer (required for native `WebSocket` and ES module support).
-- npm **9.x** or newer (ships with modern Node.js releases).
+## このライブラリでできること
 
-## Installing the library
+- 箱庭シミュレータの PDU を WebSocket 経由で読み書きする
+- ブラウザからドローンやセンサ状態を監視する
+- Three.js などを使って箱庭シミュレータの状態を可視化する
+- RPC 用の PDU を使って外部ツールと連携する
 
-Install the package from npm inside your project:
+代表的なユースケース:
+
+- Readonly なモニタやビューアをブラウザで作る
+- 箱庭ドローンの位置や姿勢を Three.js で描画する
+- Scratch などの外部ツールから箱庭シミュレータを操作する
+
+## 想定する構成
+
+このライブラリ単体でシミュレータが動くわけではありません。通常は次のような構成で使います。
+
+1. `hakoniwa-drone-core` などの箱庭シミュレータを起動する
+2. `hakoniwa-pdu-bridge-core` の WebSocket ブリッジを起動する
+3. このライブラリを使ったブラウザアプリまたは Node.js アプリからブリッジへ接続する
+
+最初に試す構成としては、箱庭ドローンシミュレータを題材にするのが分かりやすいです。
+
+```text
++------------------------+       +-------------------------------+       +-------------------------------+
+| hakoniwa-drone-core    | <---> | hakoniwa-pdu-bridge-core      | <---> | Browser / Node.js App         |
+| (simulation)           |       | (WebSocket bridge)            |       | (hakoniwa-pdu-javascript)     |
++------------------------+       +-------------------------------+       +-------------------------------+
+```
+
+## 最初に試すなら
+
+最初の対象として、次の構成をおすすめします。
+
+- シミュレータ: `hakoniwa-drone-core`
+- PDU ブリッジ: `hakoniwa-pdu-bridge-core`
+- ブラウザ可視化の参考: `hakoniwa-threejs-drone`
+- RPC 連携の参考: `hakoniwa-scratch`
+
+これらの関連リポジトリは README 後半の「関連プロジェクト」にまとめています。
+
+## インストール
+
+npm パッケージとして使う場合:
 
 ```bash
 npm install hakoniwa-pdu-javascript
 ```
 
-If you are developing the library locally, clone the repository and install the development dependencies:
+このリポジトリをローカルで試す場合:
 
 ```bash
 git clone https://github.com/hakoniwalab/hakoniwa-pdu-javascript.git
@@ -30,46 +65,42 @@ cd hakoniwa-pdu-javascript
 npm install
 ```
 
-## Quick start example
+前提:
 
-The following example shows how to bootstrap a client that connects to an existing Hakoniwa WebSocket bridge, declares PDUs for bidirectional traffic, and exchanges raw payloads.
+- Node.js 18 以上
+- npm 9 以上
+
+## 最小接続例
+
+次の例は、WebSocket ブリッジへ接続し、PDU 定義ファイルを読み込んで PDU を扱う最小構成です。
 
 ```javascript
-// examples/basic-client.js
 import {
   PduManager,
+  PduConvertor,
   WebSocketCommunicationService
 } from 'hakoniwa-pdu-javascript';
-import { fileURLToPath } from 'url';
-import path from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const configPath = path.join(__dirname, 'sample-config.json');
 
 async function main() {
   const manager = new PduManager({ wire_version: 'v2' });
   const transport = new WebSocketCommunicationService('v2');
 
-  manager.initialize(configPath, transport);
+  // まずは hakoniwa-drone-core 側で使っている PDU 定義ファイルをそのまま使う想定
+  await manager.initialize('./drone_pdu_config.json', transport);
   await manager.start_service('ws://127.0.0.1:8080');
 
-  await manager.declare_pdu_for_readwrite('sample_robot', 'actuator_command');
+  const channelId = manager.get_pdu_channel_id('Drone', 'pos');
+  const pduSize = manager.get_pdu_size('Drone', 'pos');
+  const convertor = new PduConvertor('', manager.pdu_config);
 
-  // Read the most recent sensor PDU into a typed view
-  const sensorBuffer = manager.read_pdu_raw_data('sample_robot', 'sensor_state');
-  if (sensorBuffer) {
-    const view = new DataView(sensorBuffer);
-    const timestamp = Number(view.getBigUint64(0, true));
-    console.log('[sensor_state] timestamp =', timestamp);
+  console.log('channelId =', channelId);
+  console.log('pduSize =', pduSize);
+
+  const raw = manager.read_pdu_raw_data('Drone', 'pos');
+  if (raw) {
+    const pos = await convertor.convert_binary_to_json('Drone', 'pos', raw);
+    console.log(pos);
   }
-
-  // Write a command PDU and flush it to the simulator
-  const commandBuffer = new ArrayBuffer(8);
-  const commandView = new DataView(commandBuffer);
-  commandView.setBigUint64(0, 42n, true);
-  await manager.flush_pdu_raw_data('sample_robot', 'actuator_command', commandBuffer);
 
   await manager.stop_service();
 }
@@ -80,76 +111,100 @@ main().catch((err) => {
 });
 ```
 
-A ready-to-run version of this script lives in [`examples/basic-client.js`](examples/basic-client.js) together with a minimal [`sample-config.json`](examples/sample-config.json). The checked-in example imports from the local `src` directory so it can be executed without publishing; when you depend on the npm package, import from `'hakoniwa-pdu-javascript'` as shown above. Adjust the WebSocket URI so that it matches your simulator bridge.
+PDU を構造化データとして読む場合:
 
-## API overview
-
-| Component | Description |
-| --- | --- |
-| `PduManager` | High-level façade that loads the channel configuration, manages buffers, and coordinates the transport. Use this class to declare PDUs, send raw data, and request refreshed payloads. |
-| `WebSocketCommunicationService` / `WebSocketServerCommunicationService` | Transport adapters that implement the Hakoniwa wire protocol over WebSocket as a client or server respectively. |
-| `PduChannelConfig` | Loads channel metadata from a JSON configuration file generated by Hakoniwa tooling. |
-| `PduConvertor` | Bridges between binary PDUs and the generated JavaScript codec functions. Helpful when marshalling structured data. |
-| `RemotePduServiceClientManager` / `RemotePduServiceServerManager` | Utilities for building RPC clients and servers on top of the PDU transport. |
-| `pdu_utils`, `pdu_constants` | Lower-level helpers and constant values that are shared across the implementation. |
-
-### Common workflows
-
-1. **Initialize the manager** – `manager.initialize(configPath, transport)` to load your channel map and attach a transport instance.
-2. **Start the transport** – `await manager.start_service('ws://...')` for clients or `await transport.start_service(...)` for servers.
-3. **Declare PDUs** – `declare_pdu_for_read`, `declare_pdu_for_write`, or `declare_pdu_for_readwrite` depending on your data flow.
-4. **Read or write** – `read_pdu_raw_data` returns the latest payload as an `ArrayBuffer`, while `flush_pdu_raw_data` pushes an `ArrayBuffer` to the simulator.
-5. **Perform RPC (optional)** – use the `RemotePduService*Manager` classes alongside `ServiceConfig` when you need request/response semantics.
-
-Refer to the inline JSDoc in [`src`](src) for detailed method signatures and behavior.
-
-## Running the example locally
-
-```bash
-# Install dependencies once
-git clone https://github.com/hakoniwalab/hakoniwa-pdu-javascript.git
-cd hakoniwa-pdu-javascript
-npm install
-
-# Start (or point to) a Hakoniwa-compatible WebSocket bridge on localhost:8080
-# then run the sample client
-node examples/basic-client.js
+```javascript
+const raw = manager.read_pdu_raw_data('Drone', 'pos');
+if (raw) {
+  const convertor = new PduConvertor('', manager.pdu_config);
+  const pos = await convertor.convert_binary_to_json('Drone', 'pos', raw);
+  console.log(pos);
+}
 ```
 
-The example uses the [`examples/sample-config.json`](examples/sample-config.json) configuration to describe two PDUs:
+PDU を書く場合:
 
-- `sensor_state` (channel 1, read-only) – an 8-byte payload containing a timestamp.
-- `actuator_command` (channel 2, write-only) – an 8-byte payload for actuator commands.
+```javascript
+const raw = new ArrayBuffer(8);
+const view = new DataView(raw);
+view.setBigUint64(0, 42n, true);
 
-Update the channel information so that it matches the configuration generated for your robot.
+await manager.flush_pdu_raw_data('Drone', 'motor', raw);
+```
 
-## Testing
+箱庭ドローンでは、実際には `pos`、`velocity`、`status`、`motor` などの PDU を扱うことが多くなります。最初は read-only で `pos` や `status` を読むところから始めるのが分かりやすいです。
 
-Integration tests require a Python WebSocket echo server that understands the Hakoniwa framing. Start the Python server in one terminal and run the Jest test suite in another:
+## PDU 定義ファイルについて
+
+このライブラリは、PDU 定義ファイルを読み込んで `robot / pdu_name / channel_id / pdu_size / type` の対応を解決します。
+
+現時点での実運用上のおすすめは、既存の箱庭ドローンシミュレータで使われている PDU 定義ファイルをそのまま使うことです。
+
+補足:
+
+- legacy 形式の PDU 定義ファイルを読み込めます
+- compact 形式の PDU 定義ファイルも読み込めます
+- compact 形式では `pdudef.json` から `pdutypes.json` を参照します
+
+運用方針:
+
+- 既存の legacy 形式の PDU 定義ファイルも引き続き利用できます
+- 新しく PDU 定義ファイルを管理する場合は compact 形式を推奨します
+- ただし、現時点で最も簡単な導入方法は、既存の箱庭ドローン用 legacy 定義ファイルをそのまま使う方法です
+
+ただし、独自の PDU 定義ファイルをどう設計・作成するかについては、この README では扱いません。まずは既存のドローン用定義ファイルを利用してください。
+
+## 関連プロジェクト
+
+- 箱庭ドローンシミュレータ: https://github.com/toppers/hakoniwa-drone-core
+- WebSocket ベースの PDU ブリッジ: https://github.com/hakoniwalab/hakoniwa-pdu-bridge-core
+- Three.js によるドローン可視化例: https://github.com/hakoniwalab/hakoniwa-threejs-drone
+- Scratch 連携の例: https://github.com/hakoniwalab/hakoniwa-scratch
+
+使い分けの目安:
+
+- 状態監視や描画をしたい場合は `hakoniwa-threejs-drone`
+- 外部ツール連携や操作系を試したい場合は `hakoniwa-scratch`
+
+## テスト
+
+このリポジトリはライブラリなので、主に単体テストと通信テストで動作確認しています。
 
 ```bash
 npm test
 ```
 
-The test runner executes both unit tests and the end-to-end scenarios targeting the running Python bridge.
+テストでは主に次を確認しています。
 
-## Packaging & publishing
+- PDU 定義ファイルの読み込み
+- legacy / compact 両形式の互換性
+- `PduManager` の初期化
+- WebSocket を使った送受信
 
-The project is configured for direct publishing to the npm registry. Useful commands:
+## API 概要
 
-```bash
-# Lint & test before publishing
-npm test
+通常は `PduManager` を入口として使います。
 
-# Create a tarball for local inspection
-npm pack
+主要クラス:
 
-# Publish a new version (remember to bump the version first)
-npm publish --access public
-```
+- `PduManager`
+  - PDU 定義ファイルの読み込み
+  - 通信サービスの初期化
+  - PDU の read / write
+- `WebSocketCommunicationService`
+  - WebSocket ブリッジへの接続
+- `PduConvertor`
+  - バイナリ PDU と JavaScript オブジェクトの変換
+- `RemotePduServiceClientManager` / `RemotePduServiceServerManager`
+  - RPC 用の補助
 
-Only the runtime sources (`src`), README, and LICENSE are included in the published package to keep installs lean.
+基本的な流れ:
 
-## License
+1. `PduManager.initialize()` で PDU 定義ファイルを読み込む
+2. `start_service()` で WebSocket ブリッジへ接続する
+3. `get_pdu_channel_id()` や `get_pdu_size()` でメタ情報を参照する
+4. `read_pdu_raw_data()` または `flush_pdu_raw_data()` で通信する
 
-This project is released under the [MIT License](LICENSE).
+## ライセンス
+
+MIT License

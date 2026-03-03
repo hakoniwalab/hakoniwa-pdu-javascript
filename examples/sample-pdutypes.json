@@ -1,0 +1,14 @@
+[
+  {
+    "name": "sensor_state",
+    "channel_id": 1,
+    "pdu_size": 8,
+    "type": "std_msgs/UInt64"
+  },
+  {
+    "name": "actuator_command",
+    "channel_id": 2,
+    "pdu_size": 8,
+    "type": "std_msgs/UInt64"
+  }
+]

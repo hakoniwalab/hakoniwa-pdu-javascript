@@ -1,19 +1,17 @@
-// src/impl/PduChannelConfig.js など
-
 /**
  * Parses and stores PDU channel configuration from a JSON object.
  * Use `PduChannelConfig.load(pathOrUrl)` to create from a file/URL.
  */
 export class PduChannelConfig {
     /**
-     * @param {object} parsedConfig A parsed JSON object for the PDU config.
+     * @param {object} normalizedConfig A compact-normalized JSON object for the PDU config.
      */
-    constructor(parsedConfig) {
-        if (!parsedConfig || typeof parsedConfig !== 'object') {
+    constructor(normalizedConfig) {
+        if (!normalizedConfig || typeof normalizedConfig !== 'object') {
             throw new Error('PduChannelConfig: constructor expects a parsed config object.');
         }
         /** @type {object} */
-        this.config = parsedConfig;
+        this.config = normalizedConfig;
     }
 
     /**
@@ -30,10 +28,16 @@ export class PduChannelConfig {
 
         if (isNode) {
             try {
+                const pathModule = await import('path');
                 const { readFileSync } = await import('fs');
                 const text = readFileSync(pathOrUrl, 'utf8');
                 const json = JSON.parse(text);
-                return new PduChannelConfig(json);
+                const baseDir = pathModule.dirname(pathOrUrl);
+                const normalized = await PduChannelConfig._normalizeConfig(json, {
+                    isNode: true,
+                    baseRef: baseDir,
+                });
+                return new PduChannelConfig(normalized);
             } catch (error) {
                 console.error(`[ERROR] PduChannelConfig: Failed to load or parse file: ${pathOrUrl}`, error);
                 throw error;
@@ -45,12 +49,104 @@ export class PduChannelConfig {
                     throw new Error(`HTTP ${res.status} ${res.statusText}`);
                 }
                 const json = await res.json();
-                return new PduChannelConfig(json);
+                const normalized = await PduChannelConfig._normalizeConfig(json, {
+                    isNode: false,
+                    baseRef: new URL(pathOrUrl, window.location.href),
+                });
+                return new PduChannelConfig(normalized);
             } catch (error) {
                 console.error(`[ERROR] PduChannelConfig: Failed to fetch or parse: ${pathOrUrl}`, error);
                 throw error;
             }
         }
+    }
+
+    static async _normalizeConfig(parsedConfig, { isNode, baseRef }) {
+        if (parsedConfig?.paths) {
+            return await this._convertCompactToCompactNormalized(parsedConfig, { isNode, baseRef });
+        }
+        return this._convertLegacyToCompactNormalized(parsedConfig);
+    }
+
+    static _createCompactRobot(name, pdus) {
+        return { name, pdus };
+    }
+
+    static _toCompactPdu({ name, type, channel_id, pdu_size }) {
+        return { name, type, channel_id, pdu_size };
+    }
+
+    static _dedupePdus(pdus) {
+        const seen = new Set();
+        const result = [];
+        for (const pdu of pdus) {
+            const key = `${pdu.name}|${pdu.channel_id}|${pdu.type}`;
+            if (seen.has(key)) {
+                continue;
+            }
+            seen.add(key);
+            result.push(pdu);
+        }
+        return result;
+    }
+
+    static _convertLegacyToCompactNormalized(parsedConfig) {
+        const robots = (parsedConfig?.robots || []).map((robot) => {
+            const readers = robot.shm_pdu_readers || [];
+            const writers = robot.shm_pdu_writers || [];
+            const pdus = [...readers, ...writers].map((pdu) => this._toCompactPdu({
+                name: pdu.org_name,
+                type: pdu.type,
+                channel_id: pdu.channel_id,
+                pdu_size: pdu.pdu_size,
+            }));
+            return this._createCompactRobot(robot.name, this._dedupePdus(pdus));
+        });
+        return { robots };
+    }
+
+    static async _loadCompactPdutypes(pathInfo, { isNode, baseRef }) {
+        if (!pathInfo?.path) {
+            return [];
+        }
+        if (isNode) {
+            const pathModule = await import('path');
+            const { readFileSync } = await import('fs');
+            const resolvedPath = pathModule.isAbsolute(pathInfo.path)
+                ? pathInfo.path
+                : pathModule.join(baseRef, pathInfo.path);
+            return JSON.parse(readFileSync(resolvedPath, 'utf8'));
+        }
+
+        const resolvedUrl = new URL(pathInfo.path, baseRef);
+        const response = await fetch(resolvedUrl, { cache: 'no-cache' });
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status} ${response.statusText}`);
+        }
+        return await response.json();
+    }
+
+    static async _convertCompactToCompactNormalized(parsedConfig, { isNode, baseRef }) {
+        const pdutypesMap = new Map();
+        for (const pathInfo of parsedConfig.paths || []) {
+            if (!pathInfo?.id) {
+                continue;
+            }
+            pdutypesMap.set(pathInfo.id, await this._loadCompactPdutypes(pathInfo, { isNode, baseRef }));
+        }
+
+        const robots = (parsedConfig.robots || []).map((robot) => {
+            const pdutypes = pdutypesMap.get(robot.pdutypes_id) || [];
+            const pdus = pdutypes.map((pdu) => this._toCompactPdu({
+                name: pdu.name,
+                type: pdu.type,
+                channel_id: pdu.channel_id,
+                pdu_size: pdu.pdu_size,
+            }));
+            return this._createCompactRobot(robot.name, this._dedupePdus(pdus));
+        });
+
+        return { robots };
     }
 
     /** Get the entire configuration object for a specific robot. */
@@ -65,10 +161,10 @@ export class PduChannelConfig {
     getChannelInfo(robotName, pduName) {
         const robotConfig = this.getRobotConfig(robotName);
         if (!robotConfig) return undefined;
-
-        const readers = robotConfig.shm_pdu_readers || [];
-        const writers = robotConfig.shm_pdu_writers || [];
-        return [...readers, ...writers].find(p => p.org_name === pduName);
+        const pduInfo = (robotConfig.pdus || []).find((pdu) => pdu.name === pduName);
+        return pduInfo
+            ? { channel_id: pduInfo.channel_id, pdu_size: pduInfo.pdu_size, type: pduInfo.type }
+            : undefined;
     }
 
     /**
@@ -78,12 +174,9 @@ export class PduChannelConfig {
     getPduInfoByChannelId(robotName, channelId) {
         const robotConfig = this.getRobotConfig(robotName);
         if (!robotConfig) return undefined;
-
-        const readers = robotConfig.shm_pdu_readers || [];
-        const writers = robotConfig.shm_pdu_writers || [];
-        const pduInfo = [...readers, ...writers].find(p => p.channel_id === channelId);
+        const pduInfo = (robotConfig.pdus || []).find((pdu) => pdu.channel_id === channelId);
         return pduInfo
-            ? { org_name: pduInfo.org_name, pdu_size: pduInfo.pdu_size, type: pduInfo.type }
+            ? { org_name: pduInfo.name, pdu_size: pduInfo.pdu_size, type: pduInfo.type }
             : undefined;
     }
 }

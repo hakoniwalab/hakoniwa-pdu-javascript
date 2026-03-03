@@ -1,5 +1,6 @@
 import {
   PduManager,
+  PduConvertor,
   WebSocketCommunicationService
 } from '../src/index.js';
 import path from 'path';
@@ -14,7 +15,8 @@ async function main() {
   const manager = new PduManager({ wire_version: 'v2' });
   const transport = new WebSocketCommunicationService('v2');
 
-  manager.initialize(configPath, transport);
+  await manager.initialize(configPath, transport);
+  const convertor = new PduConvertor('', manager.pdu_config);
 
   if (!await manager.start_service('ws://127.0.0.1:8080')) {
     console.error('Failed to connect to WebSocket service.');
@@ -30,9 +32,8 @@ async function main() {
 
   const sensorBuffer = manager.read_pdu_raw_data('sample_robot', 'sensor_state');
   if (sensorBuffer) {
-    const view = new DataView(sensorBuffer);
-    const timestamp = Number(view.getBigUint64(0, true));
-    console.log('[sensor_state] timestamp =', timestamp);
+    const sensorState = await convertor.convert_binary_to_json('sample_robot', 'sensor_state', sensorBuffer);
+    console.log('[sensor_state]', sensorState);
   } else {
     console.warn('No sensor data available yet.');
   }

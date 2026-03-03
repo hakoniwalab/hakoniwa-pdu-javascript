@@ -3,6 +3,7 @@ import { CommunicationBuffer } from '../src/impl/CommunicationBuffer.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
+import { createCompactPdudefFixture } from './testUtils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,6 +26,20 @@ const SAMPLE_CONFIG = {
                 {"org_name": "status", "channel_id": 3, "pdu_size": 32, "type": "Status"}
             ]
         }
+    ]
+};
+
+const SAMPLE_PDUTYPES = [
+    { "name": "pos", "channel_id": 1, "pdu_size": 16, "type": "Pos" },
+    { "name": "cmd", "channel_id": 2, "pdu_size": 8, "type": "Cmd" }
+];
+
+const SAMPLE_COMPACT_CONFIG = {
+    "paths": [
+        { "id": "default", "path": "pdutypes.json" }
+    ],
+    "robots": [
+        { "name": "RobotA", "pdutypes_id": "default" }
     ]
 };
 
@@ -109,5 +124,64 @@ describe('PduChannelConfig and CommunicationBuffer config queries', () => {
             expect(commBuffer.get_pdu_size('RobotA', 'unknown')).toBe(-1);
             expect(commBuffer.get_pdu_size('RobotC', 'pos')).toBe(-1);
         });
+    });
+});
+
+describe('PduChannelConfig compact config queries', () => {
+    let compactFixture;
+    let compactPduConfig;
+    let compactCommBuffer;
+
+    beforeAll(async () => {
+        compactFixture = createCompactPdudefFixture(__dirname, 'temp_pdu_compact_', ['RobotA'], SAMPLE_PDUTYPES);
+        fs.writeFileSync(compactFixture.pdudefPath, JSON.stringify(SAMPLE_COMPACT_CONFIG));
+
+        compactPduConfig = await PduChannelConfig.load(compactFixture.pdudefPath);
+        compactCommBuffer = new CommunicationBuffer(compactPduConfig);
+    });
+
+    afterAll(() => {
+        compactFixture.cleanup();
+    });
+
+    it('should resolve relative pdutypes paths and load compact config', () => {
+        const robotAConfig = compactPduConfig.getRobotConfig('RobotA');
+        expect(robotAConfig).toBeDefined();
+        expect(robotAConfig.name).toBe('RobotA');
+    });
+
+    it('should provide the same channel queries for compact input as legacy input', () => {
+        const posInfo = compactPduConfig.getChannelInfo('RobotA', 'pos');
+        expect(posInfo).toBeDefined();
+        expect(posInfo.channel_id).toBe(1);
+        expect(posInfo.pdu_size).toBe(16);
+        expect(posInfo.type).toBe('Pos');
+
+        const cmdInfo = compactPduConfig.getChannelInfo('RobotA', 'cmd');
+        expect(cmdInfo).toBeDefined();
+        expect(cmdInfo.channel_id).toBe(2);
+        expect(cmdInfo.pdu_size).toBe(8);
+        expect(cmdInfo.type).toBe('Cmd');
+    });
+
+    it('should provide reverse lookups for compact input', () => {
+        const posInfo = compactPduConfig.getPduInfoByChannelId('RobotA', 1);
+        expect(posInfo).toBeDefined();
+        expect(posInfo.org_name).toBe('pos');
+        expect(posInfo.pdu_size).toBe(16);
+        expect(posInfo.type).toBe('Pos');
+
+        const cmdInfo = compactPduConfig.getPduInfoByChannelId('RobotA', 2);
+        expect(cmdInfo).toBeDefined();
+        expect(cmdInfo.org_name).toBe('cmd');
+        expect(cmdInfo.pdu_size).toBe(8);
+        expect(cmdInfo.type).toBe('Cmd');
+    });
+
+    it('should allow CommunicationBuffer queries for compact input', () => {
+        expect(compactCommBuffer.get_pdu_channel_id('RobotA', 'pos')).toBe(1);
+        expect(compactCommBuffer.get_pdu_channel_id('RobotA', 'cmd')).toBe(2);
+        expect(compactCommBuffer.get_pdu_size('RobotA', 'pos')).toBe(16);
+        expect(compactCommBuffer.get_pdu_size('RobotA', 'cmd')).toBe(8);
     });
 });
