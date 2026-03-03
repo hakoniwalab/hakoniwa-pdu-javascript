@@ -139,14 +139,17 @@ export function binary_write_recursive_Disturbance(parent_off, bw_container, all
 
     { // varray
         const offset_from_heap = bw_container.heap_allocator.size();
+        const array_size = js_obj.d_user_custom.length;
         const one_elm_size = 8;
-        for (const elm of js_obj.d_user_custom) {
-            binary_write_recursive_DisturbanceUserCustom(0, bw_container, bw_container.heap_allocator, elm);
+        const array_base_offset = bw_container.heap_allocator.add(new ArrayBuffer(one_elm_size * array_size));
+        for (let item_index = 0; item_index < array_size; item_index++) {
+            const item_offset = array_base_offset + (item_index * one_elm_size);
+            binary_write_recursive_DisturbanceUserCustom(item_offset, bw_container, bw_container.heap_allocator, js_obj.d_user_custom[item_index]);
         }
 
         const ref_buffer = new ArrayBuffer(8);
         const ref_view = new DataView(ref_buffer);
-        ref_view.setInt32(0, js_obj.d_user_custom.length, littleEndian); // array_size
+        ref_view.setInt32(0, array_size, littleEndian); // array_size
         ref_view.setInt32(4, offset_from_heap, littleEndian);
         allocator.add(ref_buffer, parent_off + 88);
     }

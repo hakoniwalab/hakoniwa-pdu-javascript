@@ -26,7 +26,7 @@ export function binary_read_recursive_HakoCanBody(meta, binary_data, js_obj, bas
     
     {
         const array_bin = PduUtils.readBinary(binary_data, base_off + 0, 8);
-        js_obj.data = PduUtils.binToArrayValues("uint8", array_bin, 8);
+        js_obj.data = PduUtils.binToArrayValues("uint8", array_bin, 8, 8 / 8);
     }
     
     return js_obj;
@@ -65,7 +65,7 @@ export function binary_write_recursive_HakoCanBody(parent_off, bw_container, all
 
     
     {
-        const buffer = PduUtils.typesToBin("uint8", js_obj.data);
+        const buffer = PduUtils.typesToBin("uint8", js_obj.data, 8 / 8);
         allocator.add(buffer, parent_off + 0);
     }
     

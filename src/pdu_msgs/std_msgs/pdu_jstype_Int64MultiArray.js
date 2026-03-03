@@ -61,10 +61,7 @@ export class Int64MultiArray {
             }
         }
         if (d.hasOwnProperty('data')) {
-            const item_class = int64;
-            if (Array.isArray(d.data)) {
-                obj.data = d.data.map(item => item_class.fromDict(item));
-            }
+            obj.data = d.data;
         }
         return obj;
     }

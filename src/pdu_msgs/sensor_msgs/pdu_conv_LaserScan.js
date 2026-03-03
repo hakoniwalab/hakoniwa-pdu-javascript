@@ -96,7 +96,7 @@ export function binary_read_recursive_LaserScan(meta, binary_data, js_obj, base_
         const array_bin = PduUtils.readBinary(binary_data, meta.heap_off + offset_from_heap, one_elm_size * array_size);
         
         if ("float32" === 'string') {
-            js_obj.ranges = PduUtils.binToValue("string", array_bin);
+            js_obj.ranges = PduUtils.binToArrayValues("string", array_bin, array_size, one_elm_size);
         } else {
             js_obj.ranges = PduUtils.binToArrayValues("float32", array_bin, array_size);
         }
@@ -111,7 +111,7 @@ export function binary_read_recursive_LaserScan(meta, binary_data, js_obj, base_
         const array_bin = PduUtils.readBinary(binary_data, meta.heap_off + offset_from_heap, one_elm_size * array_size);
         
         if ("float32" === 'string') {
-            js_obj.intensities = PduUtils.binToValue("string", array_bin);
+            js_obj.intensities = PduUtils.binToArrayValues("string", array_bin, array_size, one_elm_size);
         } else {
             js_obj.intensities = PduUtils.binToArrayValues("float32", array_bin, array_size);
         }
@@ -218,8 +218,8 @@ export function binary_write_recursive_LaserScan(parent_off, bw_container, alloc
         let data_buffer;
         let array_size;
         if ("float32" === 'string') {
-            data_buffer = new TextEncoder().encode(js_obj.ranges);
-            array_size = data_buffer.byteLength;
+            data_buffer = PduUtils.typesToBin("string", js_obj.ranges, 4);
+            array_size = js_obj.ranges.length;
         } else {
             data_buffer = PduUtils.typesToBin("float32", js_obj.ranges);
             array_size = js_obj.ranges.length;
@@ -240,8 +240,8 @@ export function binary_write_recursive_LaserScan(parent_off, bw_container, alloc
         let data_buffer;
         let array_size;
         if ("float32" === 'string') {
-            data_buffer = new TextEncoder().encode(js_obj.intensities);
-            array_size = data_buffer.byteLength;
+            data_buffer = PduUtils.typesToBin("string", js_obj.intensities, 4);
+            array_size = js_obj.intensities.length;
         } else {
             data_buffer = PduUtils.typesToBin("float32", js_obj.intensities);
             array_size = js_obj.intensities.length;

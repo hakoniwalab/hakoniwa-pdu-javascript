@@ -40,7 +40,7 @@ export function binary_read_recursive_Ev3PduSensor(meta, binary_data, js_obj, ba
     
     {
         const array_bin = PduUtils.readBinary(binary_data, base_off + 152, 1);
-        js_obj.buttons = PduUtils.binToArrayValues("uint8", array_bin, 1);
+        js_obj.buttons = PduUtils.binToArrayValues("uint8", array_bin, 1, 1 / 1);
     }
     
     // member: color_sensors, type: Ev3PduColorSensor (struct)
@@ -78,7 +78,7 @@ export function binary_read_recursive_Ev3PduSensor(meta, binary_data, js_obj, ba
     
     {
         const array_bin = PduUtils.readBinary(binary_data, base_off + 204, 12);
-        js_obj.motor_angle = PduUtils.binToArrayValues("uint32", array_bin, 3);
+        js_obj.motor_angle = PduUtils.binToArrayValues("uint32", array_bin, 3, 12 / 3);
     }
     
     // member: gyro_degree, type: int32 (primitive)
@@ -163,7 +163,7 @@ export function binary_write_recursive_Ev3PduSensor(parent_off, bw_container, al
 
     
     {
-        const buffer = PduUtils.typesToBin("uint8", js_obj.buttons);
+        const buffer = PduUtils.typesToBin("uint8", js_obj.buttons, 1 / 1);
         allocator.add(buffer, parent_off + 152);
     }
     
@@ -189,7 +189,7 @@ export function binary_write_recursive_Ev3PduSensor(parent_off, bw_container, al
 
     
     {
-        const buffer = PduUtils.typesToBin("uint32", js_obj.motor_angle);
+        const buffer = PduUtils.typesToBin("uint32", js_obj.motor_angle, 12 / 3);
         allocator.add(buffer, parent_off + 204);
     }
     

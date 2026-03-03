@@ -23,13 +23,17 @@ export class DynamicAllocator {
     }
 
     add(data_buffer, expected_offset = -1) {
-        if (expected_offset !== -1 && this.length !== expected_offset) {
-            if (this.length < expected_offset) {
-                this._ensure_capacity(expected_offset - this.length);
-                this.length = expected_offset;
-            } else {
-                // Overlapping write, should be handled carefully
+        if (expected_offset !== -1) {
+            const end_offset = expected_offset + data_buffer.byteLength;
+            const required_size = Math.max(this.length, end_offset);
+            while (this.buffer.byteLength < required_size) {
+                const new_buffer = new ArrayBuffer(this.buffer.byteLength * 2);
+                new Uint8Array(new_buffer).set(new Uint8Array(this.buffer));
+                this.buffer = new_buffer;
             }
+            new Uint8Array(this.buffer).set(new Uint8Array(data_buffer), expected_offset);
+            this.length = required_size;
+            return expected_offset;
         }
         this._ensure_capacity(data_buffer.byteLength);
         new Uint8Array(this.buffer).set(new Uint8Array(data_buffer), this.length);
@@ -144,7 +148,7 @@ export function binToValue(type_name, bin) {
     const littleEndian = true;
     switch (type_name) {
         case 'bool':
-            return view.getUint8(0) !== 0;
+            return view.getUint32(0, littleEndian) !== 0;
         case 'byte':
         case 'uint8':
             return view.getUint8(0);
@@ -185,7 +189,7 @@ export function binToValue(type_name, bin) {
  * @param {number} count - The number of elements in the array.
  * @returns {Array<number|bigint|boolean>}
  */
-export function binToArrayValues(type_name, bin, count) {
+export function binToArrayValues(type_name, bin, count, element_size = 0) {
     const values = [];
     const view = new DataView(bin);
     const littleEndian = true;
@@ -239,6 +243,10 @@ export function binToArrayValues(type_name, bin, count) {
                 values.push(view.getFloat64(offset, littleEndian));
                 type_size = 8;
                 break;
+            case 'string':
+                values.push(binToValue('string', bin.slice(offset, offset + element_size)));
+                type_size = element_size;
+                break;
             default:
                 throw new Error(`Unsupported primitive type for binToArrayValues: ${type_name}`);
         }
@@ -289,14 +297,16 @@ export function typeToBin(type_name, value, size) {
  * @param {Array<any>} values
  * @returns {ArrayBuffer}
  */
-export function typesToBin(type_name, values) {
+export function typesToBin(type_name, values, element_size = 0) {
     let type_size = 0;
     // Determine size of a single element
     switch (type_name) {
-        case 'bool': case 'byte': case 'uint8': case 'int8': type_size = 1; break;
+        case 'bool': type_size = 4; break;
+        case 'byte': case 'uint8': case 'int8': type_size = 1; break;
         case 'int16': case 'uint16': type_size = 2; break;
         case 'int32': case 'uint32': case 'float32': type_size = 4; break;
         case 'int64': case 'uint64': case 'float64': type_size = 8; break;
+        case 'string': type_size = element_size; break;
         default: throw new Error(`Unsupported primitive type for typesToBin: ${type_name}`);
     }
 
@@ -307,7 +317,7 @@ export function typesToBin(type_name, values) {
 
     for (const value of values) {
         switch (type_name) {
-            case 'bool': view.setUint8(offset, value ? 1 : 0); break;
+            case 'bool': view.setUint32(offset, value ? 1 : 0, littleEndian); break;
             case 'byte':
             case 'uint8': view.setUint8(offset, value); break;
             case 'int8': view.setInt8(offset, value); break;
@@ -319,6 +329,11 @@ export function typesToBin(type_name, values) {
             case 'uint64': view.setBigUint64(offset, BigInt(value), littleEndian); break;
             case 'float32': view.setFloat32(offset, value, littleEndian); break;
             case 'float64': view.setFloat64(offset, value, littleEndian); break;
+            case 'string': {
+                const encoded = new TextEncoder().encode(value);
+                new Uint8Array(buffer).set(encoded.slice(0, type_size), offset);
+                break;
+            }
         }
         offset += type_size;
     }

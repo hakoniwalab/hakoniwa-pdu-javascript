@@ -70,10 +70,7 @@ export class CameraCaptureImageResponse {
             obj.ok = d.ok;
         }
         if (d.hasOwnProperty('data')) {
-            const item_class = uint8;
-            if (Array.isArray(d.data)) {
-                obj.data = d.data.map(item => item_class.fromDict(item));
-            }
+            obj.data = d.data;
         }
         if (d.hasOwnProperty('message')) {
             obj.message = d.message;

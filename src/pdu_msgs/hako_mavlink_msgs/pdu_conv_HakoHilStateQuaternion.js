@@ -34,7 +34,7 @@ export function binary_read_recursive_HakoHilStateQuaternion(meta, binary_data, 
     
     {
         const array_bin = PduUtils.readBinary(binary_data, base_off + 8, 16);
-        js_obj.attitude_quaternion = PduUtils.binToArrayValues("float32", array_bin, 4);
+        js_obj.attitude_quaternion = PduUtils.binToArrayValues("float32", array_bin, 4, 16 / 4);
     }
     
     // member: rollspeed, type: float32 (primitive)
@@ -193,7 +193,7 @@ export function binary_write_recursive_HakoHilStateQuaternion(parent_off, bw_con
 
     
     {
-        const buffer = PduUtils.typesToBin("float32", js_obj.attitude_quaternion);
+        const buffer = PduUtils.typesToBin("float32", js_obj.attitude_quaternion, 16 / 4);
         allocator.add(buffer, parent_off + 8);
     }
     

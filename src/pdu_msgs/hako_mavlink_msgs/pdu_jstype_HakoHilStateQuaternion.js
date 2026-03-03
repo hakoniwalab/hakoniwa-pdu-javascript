@@ -252,10 +252,7 @@ export class HakoHilStateQuaternion {
             obj.time_usec = d.time_usec;
         }
         if (d.hasOwnProperty('attitude_quaternion')) {
-            const item_class = float32;
-            if (Array.isArray(d.attitude_quaternion)) {
-                obj.attitude_quaternion = d.attitude_quaternion.map(item => item_class.fromDict(item));
-            }
+            obj.attitude_quaternion = d.attitude_quaternion;
         }
         if (d.hasOwnProperty('rollspeed')) {
             obj.rollspeed = d.rollspeed;

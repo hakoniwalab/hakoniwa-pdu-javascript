@@ -194,16 +194,10 @@ export class LaserScan {
             obj.range_max = d.range_max;
         }
         if (d.hasOwnProperty('ranges')) {
-            const item_class = float32;
-            if (Array.isArray(d.ranges)) {
-                obj.ranges = d.ranges.map(item => item_class.fromDict(item));
-            }
+            obj.ranges = d.ranges;
         }
         if (d.hasOwnProperty('intensities')) {
-            const item_class = float32;
-            if (Array.isArray(d.intensities)) {
-                obj.intensities = d.intensities.map(item => item_class.fromDict(item));
-            }
+            obj.intensities = d.intensities;
         }
         return obj;
     }

@@ -61,10 +61,7 @@ export class Int16MultiArray {
             }
         }
         if (d.hasOwnProperty('data')) {
-            const item_class = int16;
-            if (Array.isArray(d.data)) {
-                obj.data = d.data.map(item => item_class.fromDict(item));
-            }
+            obj.data = d.data;
         }
         return obj;
     }

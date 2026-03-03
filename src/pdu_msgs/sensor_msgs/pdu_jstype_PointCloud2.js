@@ -181,10 +181,7 @@ export class PointCloud2 {
             obj.row_step = d.row_step;
         }
         if (d.hasOwnProperty('data')) {
-            const item_class = uint8;
-            if (Array.isArray(d.data)) {
-                obj.data = d.data.map(item => item_class.fromDict(item));
-            }
+            obj.data = d.data;
         }
         if (d.hasOwnProperty('is_dense')) {
             obj.is_dense = d.is_dense;

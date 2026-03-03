@@ -61,10 +61,7 @@ export class TwistWithCovariance {
             }
         }
         if (d.hasOwnProperty('covariance')) {
-            const item_class = float64;
-            if (Array.isArray(d.covariance)) {
-                obj.covariance = d.covariance.map(item => item_class.fromDict(item));
-            }
+            obj.covariance = d.covariance;
         }
         return obj;
     }

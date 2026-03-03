@@ -30,7 +30,7 @@ export function binary_read_recursive_DisturbanceUserCustom(meta, binary_data, j
         const array_bin = PduUtils.readBinary(binary_data, meta.heap_off + offset_from_heap, one_elm_size * array_size);
         
         if ("float64" === 'string') {
-            js_obj.data = PduUtils.binToValue("string", array_bin);
+            js_obj.data = PduUtils.binToArrayValues("string", array_bin, array_size, one_elm_size);
         } else {
             js_obj.data = PduUtils.binToArrayValues("float64", array_bin, array_size);
         }
@@ -75,8 +75,8 @@ export function binary_write_recursive_DisturbanceUserCustom(parent_off, bw_cont
         let data_buffer;
         let array_size;
         if ("float64" === 'string') {
-            data_buffer = new TextEncoder().encode(js_obj.data);
-            array_size = data_buffer.byteLength;
+            data_buffer = PduUtils.typesToBin("string", js_obj.data, 8);
+            array_size = js_obj.data.length;
         } else {
             data_buffer = PduUtils.typesToBin("float64", js_obj.data);
             array_size = js_obj.data.length;

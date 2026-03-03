@@ -84,10 +84,7 @@ export class HakoHilActuatorControls {
             obj.time_usec = d.time_usec;
         }
         if (d.hasOwnProperty('controls')) {
-            const item_class = float32;
-            if (Array.isArray(d.controls)) {
-                obj.controls = d.controls.map(item => item_class.fromDict(item));
-            }
+            obj.controls = d.controls;
         }
         if (d.hasOwnProperty('mode')) {
             obj.mode = d.mode;

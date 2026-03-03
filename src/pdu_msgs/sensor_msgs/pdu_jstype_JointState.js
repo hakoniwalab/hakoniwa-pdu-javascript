@@ -103,28 +103,16 @@ export class JointState {
             }
         }
         if (d.hasOwnProperty('name')) {
-            const item_class = string;
-            if (Array.isArray(d.name)) {
-                obj.name = d.name.map(item => item_class.fromDict(item));
-            }
+            obj.name = d.name;
         }
         if (d.hasOwnProperty('position')) {
-            const item_class = float64;
-            if (Array.isArray(d.position)) {
-                obj.position = d.position.map(item => item_class.fromDict(item));
-            }
+            obj.position = d.position;
         }
         if (d.hasOwnProperty('velocity')) {
-            const item_class = float64;
-            if (Array.isArray(d.velocity)) {
-                obj.velocity = d.velocity.map(item => item_class.fromDict(item));
-            }
+            obj.velocity = d.velocity;
         }
         if (d.hasOwnProperty('effort')) {
-            const item_class = float64;
-            if (Array.isArray(d.effort)) {
-                obj.effort = d.effort.map(item => item_class.fromDict(item));
-            }
+            obj.effort = d.effort;
         }
         return obj;
     }

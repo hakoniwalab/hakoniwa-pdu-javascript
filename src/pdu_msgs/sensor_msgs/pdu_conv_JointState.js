@@ -40,7 +40,7 @@ export function binary_read_recursive_JointState(meta, binary_data, js_obj, base
         const array_bin = PduUtils.readBinary(binary_data, meta.heap_off + offset_from_heap, one_elm_size * array_size);
         
         if ("string" === 'string') {
-            js_obj.name = PduUtils.binToValue("string", array_bin);
+            js_obj.name = PduUtils.binToArrayValues("string", array_bin, array_size, one_elm_size);
         } else {
             js_obj.name = PduUtils.binToArrayValues("string", array_bin, array_size);
         }
@@ -55,7 +55,7 @@ export function binary_read_recursive_JointState(meta, binary_data, js_obj, base
         const array_bin = PduUtils.readBinary(binary_data, meta.heap_off + offset_from_heap, one_elm_size * array_size);
         
         if ("float64" === 'string') {
-            js_obj.position = PduUtils.binToValue("string", array_bin);
+            js_obj.position = PduUtils.binToArrayValues("string", array_bin, array_size, one_elm_size);
         } else {
             js_obj.position = PduUtils.binToArrayValues("float64", array_bin, array_size);
         }
@@ -70,7 +70,7 @@ export function binary_read_recursive_JointState(meta, binary_data, js_obj, base
         const array_bin = PduUtils.readBinary(binary_data, meta.heap_off + offset_from_heap, one_elm_size * array_size);
         
         if ("float64" === 'string') {
-            js_obj.velocity = PduUtils.binToValue("string", array_bin);
+            js_obj.velocity = PduUtils.binToArrayValues("string", array_bin, array_size, one_elm_size);
         } else {
             js_obj.velocity = PduUtils.binToArrayValues("float64", array_bin, array_size);
         }
@@ -85,7 +85,7 @@ export function binary_read_recursive_JointState(meta, binary_data, js_obj, base
         const array_bin = PduUtils.readBinary(binary_data, meta.heap_off + offset_from_heap, one_elm_size * array_size);
         
         if ("float64" === 'string') {
-            js_obj.effort = PduUtils.binToValue("string", array_bin);
+            js_obj.effort = PduUtils.binToArrayValues("string", array_bin, array_size, one_elm_size);
         } else {
             js_obj.effort = PduUtils.binToArrayValues("float64", array_bin, array_size);
         }
@@ -136,8 +136,8 @@ export function binary_write_recursive_JointState(parent_off, bw_container, allo
         let data_buffer;
         let array_size;
         if ("string" === 'string') {
-            data_buffer = new TextEncoder().encode(js_obj.name);
-            array_size = data_buffer.byteLength;
+            data_buffer = PduUtils.typesToBin("string", js_obj.name, 128);
+            array_size = js_obj.name.length;
         } else {
             data_buffer = PduUtils.typesToBin("string", js_obj.name);
             array_size = js_obj.name.length;
@@ -158,8 +158,8 @@ export function binary_write_recursive_JointState(parent_off, bw_container, allo
         let data_buffer;
         let array_size;
         if ("float64" === 'string') {
-            data_buffer = new TextEncoder().encode(js_obj.position);
-            array_size = data_buffer.byteLength;
+            data_buffer = PduUtils.typesToBin("string", js_obj.position, 8);
+            array_size = js_obj.position.length;
         } else {
             data_buffer = PduUtils.typesToBin("float64", js_obj.position);
             array_size = js_obj.position.length;
@@ -180,8 +180,8 @@ export function binary_write_recursive_JointState(parent_off, bw_container, allo
         let data_buffer;
         let array_size;
         if ("float64" === 'string') {
-            data_buffer = new TextEncoder().encode(js_obj.velocity);
-            array_size = data_buffer.byteLength;
+            data_buffer = PduUtils.typesToBin("string", js_obj.velocity, 8);
+            array_size = js_obj.velocity.length;
         } else {
             data_buffer = PduUtils.typesToBin("float64", js_obj.velocity);
             array_size = js_obj.velocity.length;
@@ -202,8 +202,8 @@ export function binary_write_recursive_JointState(parent_off, bw_container, allo
         let data_buffer;
         let array_size;
         if ("float64" === 'string') {
-            data_buffer = new TextEncoder().encode(js_obj.effort);
-            array_size = data_buffer.byteLength;
+            data_buffer = PduUtils.typesToBin("string", js_obj.effort, 8);
+            array_size = js_obj.effort.length;
         } else {
             data_buffer = PduUtils.typesToBin("float64", js_obj.effort);
             array_size = js_obj.effort.length;

@@ -38,7 +38,7 @@ export function binary_read_recursive_Ev3PduActuator(meta, binary_data, js_obj, 
     
     {
         const array_bin = PduUtils.readBinary(binary_data, base_off + 152, 1);
-        js_obj.leds = PduUtils.binToArrayValues("uint8", array_bin, 1);
+        js_obj.leds = PduUtils.binToArrayValues("uint8", array_bin, 1, 1 / 1);
     }
     
     // member: motors, type: Ev3PduMotor (struct)
@@ -106,7 +106,7 @@ export function binary_write_recursive_Ev3PduActuator(parent_off, bw_container, 
 
     
     {
-        const buffer = PduUtils.typesToBin("uint8", js_obj.leds);
+        const buffer = PduUtils.typesToBin("uint8", js_obj.leds, 1 / 1);
         allocator.add(buffer, parent_off + 152);
     }
     

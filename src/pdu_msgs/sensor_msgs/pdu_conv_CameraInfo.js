@@ -66,7 +66,7 @@ export function binary_read_recursive_CameraInfo(meta, binary_data, js_obj, base
         const array_bin = PduUtils.readBinary(binary_data, meta.heap_off + offset_from_heap, one_elm_size * array_size);
         
         if ("float64" === 'string') {
-            js_obj.d = PduUtils.binToValue("string", array_bin);
+            js_obj.d = PduUtils.binToArrayValues("string", array_bin, array_size, one_elm_size);
         } else {
             js_obj.d = PduUtils.binToArrayValues("float64", array_bin, array_size);
         }
@@ -77,7 +77,7 @@ export function binary_read_recursive_CameraInfo(meta, binary_data, js_obj, base
     
     {
         const array_bin = PduUtils.readBinary(binary_data, base_off + 280, 72);
-        js_obj.k = PduUtils.binToArrayValues("float64", array_bin, 9);
+        js_obj.k = PduUtils.binToArrayValues("float64", array_bin, 9, 72 / 9);
     }
     
     // member: r, type: float64 (primitive)
@@ -85,7 +85,7 @@ export function binary_read_recursive_CameraInfo(meta, binary_data, js_obj, base
     
     {
         const array_bin = PduUtils.readBinary(binary_data, base_off + 352, 72);
-        js_obj.r = PduUtils.binToArrayValues("float64", array_bin, 9);
+        js_obj.r = PduUtils.binToArrayValues("float64", array_bin, 9, 72 / 9);
     }
     
     // member: p, type: float64 (primitive)
@@ -93,7 +93,7 @@ export function binary_read_recursive_CameraInfo(meta, binary_data, js_obj, base
     
     {
         const array_bin = PduUtils.readBinary(binary_data, base_off + 424, 96);
-        js_obj.p = PduUtils.binToArrayValues("float64", array_bin, 12);
+        js_obj.p = PduUtils.binToArrayValues("float64", array_bin, 12, 96 / 12);
     }
     
     // member: binning_x, type: uint32 (primitive)
@@ -189,8 +189,8 @@ export function binary_write_recursive_CameraInfo(parent_off, bw_container, allo
         let data_buffer;
         let array_size;
         if ("float64" === 'string') {
-            data_buffer = new TextEncoder().encode(js_obj.d);
-            array_size = data_buffer.byteLength;
+            data_buffer = PduUtils.typesToBin("string", js_obj.d, 8);
+            array_size = js_obj.d.length;
         } else {
             data_buffer = PduUtils.typesToBin("float64", js_obj.d);
             array_size = js_obj.d.length;
@@ -208,7 +208,7 @@ export function binary_write_recursive_CameraInfo(parent_off, bw_container, allo
 
     
     {
-        const buffer = PduUtils.typesToBin("float64", js_obj.k);
+        const buffer = PduUtils.typesToBin("float64", js_obj.k, 72 / 9);
         allocator.add(buffer, parent_off + 280);
     }
     
@@ -216,7 +216,7 @@ export function binary_write_recursive_CameraInfo(parent_off, bw_container, allo
 
     
     {
-        const buffer = PduUtils.typesToBin("float64", js_obj.r);
+        const buffer = PduUtils.typesToBin("float64", js_obj.r, 72 / 9);
         allocator.add(buffer, parent_off + 352);
     }
     
@@ -224,7 +224,7 @@ export function binary_write_recursive_CameraInfo(parent_off, bw_container, allo
 
     
     {
-        const buffer = PduUtils.typesToBin("float64", js_obj.p);
+        const buffer = PduUtils.typesToBin("float64", js_obj.p, 96 / 12);
         allocator.add(buffer, parent_off + 424);
     }
     

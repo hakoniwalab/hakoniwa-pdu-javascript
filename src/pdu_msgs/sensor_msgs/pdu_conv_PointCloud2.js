@@ -98,7 +98,7 @@ export function binary_read_recursive_PointCloud2(meta, binary_data, js_obj, bas
         const array_bin = PduUtils.readBinary(binary_data, meta.heap_off + offset_from_heap, one_elm_size * array_size);
         
         if ("uint8" === 'string') {
-            js_obj.data = PduUtils.binToValue("string", array_bin);
+            js_obj.data = PduUtils.binToArrayValues("string", array_bin, array_size, one_elm_size);
         } else {
             js_obj.data = PduUtils.binToArrayValues("uint8", array_bin, array_size);
         }
@@ -170,14 +170,17 @@ export function binary_write_recursive_PointCloud2(parent_off, bw_container, all
 
     { // varray
         const offset_from_heap = bw_container.heap_allocator.size();
+        const array_size = js_obj.fields.length;
         const one_elm_size = 140;
-        for (const elm of js_obj.fields) {
-            binary_write_recursive_PointField(0, bw_container, bw_container.heap_allocator, elm);
+        const array_base_offset = bw_container.heap_allocator.add(new ArrayBuffer(one_elm_size * array_size));
+        for (let item_index = 0; item_index < array_size; item_index++) {
+            const item_offset = array_base_offset + (item_index * one_elm_size);
+            binary_write_recursive_PointField(item_offset, bw_container, bw_container.heap_allocator, js_obj.fields[item_index]);
         }
 
         const ref_buffer = new ArrayBuffer(8);
         const ref_view = new DataView(ref_buffer);
-        ref_view.setInt32(0, js_obj.fields.length, littleEndian); // array_size
+        ref_view.setInt32(0, array_size, littleEndian); // array_size
         ref_view.setInt32(4, offset_from_heap, littleEndian);
         allocator.add(ref_buffer, parent_off + 144);
     }
@@ -213,8 +216,8 @@ export function binary_write_recursive_PointCloud2(parent_off, bw_container, all
         let data_buffer;
         let array_size;
         if ("uint8" === 'string') {
-            data_buffer = new TextEncoder().encode(js_obj.data);
-            array_size = data_buffer.byteLength;
+            data_buffer = PduUtils.typesToBin("string", js_obj.data, 1);
+            array_size = js_obj.data.length;
         } else {
             data_buffer = PduUtils.typesToBin("uint8", js_obj.data);
             array_size = js_obj.data.length;

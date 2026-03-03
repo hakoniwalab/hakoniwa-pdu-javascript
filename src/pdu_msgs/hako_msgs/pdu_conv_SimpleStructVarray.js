@@ -36,7 +36,7 @@ export function binary_read_recursive_SimpleStructVarray(meta, binary_data, js_o
     
     {
         const array_bin = PduUtils.readBinary(binary_data, base_off + 4, 256);
-        js_obj.fixed_str = PduUtils.binToArrayValues("string", array_bin, 2);
+        js_obj.fixed_str = PduUtils.binToArrayValues("string", array_bin, 2, 256 / 2);
     }
     
     // member: varray_str, type: string (primitive)
@@ -48,7 +48,7 @@ export function binary_read_recursive_SimpleStructVarray(meta, binary_data, js_o
         const array_bin = PduUtils.readBinary(binary_data, meta.heap_off + offset_from_heap, one_elm_size * array_size);
         
         if ("string" === 'string') {
-            js_obj.varray_str = PduUtils.binToValue("string", array_bin);
+            js_obj.varray_str = PduUtils.binToArrayValues("string", array_bin, array_size, one_elm_size);
         } else {
             js_obj.varray_str = PduUtils.binToArrayValues("string", array_bin, array_size);
         }
@@ -129,7 +129,7 @@ export function binary_write_recursive_SimpleStructVarray(parent_off, bw_contain
 
     
     {
-        const buffer = PduUtils.typesToBin("string", js_obj.fixed_str);
+        const buffer = PduUtils.typesToBin("string", js_obj.fixed_str, 256 / 2);
         allocator.add(buffer, parent_off + 4);
     }
     
@@ -140,8 +140,8 @@ export function binary_write_recursive_SimpleStructVarray(parent_off, bw_contain
         let data_buffer;
         let array_size;
         if ("string" === 'string') {
-            data_buffer = new TextEncoder().encode(js_obj.varray_str);
-            array_size = data_buffer.byteLength;
+            data_buffer = PduUtils.typesToBin("string", js_obj.varray_str, 128);
+            array_size = js_obj.varray_str.length;
         } else {
             data_buffer = PduUtils.typesToBin("string", js_obj.varray_str);
             array_size = js_obj.varray_str.length;
@@ -168,14 +168,17 @@ export function binary_write_recursive_SimpleStructVarray(parent_off, bw_contain
 
     { // varray
         const offset_from_heap = bw_container.heap_allocator.size();
+        const array_size = js_obj.data.length;
         const one_elm_size = 24;
-        for (const elm of js_obj.data) {
-            binary_write_recursive_SimpleVarray(0, bw_container, bw_container.heap_allocator, elm);
+        const array_base_offset = bw_container.heap_allocator.add(new ArrayBuffer(one_elm_size * array_size));
+        for (let item_index = 0; item_index < array_size; item_index++) {
+            const item_offset = array_base_offset + (item_index * one_elm_size);
+            binary_write_recursive_SimpleVarray(item_offset, bw_container, bw_container.heap_allocator, js_obj.data[item_index]);
         }
 
         const ref_buffer = new ArrayBuffer(8);
         const ref_view = new DataView(ref_buffer);
-        ref_view.setInt32(0, js_obj.data.length, littleEndian); // array_size
+        ref_view.setInt32(0, array_size, littleEndian); // array_size
         ref_view.setInt32(4, offset_from_heap, littleEndian);
         allocator.add(ref_buffer, parent_off + 388);
     }

@@ -80,7 +80,7 @@ export function binary_read_recursive_Image(meta, binary_data, js_obj, base_off)
         const array_bin = PduUtils.readBinary(binary_data, meta.heap_off + offset_from_heap, one_elm_size * array_size);
         
         if ("uint8" === 'string') {
-            js_obj.data = PduUtils.binToValue("string", array_bin);
+            js_obj.data = PduUtils.binToArrayValues("string", array_bin, array_size, one_elm_size);
         } else {
             js_obj.data = PduUtils.binToArrayValues("uint8", array_bin, array_size);
         }
@@ -171,8 +171,8 @@ export function binary_write_recursive_Image(parent_off, bw_container, allocator
         let data_buffer;
         let array_size;
         if ("uint8" === 'string') {
-            data_buffer = new TextEncoder().encode(js_obj.data);
-            array_size = data_buffer.byteLength;
+            data_buffer = PduUtils.typesToBin("string", js_obj.data, 1);
+            array_size = js_obj.data.length;
         } else {
             data_buffer = PduUtils.typesToBin("uint8", js_obj.data);
             array_size = js_obj.data.length;

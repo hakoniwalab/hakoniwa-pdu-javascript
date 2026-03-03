@@ -174,10 +174,7 @@ export class Ev3PduSensor {
             }
         }
         if (d.hasOwnProperty('buttons')) {
-            const item_class = uint8;
-            if (Array.isArray(d.buttons)) {
-                obj.buttons = d.buttons.map(item => item_class.fromDict(item));
-            }
+            obj.buttons = d.buttons;
         }
         if (d.hasOwnProperty('color_sensors')) {
             const item_class = Ev3PduColorSensor;
@@ -192,10 +189,7 @@ export class Ev3PduSensor {
             }
         }
         if (d.hasOwnProperty('motor_angle')) {
-            const item_class = uint32;
-            if (Array.isArray(d.motor_angle)) {
-                obj.motor_angle = d.motor_angle.map(item => item_class.fromDict(item));
-            }
+            obj.motor_angle = d.motor_angle;
         }
         if (d.hasOwnProperty('gyro_degree')) {
             obj.gyro_degree = d.gyro_degree;

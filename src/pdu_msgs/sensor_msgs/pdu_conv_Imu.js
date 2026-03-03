@@ -48,7 +48,7 @@ export function binary_read_recursive_Imu(meta, binary_data, js_obj, base_off) {
     
     {
         const array_bin = PduUtils.readBinary(binary_data, base_off + 168, 72);
-        js_obj.orientation_covariance = PduUtils.binToArrayValues("float64", array_bin, 9);
+        js_obj.orientation_covariance = PduUtils.binToArrayValues("float64", array_bin, 9, 72 / 9);
     }
     
     // member: angular_velocity, type: geometry_msgs/Vector3 (struct)
@@ -64,7 +64,7 @@ export function binary_read_recursive_Imu(meta, binary_data, js_obj, base_off) {
     
     {
         const array_bin = PduUtils.readBinary(binary_data, base_off + 264, 72);
-        js_obj.angular_velocity_covariance = PduUtils.binToArrayValues("float64", array_bin, 9);
+        js_obj.angular_velocity_covariance = PduUtils.binToArrayValues("float64", array_bin, 9, 72 / 9);
     }
     
     // member: linear_acceleration, type: geometry_msgs/Vector3 (struct)
@@ -80,7 +80,7 @@ export function binary_read_recursive_Imu(meta, binary_data, js_obj, base_off) {
     
     {
         const array_bin = PduUtils.readBinary(binary_data, base_off + 360, 72);
-        js_obj.linear_acceleration_covariance = PduUtils.binToArrayValues("float64", array_bin, 9);
+        js_obj.linear_acceleration_covariance = PduUtils.binToArrayValues("float64", array_bin, 9, 72 / 9);
     }
     
     return js_obj;
@@ -131,7 +131,7 @@ export function binary_write_recursive_Imu(parent_off, bw_container, allocator, 
 
     
     {
-        const buffer = PduUtils.typesToBin("float64", js_obj.orientation_covariance);
+        const buffer = PduUtils.typesToBin("float64", js_obj.orientation_covariance, 72 / 9);
         allocator.add(buffer, parent_off + 168);
     }
     
@@ -145,7 +145,7 @@ export function binary_write_recursive_Imu(parent_off, bw_container, allocator, 
 
     
     {
-        const buffer = PduUtils.typesToBin("float64", js_obj.angular_velocity_covariance);
+        const buffer = PduUtils.typesToBin("float64", js_obj.angular_velocity_covariance, 72 / 9);
         allocator.add(buffer, parent_off + 264);
     }
     
@@ -159,7 +159,7 @@ export function binary_write_recursive_Imu(parent_off, bw_container, allocator, 
 
     
     {
-        const buffer = PduUtils.typesToBin("float64", js_obj.linear_acceleration_covariance);
+        const buffer = PduUtils.typesToBin("float64", js_obj.linear_acceleration_covariance, 72 / 9);
         allocator.add(buffer, parent_off + 360);
     }
     

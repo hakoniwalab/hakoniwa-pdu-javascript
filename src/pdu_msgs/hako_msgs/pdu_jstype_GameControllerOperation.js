@@ -53,16 +53,10 @@ export class GameControllerOperation {
     static fromDict(d) {
         const obj = new GameControllerOperation();
         if (d.hasOwnProperty('axis')) {
-            const item_class = float64;
-            if (Array.isArray(d.axis)) {
-                obj.axis = d.axis.map(item => item_class.fromDict(item));
-            }
+            obj.axis = d.axis;
         }
         if (d.hasOwnProperty('button')) {
-            const item_class = bool;
-            if (Array.isArray(d.button)) {
-                obj.button = d.button.map(item => item_class.fromDict(item));
-            }
+            obj.button = d.button;
         }
         return obj;
     }

@@ -36,7 +36,7 @@ export function binary_read_recursive_PoseWithCovariance(meta, binary_data, js_o
     
     {
         const array_bin = PduUtils.readBinary(binary_data, base_off + 56, 288);
-        js_obj.covariance = PduUtils.binToArrayValues("float64", array_bin, 36);
+        js_obj.covariance = PduUtils.binToArrayValues("float64", array_bin, 36, 288 / 36);
     }
     
     return js_obj;
@@ -81,7 +81,7 @@ export function binary_write_recursive_PoseWithCovariance(parent_off, bw_contain
 
     
     {
-        const buffer = PduUtils.typesToBin("float64", js_obj.covariance);
+        const buffer = PduUtils.typesToBin("float64", js_obj.covariance, 288 / 36);
         allocator.add(buffer, parent_off + 56);
     }
     

@@ -26,7 +26,7 @@ export function binary_read_recursive_GameControllerOperation(meta, binary_data,
     
     {
         const array_bin = PduUtils.readBinary(binary_data, base_off + 0, 48);
-        js_obj.axis = PduUtils.binToArrayValues("float64", array_bin, 6);
+        js_obj.axis = PduUtils.binToArrayValues("float64", array_bin, 6, 48 / 6);
     }
     
     // member: button, type: bool (primitive)
@@ -34,7 +34,7 @@ export function binary_read_recursive_GameControllerOperation(meta, binary_data,
     
     {
         const array_bin = PduUtils.readBinary(binary_data, base_off + 48, 60);
-        js_obj.button = PduUtils.binToArrayValues("bool", array_bin, 15);
+        js_obj.button = PduUtils.binToArrayValues("bool", array_bin, 15, 60 / 15);
     }
     
     return js_obj;
@@ -73,7 +73,7 @@ export function binary_write_recursive_GameControllerOperation(parent_off, bw_co
 
     
     {
-        const buffer = PduUtils.typesToBin("float64", js_obj.axis);
+        const buffer = PduUtils.typesToBin("float64", js_obj.axis, 48 / 6);
         allocator.add(buffer, parent_off + 0);
     }
     
@@ -81,7 +81,7 @@ export function binary_write_recursive_GameControllerOperation(parent_off, bw_co
 
     
     {
-        const buffer = PduUtils.typesToBin("bool", js_obj.button);
+        const buffer = PduUtils.typesToBin("bool", js_obj.button, 60 / 15);
         allocator.add(buffer, parent_off + 48);
     }
     

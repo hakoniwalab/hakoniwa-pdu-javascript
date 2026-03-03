@@ -99,16 +99,10 @@ export class SimpleStructVarray {
             obj.aaa = d.aaa;
         }
         if (d.hasOwnProperty('fixed_str')) {
-            const item_class = string;
-            if (Array.isArray(d.fixed_str)) {
-                obj.fixed_str = d.fixed_str.map(item => item_class.fromDict(item));
-            }
+            obj.fixed_str = d.fixed_str;
         }
         if (d.hasOwnProperty('varray_str')) {
-            const item_class = string;
-            if (Array.isArray(d.varray_str)) {
-                obj.varray_str = d.varray_str.map(item => item_class.fromDict(item));
-            }
+            obj.varray_str = d.varray_str;
         }
         if (d.hasOwnProperty('fixed_array')) {
             const item_class = SimpleVarray;

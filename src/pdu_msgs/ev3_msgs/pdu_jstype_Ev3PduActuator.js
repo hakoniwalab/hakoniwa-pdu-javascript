@@ -89,10 +89,7 @@ export class Ev3PduActuator {
             }
         }
         if (d.hasOwnProperty('leds')) {
-            const item_class = uint8;
-            if (Array.isArray(d.leds)) {
-                obj.leds = d.leds.map(item => item_class.fromDict(item));
-            }
+            obj.leds = d.leds;
         }
         if (d.hasOwnProperty('motors')) {
             const item_class = Ev3PduMotor;

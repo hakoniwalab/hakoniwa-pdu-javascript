@@ -67,16 +67,10 @@ export class SimpleVarray {
     static fromDict(d) {
         const obj = new SimpleVarray();
         if (d.hasOwnProperty('data')) {
-            const item_class = int8;
-            if (Array.isArray(d.data)) {
-                obj.data = d.data.map(item => item_class.fromDict(item));
-            }
+            obj.data = d.data;
         }
         if (d.hasOwnProperty('fixed_array')) {
-            const item_class = int8;
-            if (Array.isArray(d.fixed_array)) {
-                obj.fixed_array = d.fixed_array.map(item => item_class.fromDict(item));
-            }
+            obj.fixed_array = d.fixed_array;
         }
         if (d.hasOwnProperty('p_mem1')) {
             obj.p_mem1 = d.p_mem1;

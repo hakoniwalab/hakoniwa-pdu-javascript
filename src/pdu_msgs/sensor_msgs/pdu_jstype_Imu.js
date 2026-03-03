@@ -139,10 +139,7 @@ export class Imu {
             }
         }
         if (d.hasOwnProperty('orientation_covariance')) {
-            const item_class = float64;
-            if (Array.isArray(d.orientation_covariance)) {
-                obj.orientation_covariance = d.orientation_covariance.map(item => item_class.fromDict(item));
-            }
+            obj.orientation_covariance = d.orientation_covariance;
         }
         if (d.hasOwnProperty('angular_velocity')) {
             const field_class = Vector3;
@@ -151,10 +148,7 @@ export class Imu {
             }
         }
         if (d.hasOwnProperty('angular_velocity_covariance')) {
-            const item_class = float64;
-            if (Array.isArray(d.angular_velocity_covariance)) {
-                obj.angular_velocity_covariance = d.angular_velocity_covariance.map(item => item_class.fromDict(item));
-            }
+            obj.angular_velocity_covariance = d.angular_velocity_covariance;
         }
         if (d.hasOwnProperty('linear_acceleration')) {
             const field_class = Vector3;
@@ -163,10 +157,7 @@ export class Imu {
             }
         }
         if (d.hasOwnProperty('linear_acceleration_covariance')) {
-            const item_class = float64;
-            if (Array.isArray(d.linear_acceleration_covariance)) {
-                obj.linear_acceleration_covariance = d.linear_acceleration_covariance.map(item => item_class.fromDict(item));
-            }
+            obj.linear_acceleration_covariance = d.linear_acceleration_covariance;
         }
         return obj;
     }

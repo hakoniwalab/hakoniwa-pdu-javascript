@@ -197,28 +197,16 @@ export class CameraInfo {
             obj.distortion_model = d.distortion_model;
         }
         if (d.hasOwnProperty('d')) {
-            const item_class = float64;
-            if (Array.isArray(d.d)) {
-                obj.d = d.d.map(item => item_class.fromDict(item));
-            }
+            obj.d = d.d;
         }
         if (d.hasOwnProperty('k')) {
-            const item_class = float64;
-            if (Array.isArray(d.k)) {
-                obj.k = d.k.map(item => item_class.fromDict(item));
-            }
+            obj.k = d.k;
         }
         if (d.hasOwnProperty('r')) {
-            const item_class = float64;
-            if (Array.isArray(d.r)) {
-                obj.r = d.r.map(item => item_class.fromDict(item));
-            }
+            obj.r = d.r;
         }
         if (d.hasOwnProperty('p')) {
-            const item_class = float64;
-            if (Array.isArray(d.p)) {
-                obj.p = d.p.map(item => item_class.fromDict(item));
-            }
+            obj.p = d.p;
         }
         if (d.hasOwnProperty('binning_x')) {
             obj.binning_x = d.binning_x;

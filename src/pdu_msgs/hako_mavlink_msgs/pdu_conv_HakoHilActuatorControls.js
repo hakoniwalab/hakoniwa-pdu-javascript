@@ -34,7 +34,7 @@ export function binary_read_recursive_HakoHilActuatorControls(meta, binary_data,
     
     {
         const array_bin = PduUtils.readBinary(binary_data, base_off + 8, 64);
-        js_obj.controls = PduUtils.binToArrayValues("float32", array_bin, 16);
+        js_obj.controls = PduUtils.binToArrayValues("float32", array_bin, 16, 64 / 16);
     }
     
     // member: mode, type: uint8 (primitive)
@@ -97,7 +97,7 @@ export function binary_write_recursive_HakoHilActuatorControls(parent_off, bw_co
 
     
     {
-        const buffer = PduUtils.typesToBin("float32", js_obj.controls);
+        const buffer = PduUtils.typesToBin("float32", js_obj.controls, 64 / 16);
         allocator.add(buffer, parent_off + 8);
     }
     
