@@ -203,7 +203,10 @@ export class WebSocketBaseCommunicationService extends ICommunicationService {
     //console.log('[WSBase] _receive_loop_v2');
     try {
       const packet = DataPacket.decode(message, this.version);
-      if (!packet || !this.comm_buffer) return;
+      if (!packet) {
+        return;
+      }
+      if (!this.comm_buffer) return;
       //console.log(`[WSBase] Received packet: robot=${packet.robot_name}, channel_id=${packet.channel_id}, req_type=${packet.meta_pdu?.meta_request_type}`);
       const req_type = packet.meta_pdu.meta_request_type;
 

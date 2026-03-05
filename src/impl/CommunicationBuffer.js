@@ -70,7 +70,6 @@ export class CommunicationBuffer {
      * @param {ArrayBuffer} buffer 
      */
     set_buffer(robotName, pduName, buffer) {
-        //console.log(`[CommBuffer] set_buffer: robot=${robotName}, pdu=${pduName}, size=${buffer.byteLength}`);
         if (!this.buffers.has(robotName)) {
             this.buffers.set(robotName, new Map());
         }

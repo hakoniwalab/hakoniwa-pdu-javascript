@@ -6,6 +6,8 @@ export const HAKO_META_MAGIC = 0x48414B4F; // "HAKO"
 export const HAKO_META_VER = 0x0002;
 export const META_FIXED_SIZE = 176;
 export const TOTAL_PDU_META_SIZE = 24 + META_FIXED_SIZE; // PduMetaData.PDU_META_DATA_SIZE is 24
+// hakoniwa-pdu-endpoint v2 wire: robot_name(128) + fixed meta(176)
+export const ENDPOINT_V2_HEADER_SIZE = 128 + META_FIXED_SIZE; // 304
 
 // Magic numbers for control packets
 export const DECLARE_PDU_FOR_READ = 0x52455044;   // "REPD"
@@ -153,18 +155,105 @@ export class DataPacket {
     }
 
     static _decode_v2(frame) {
-        if (!frame || frame.byteLength < TOTAL_PDU_META_SIZE) {
-            return null;
-        }
-        const meta = pduToJs_MetaPdu(frame.slice(0, TOTAL_PDU_META_SIZE));
-
-        if (!meta || meta.version !== HAKO_META_VER || meta.magicno !== HAKO_META_MAGIC) {
+        if (!frame || frame.byteLength < META_FIXED_SIZE) {
             return null;
         }
 
-        const body = frame.slice(TOTAL_PDU_META_SIZE);
+        // Accept endpoint-v2 header first (robot_name[128] + fixed meta[176]):
+        // this is the format used by hakoniwa-pdu-endpoint bridge.
+        let meta = DataPacket._decode_endpoint_v2_meta(frame);
+        let headerSize = 0;
+        if (meta) {
+            headerSize = ENDPOINT_V2_HEADER_SIZE;
+        }
+
+        // Accept legacy wrapped header formats:
+        // 1) legacy wrapped meta (PduMetaData + MetaPdu: 200 bytes)
+        // 2) raw MetaPdu only (176 bytes)
+        if (!meta && frame.byteLength >= TOTAL_PDU_META_SIZE) {
+            try {
+                const wrappedMeta = pduToJs_MetaPdu(frame.slice(0, TOTAL_PDU_META_SIZE));
+                if (wrappedMeta && wrappedMeta.version === HAKO_META_VER && wrappedMeta.magicno === HAKO_META_MAGIC) {
+                    meta = wrappedMeta;
+                    headerSize = TOTAL_PDU_META_SIZE;
+                }
+            } catch (_) {
+                // fallback to raw header parser
+            }
+        }
+
+        if (!meta) {
+            const rawMeta = DataPacket._decode_raw_meta_pdu(frame);
+            if (!rawMeta || rawMeta.version !== HAKO_META_VER || rawMeta.magicno !== HAKO_META_MAGIC) {
+                return null;
+            }
+            meta = rawMeta;
+            headerSize = META_FIXED_SIZE;
+        }
+
+        const declaredBodyLen = Number(meta.body_len) || 0;
+        const availableBodyLen = Math.max(0, frame.byteLength - headerSize);
+        const bodyLen = declaredBodyLen > 0 ? Math.min(declaredBodyLen, availableBodyLen) : availableBodyLen;
+        const body = frame.slice(headerSize, headerSize + bodyLen);
 
         return new DataPacket(meta.robot_name, meta.channel_id, body, { meta: meta });
+    }
+
+    static _decode_endpoint_v2_meta(frame) {
+        if (!frame || frame.byteLength < ENDPOINT_V2_HEADER_SIZE) {
+            return null;
+        }
+        const view = new DataView(frame, 0, ENDPOINT_V2_HEADER_SIZE);
+
+        const robotNameBytes = new Uint8Array(frame, 0, 128);
+        const zeroIndex = robotNameBytes.indexOf(0);
+        const end = zeroIndex >= 0 ? zeroIndex : robotNameBytes.length;
+        const robotName = new TextDecoder().decode(robotNameBytes.slice(0, end));
+
+        const magic = view.getUint32(128, true);
+        const version = view.getUint16(132, true);
+        if (magic !== HAKO_META_MAGIC || version !== HAKO_META_VER) {
+            return null;
+        }
+
+        const meta = new MetaPdu();
+        meta.robot_name = robotName;
+        meta.magicno = magic;
+        meta.version = version;
+        meta.flags = view.getUint32(136, true);
+        meta.meta_request_type = view.getUint32(140, true);
+        meta.total_len = view.getUint32(144, true);
+        meta.body_len = view.getUint32(148, true);
+        meta.hako_time_us = view.getBigInt64(152, true);
+        meta.asset_time_us = view.getBigInt64(160, true);
+        meta.real_time_us = view.getBigInt64(168, true);
+        meta.channel_id = view.getUint32(176, true);
+        return meta;
+    }
+
+    static _decode_raw_meta_pdu(frame) {
+        if (!frame || frame.byteLength < META_FIXED_SIZE) {
+            return null;
+        }
+        const meta = new MetaPdu();
+        const view = new DataView(frame, 0, META_FIXED_SIZE);
+        meta.total_len = view.getUint32(0, true);
+        meta.magicno = view.getUint32(4, true);
+        meta.version = view.getUint16(8, true);
+        meta.flags = view.getUint16(10, true);
+        meta.meta_request_type = view.getUint32(12, true);
+        meta.hako_time_us = view.getBigUint64(16, true);
+        meta.asset_time_us = view.getBigUint64(24, true);
+        meta.real_time_us = view.getBigUint64(32, true);
+
+        const robotNameBytes = new Uint8Array(frame, 40, 128);
+        const zeroIndex = robotNameBytes.indexOf(0);
+        const end = zeroIndex >= 0 ? zeroIndex : robotNameBytes.length;
+        meta.robot_name = new TextDecoder().decode(robotNameBytes.slice(0, end));
+
+        meta.channel_id = view.getInt32(168, true);
+        meta.body_len = view.getUint32(172, true);
+        return meta;
     }
 
     static _decode_v1(data) {
