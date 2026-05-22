@@ -103,15 +103,30 @@ export class DataPacket {
         this.meta_pdu.body_len = body_len;
         this.meta_pdu.total_len = (META_FIXED_SIZE - 4) + body_len;
 
-        const encoded_header = jsToPdu_MetaPdu(this.meta_pdu);
-        if (encoded_header.byteLength !== TOTAL_PDU_META_SIZE) {
-             console.error(`Unexpected meta size: ${encoded_header.byteLength}`);
-        }
-
-        const final_buffer = new ArrayBuffer(encoded_header.byteLength + this.body_data.byteLength);
+        // Bridge/core v2 expects the endpoint wire header:
+        // robot_name[128] + fixed meta[176] = 304 bytes.
+        const final_buffer = new ArrayBuffer(ENDPOINT_V2_HEADER_SIZE + this.body_data.byteLength);
         const final_view = new Uint8Array(final_buffer);
-        final_view.set(new Uint8Array(encoded_header), 0);
-        final_view.set(new Uint8Array(this.body_data), encoded_header.byteLength);
+        const view = new DataView(final_buffer);
+
+        const robot_name_bytes = new TextEncoder().encode(this.robot_name);
+        const robot_name_len = Math.min(robot_name_bytes.length, 127);
+        final_view.set(robot_name_bytes.slice(0, robot_name_len), 0);
+        final_view[robot_name_len] = 0;
+
+        view.setUint32(128, this.meta_pdu.magicno, true);
+        view.setUint16(132, this.meta_pdu.version, true);
+        view.setUint16(134, 0, true);
+        view.setUint32(136, this.meta_pdu.flags, true);
+        view.setUint32(140, this.meta_pdu.meta_request_type, true);
+        view.setUint32(144, this.meta_pdu.total_len, true);
+        view.setUint32(148, this.meta_pdu.body_len, true);
+        view.setBigInt64(152, BigInt(this.meta_pdu.hako_time_us), true);
+        view.setBigInt64(160, BigInt(this.meta_pdu.asset_time_us), true);
+        view.setBigInt64(168, BigInt(this.meta_pdu.real_time_us), true);
+        view.setUint32(176, this.meta_pdu.channel_id, true);
+
+        final_view.set(new Uint8Array(this.body_data), ENDPOINT_V2_HEADER_SIZE);
 
         return final_buffer;
     }
