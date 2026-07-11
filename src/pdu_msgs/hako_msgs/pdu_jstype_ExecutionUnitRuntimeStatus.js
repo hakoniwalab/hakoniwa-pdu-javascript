@@ -39,7 +39,17 @@ export class ExecutionUnitRuntimeStatus {
             if (typeof field_val?.toDict === 'function') {
                 d['config_hash'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['config_hash'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['config_hash'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['config_hash'] = field_val.toString();
             } else {
                 d['config_hash'] = field_val;
             }
@@ -50,7 +60,17 @@ export class ExecutionUnitRuntimeStatus {
             if (typeof field_val?.toDict === 'function') {
                 d['unit_count'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['unit_count'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['unit_count'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['unit_count'] = field_val.toString();
             } else {
                 d['unit_count'] = field_val;
             }
@@ -61,7 +81,17 @@ export class ExecutionUnitRuntimeStatus {
             if (typeof field_val?.toDict === 'function') {
                 d['status'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['status'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['status'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['status'] = field_val.toString();
             } else {
                 d['status'] = field_val;
             }
@@ -72,7 +102,17 @@ export class ExecutionUnitRuntimeStatus {
             if (typeof field_val?.toDict === 'function') {
                 d['epoch'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['epoch'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['epoch'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['epoch'] = field_val.toString();
             } else {
                 d['epoch'] = field_val;
             }
@@ -83,7 +123,17 @@ export class ExecutionUnitRuntimeStatus {
             if (typeof field_val?.toDict === 'function') {
                 d['curr_owner_node_id'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['curr_owner_node_id'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['curr_owner_node_id'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['curr_owner_node_id'] = field_val.toString();
             } else {
                 d['curr_owner_node_id'] = field_val;
             }
@@ -94,7 +144,17 @@ export class ExecutionUnitRuntimeStatus {
             if (typeof field_val?.toDict === 'function') {
                 d['next_owner_node_id'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['next_owner_node_id'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['next_owner_node_id'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['next_owner_node_id'] = field_val.toString();
             } else {
                 d['next_owner_node_id'] = field_val;
             }

@@ -54,7 +54,17 @@ export class GlobalPositionTarget {
             if (typeof field_val?.toDict === 'function') {
                 d['header'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['header'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['header'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['header'] = field_val.toString();
             } else {
                 d['header'] = field_val;
             }
@@ -65,7 +75,17 @@ export class GlobalPositionTarget {
             if (typeof field_val?.toDict === 'function') {
                 d['coordinate_frame'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['coordinate_frame'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['coordinate_frame'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['coordinate_frame'] = field_val.toString();
             } else {
                 d['coordinate_frame'] = field_val;
             }
@@ -76,7 +96,17 @@ export class GlobalPositionTarget {
             if (typeof field_val?.toDict === 'function') {
                 d['type_mask'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['type_mask'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['type_mask'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['type_mask'] = field_val.toString();
             } else {
                 d['type_mask'] = field_val;
             }
@@ -87,7 +117,17 @@ export class GlobalPositionTarget {
             if (typeof field_val?.toDict === 'function') {
                 d['latitude'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['latitude'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['latitude'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['latitude'] = field_val.toString();
             } else {
                 d['latitude'] = field_val;
             }
@@ -98,7 +138,17 @@ export class GlobalPositionTarget {
             if (typeof field_val?.toDict === 'function') {
                 d['longitude'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['longitude'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['longitude'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['longitude'] = field_val.toString();
             } else {
                 d['longitude'] = field_val;
             }
@@ -109,7 +159,17 @@ export class GlobalPositionTarget {
             if (typeof field_val?.toDict === 'function') {
                 d['altitude'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['altitude'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['altitude'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['altitude'] = field_val.toString();
             } else {
                 d['altitude'] = field_val;
             }
@@ -120,7 +180,17 @@ export class GlobalPositionTarget {
             if (typeof field_val?.toDict === 'function') {
                 d['velocity'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['velocity'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['velocity'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['velocity'] = field_val.toString();
             } else {
                 d['velocity'] = field_val;
             }
@@ -131,7 +201,17 @@ export class GlobalPositionTarget {
             if (typeof field_val?.toDict === 'function') {
                 d['acceleration_or_force'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['acceleration_or_force'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['acceleration_or_force'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['acceleration_or_force'] = field_val.toString();
             } else {
                 d['acceleration_or_force'] = field_val;
             }
@@ -142,7 +222,17 @@ export class GlobalPositionTarget {
             if (typeof field_val?.toDict === 'function') {
                 d['yaw'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['yaw'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['yaw'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['yaw'] = field_val.toString();
             } else {
                 d['yaw'] = field_val;
             }
@@ -153,7 +243,17 @@ export class GlobalPositionTarget {
             if (typeof field_val?.toDict === 'function') {
                 d['yaw_rate'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['yaw_rate'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['yaw_rate'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['yaw_rate'] = field_val.toString();
             } else {
                 d['yaw_rate'] = field_val;
             }

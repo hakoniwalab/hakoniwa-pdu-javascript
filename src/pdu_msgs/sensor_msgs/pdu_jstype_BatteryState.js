@@ -71,7 +71,17 @@ export class BatteryState {
             if (typeof field_val?.toDict === 'function') {
                 d['header'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['header'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['header'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['header'] = field_val.toString();
             } else {
                 d['header'] = field_val;
             }
@@ -82,7 +92,17 @@ export class BatteryState {
             if (typeof field_val?.toDict === 'function') {
                 d['voltage'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['voltage'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['voltage'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['voltage'] = field_val.toString();
             } else {
                 d['voltage'] = field_val;
             }
@@ -93,7 +113,17 @@ export class BatteryState {
             if (typeof field_val?.toDict === 'function') {
                 d['temperature'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['temperature'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['temperature'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['temperature'] = field_val.toString();
             } else {
                 d['temperature'] = field_val;
             }
@@ -104,7 +134,17 @@ export class BatteryState {
             if (typeof field_val?.toDict === 'function') {
                 d['current'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['current'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['current'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['current'] = field_val.toString();
             } else {
                 d['current'] = field_val;
             }
@@ -115,7 +155,17 @@ export class BatteryState {
             if (typeof field_val?.toDict === 'function') {
                 d['charge'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['charge'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['charge'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['charge'] = field_val.toString();
             } else {
                 d['charge'] = field_val;
             }
@@ -126,7 +176,17 @@ export class BatteryState {
             if (typeof field_val?.toDict === 'function') {
                 d['capacity'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['capacity'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['capacity'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['capacity'] = field_val.toString();
             } else {
                 d['capacity'] = field_val;
             }
@@ -137,7 +197,17 @@ export class BatteryState {
             if (typeof field_val?.toDict === 'function') {
                 d['design_capacity'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['design_capacity'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['design_capacity'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['design_capacity'] = field_val.toString();
             } else {
                 d['design_capacity'] = field_val;
             }
@@ -148,7 +218,17 @@ export class BatteryState {
             if (typeof field_val?.toDict === 'function') {
                 d['percentage'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['percentage'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['percentage'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['percentage'] = field_val.toString();
             } else {
                 d['percentage'] = field_val;
             }
@@ -159,7 +239,17 @@ export class BatteryState {
             if (typeof field_val?.toDict === 'function') {
                 d['power_supply_status'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['power_supply_status'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['power_supply_status'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['power_supply_status'] = field_val.toString();
             } else {
                 d['power_supply_status'] = field_val;
             }
@@ -170,7 +260,17 @@ export class BatteryState {
             if (typeof field_val?.toDict === 'function') {
                 d['power_supply_health'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['power_supply_health'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['power_supply_health'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['power_supply_health'] = field_val.toString();
             } else {
                 d['power_supply_health'] = field_val;
             }
@@ -181,7 +281,17 @@ export class BatteryState {
             if (typeof field_val?.toDict === 'function') {
                 d['power_supply_technology'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['power_supply_technology'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['power_supply_technology'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['power_supply_technology'] = field_val.toString();
             } else {
                 d['power_supply_technology'] = field_val;
             }
@@ -192,7 +302,17 @@ export class BatteryState {
             if (typeof field_val?.toDict === 'function') {
                 d['present'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['present'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['present'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['present'] = field_val.toString();
             } else {
                 d['present'] = field_val;
             }
@@ -203,7 +323,17 @@ export class BatteryState {
             if (typeof field_val?.toDict === 'function') {
                 d['cell_voltage'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['cell_voltage'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['cell_voltage'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['cell_voltage'] = field_val.toString();
             } else {
                 d['cell_voltage'] = field_val;
             }
@@ -214,7 +344,17 @@ export class BatteryState {
             if (typeof field_val?.toDict === 'function') {
                 d['cell_temperature'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['cell_temperature'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['cell_temperature'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['cell_temperature'] = field_val.toString();
             } else {
                 d['cell_temperature'] = field_val;
             }
@@ -225,7 +365,17 @@ export class BatteryState {
             if (typeof field_val?.toDict === 'function') {
                 d['location'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['location'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['location'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['location'] = field_val.toString();
             } else {
                 d['location'] = field_val;
             }
@@ -236,7 +386,17 @@ export class BatteryState {
             if (typeof field_val?.toDict === 'function') {
                 d['serial_number'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['serial_number'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['serial_number'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['serial_number'] = field_val.toString();
             } else {
                 d['serial_number'] = field_val;
             }

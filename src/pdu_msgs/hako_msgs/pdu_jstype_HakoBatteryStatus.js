@@ -36,7 +36,17 @@ export class HakoBatteryStatus {
             if (typeof field_val?.toDict === 'function') {
                 d['full_voltage'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['full_voltage'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['full_voltage'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['full_voltage'] = field_val.toString();
             } else {
                 d['full_voltage'] = field_val;
             }
@@ -47,7 +57,17 @@ export class HakoBatteryStatus {
             if (typeof field_val?.toDict === 'function') {
                 d['curr_voltage'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['curr_voltage'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['curr_voltage'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['curr_voltage'] = field_val.toString();
             } else {
                 d['curr_voltage'] = field_val;
             }
@@ -58,7 +78,17 @@ export class HakoBatteryStatus {
             if (typeof field_val?.toDict === 'function') {
                 d['curr_temp'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['curr_temp'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['curr_temp'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['curr_temp'] = field_val.toString();
             } else {
                 d['curr_temp'] = field_val;
             }
@@ -69,7 +99,17 @@ export class HakoBatteryStatus {
             if (typeof field_val?.toDict === 'function') {
                 d['status'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['status'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['status'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['status'] = field_val.toString();
             } else {
                 d['status'] = field_val;
             }
@@ -80,7 +120,17 @@ export class HakoBatteryStatus {
             if (typeof field_val?.toDict === 'function') {
                 d['cycles'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['cycles'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['cycles'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['cycles'] = field_val.toString();
             } else {
                 d['cycles'] = field_val;
             }

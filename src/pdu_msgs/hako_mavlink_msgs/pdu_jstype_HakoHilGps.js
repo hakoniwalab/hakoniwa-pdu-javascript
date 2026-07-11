@@ -66,7 +66,17 @@ export class HakoHilGps {
             if (typeof field_val?.toDict === 'function') {
                 d['time_usec'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['time_usec'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['time_usec'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['time_usec'] = field_val.toString();
             } else {
                 d['time_usec'] = field_val;
             }
@@ -77,7 +87,17 @@ export class HakoHilGps {
             if (typeof field_val?.toDict === 'function') {
                 d['lat'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['lat'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['lat'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['lat'] = field_val.toString();
             } else {
                 d['lat'] = field_val;
             }
@@ -88,7 +108,17 @@ export class HakoHilGps {
             if (typeof field_val?.toDict === 'function') {
                 d['lon'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['lon'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['lon'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['lon'] = field_val.toString();
             } else {
                 d['lon'] = field_val;
             }
@@ -99,7 +129,17 @@ export class HakoHilGps {
             if (typeof field_val?.toDict === 'function') {
                 d['alt'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['alt'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['alt'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['alt'] = field_val.toString();
             } else {
                 d['alt'] = field_val;
             }
@@ -110,7 +150,17 @@ export class HakoHilGps {
             if (typeof field_val?.toDict === 'function') {
                 d['eph'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['eph'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['eph'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['eph'] = field_val.toString();
             } else {
                 d['eph'] = field_val;
             }
@@ -121,7 +171,17 @@ export class HakoHilGps {
             if (typeof field_val?.toDict === 'function') {
                 d['epv'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['epv'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['epv'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['epv'] = field_val.toString();
             } else {
                 d['epv'] = field_val;
             }
@@ -132,7 +192,17 @@ export class HakoHilGps {
             if (typeof field_val?.toDict === 'function') {
                 d['vel'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['vel'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['vel'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['vel'] = field_val.toString();
             } else {
                 d['vel'] = field_val;
             }
@@ -143,7 +213,17 @@ export class HakoHilGps {
             if (typeof field_val?.toDict === 'function') {
                 d['vn'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['vn'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['vn'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['vn'] = field_val.toString();
             } else {
                 d['vn'] = field_val;
             }
@@ -154,7 +234,17 @@ export class HakoHilGps {
             if (typeof field_val?.toDict === 'function') {
                 d['ve'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['ve'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['ve'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['ve'] = field_val.toString();
             } else {
                 d['ve'] = field_val;
             }
@@ -165,7 +255,17 @@ export class HakoHilGps {
             if (typeof field_val?.toDict === 'function') {
                 d['vd'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['vd'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['vd'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['vd'] = field_val.toString();
             } else {
                 d['vd'] = field_val;
             }
@@ -176,7 +276,17 @@ export class HakoHilGps {
             if (typeof field_val?.toDict === 'function') {
                 d['cog'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['cog'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['cog'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['cog'] = field_val.toString();
             } else {
                 d['cog'] = field_val;
             }
@@ -187,7 +297,17 @@ export class HakoHilGps {
             if (typeof field_val?.toDict === 'function') {
                 d['satellites_visible'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['satellites_visible'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['satellites_visible'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['satellites_visible'] = field_val.toString();
             } else {
                 d['satellites_visible'] = field_val;
             }
@@ -198,7 +318,17 @@ export class HakoHilGps {
             if (typeof field_val?.toDict === 'function') {
                 d['id'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['id'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['id'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['id'] = field_val.toString();
             } else {
                 d['id'] = field_val;
             }
@@ -209,7 +339,17 @@ export class HakoHilGps {
             if (typeof field_val?.toDict === 'function') {
                 d['yaw'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['yaw'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['yaw'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['yaw'] = field_val.toString();
             } else {
                 d['yaw'] = field_val;
             }
@@ -220,7 +360,17 @@ export class HakoHilGps {
             if (typeof field_val?.toDict === 'function') {
                 d['fix_type'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['fix_type'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['fix_type'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['fix_type'] = field_val.toString();
             } else {
                 d['fix_type'] = field_val;
             }
@@ -235,7 +385,7 @@ export class HakoHilGps {
     static fromDict(d) {
         const obj = new HakoHilGps();
         if (d.hasOwnProperty('time_usec')) {
-            obj.time_usec = d.time_usec;
+            obj.time_usec = BigInt(d.time_usec);
         }
         if (d.hasOwnProperty('lat')) {
             obj.lat = d.lat;

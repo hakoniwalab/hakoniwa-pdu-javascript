@@ -30,7 +30,17 @@ export class CameraCaptureImageResponse {
             if (typeof field_val?.toDict === 'function') {
                 d['ok'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['ok'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['ok'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['ok'] = field_val.toString();
             } else {
                 d['ok'] = field_val;
             }
@@ -41,7 +51,17 @@ export class CameraCaptureImageResponse {
             if (typeof field_val?.toDict === 'function') {
                 d['data'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['data'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['data'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['data'] = field_val.toString();
             } else {
                 d['data'] = field_val;
             }
@@ -52,7 +72,17 @@ export class CameraCaptureImageResponse {
             if (typeof field_val?.toDict === 'function') {
                 d['message'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['message'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['message'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['message'] = field_val.toString();
             } else {
                 d['message'] = field_val;
             }

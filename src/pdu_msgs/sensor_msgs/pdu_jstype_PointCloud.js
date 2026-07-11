@@ -34,7 +34,17 @@ export class PointCloud {
             if (typeof field_val?.toDict === 'function') {
                 d['header'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['header'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['header'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['header'] = field_val.toString();
             } else {
                 d['header'] = field_val;
             }
@@ -45,7 +55,17 @@ export class PointCloud {
             if (typeof field_val?.toDict === 'function') {
                 d['points'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['points'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['points'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['points'] = field_val.toString();
             } else {
                 d['points'] = field_val;
             }
@@ -56,7 +76,17 @@ export class PointCloud {
             if (typeof field_val?.toDict === 'function') {
                 d['channels'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['channels'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['channels'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['channels'] = field_val.toString();
             } else {
                 d['channels'] = field_val;
             }

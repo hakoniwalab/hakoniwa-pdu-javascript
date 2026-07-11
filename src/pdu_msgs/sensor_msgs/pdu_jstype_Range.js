@@ -44,7 +44,17 @@ export class Range {
             if (typeof field_val?.toDict === 'function') {
                 d['header'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['header'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['header'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['header'] = field_val.toString();
             } else {
                 d['header'] = field_val;
             }
@@ -55,7 +65,17 @@ export class Range {
             if (typeof field_val?.toDict === 'function') {
                 d['radiation_type'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['radiation_type'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['radiation_type'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['radiation_type'] = field_val.toString();
             } else {
                 d['radiation_type'] = field_val;
             }
@@ -66,7 +86,17 @@ export class Range {
             if (typeof field_val?.toDict === 'function') {
                 d['field_of_view'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['field_of_view'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['field_of_view'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['field_of_view'] = field_val.toString();
             } else {
                 d['field_of_view'] = field_val;
             }
@@ -77,7 +107,17 @@ export class Range {
             if (typeof field_val?.toDict === 'function') {
                 d['min_range'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['min_range'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['min_range'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['min_range'] = field_val.toString();
             } else {
                 d['min_range'] = field_val;
             }
@@ -88,7 +128,17 @@ export class Range {
             if (typeof field_val?.toDict === 'function') {
                 d['max_range'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['max_range'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['max_range'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['max_range'] = field_val.toString();
             } else {
                 d['max_range'] = field_val;
             }
@@ -99,7 +149,17 @@ export class Range {
             if (typeof field_val?.toDict === 'function') {
                 d['range'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['range'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['range'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['range'] = field_val.toString();
             } else {
                 d['range'] = field_val;
             }
@@ -110,7 +170,17 @@ export class Range {
             if (typeof field_val?.toDict === 'function') {
                 d['variance'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['variance'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['variance'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['variance'] = field_val.toString();
             } else {
                 d['variance'] = field_val;
             }

@@ -43,7 +43,17 @@ export class MultiDOFJointState {
             if (typeof field_val?.toDict === 'function') {
                 d['header'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['header'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['header'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['header'] = field_val.toString();
             } else {
                 d['header'] = field_val;
             }
@@ -54,7 +64,17 @@ export class MultiDOFJointState {
             if (typeof field_val?.toDict === 'function') {
                 d['joint_names'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['joint_names'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['joint_names'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['joint_names'] = field_val.toString();
             } else {
                 d['joint_names'] = field_val;
             }
@@ -65,7 +85,17 @@ export class MultiDOFJointState {
             if (typeof field_val?.toDict === 'function') {
                 d['transforms'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['transforms'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['transforms'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['transforms'] = field_val.toString();
             } else {
                 d['transforms'] = field_val;
             }
@@ -76,7 +106,17 @@ export class MultiDOFJointState {
             if (typeof field_val?.toDict === 'function') {
                 d['twist'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['twist'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['twist'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['twist'] = field_val.toString();
             } else {
                 d['twist'] = field_val;
             }
@@ -87,7 +127,17 @@ export class MultiDOFJointState {
             if (typeof field_val?.toDict === 'function') {
                 d['wrench'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['wrench'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['wrench'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['wrench'] = field_val.toString();
             } else {
                 d['wrench'] = field_val;
             }

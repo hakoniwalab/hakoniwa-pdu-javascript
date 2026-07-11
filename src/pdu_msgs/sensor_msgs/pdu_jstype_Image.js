@@ -44,7 +44,17 @@ export class Image {
             if (typeof field_val?.toDict === 'function') {
                 d['header'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['header'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['header'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['header'] = field_val.toString();
             } else {
                 d['header'] = field_val;
             }
@@ -55,7 +65,17 @@ export class Image {
             if (typeof field_val?.toDict === 'function') {
                 d['height'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['height'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['height'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['height'] = field_val.toString();
             } else {
                 d['height'] = field_val;
             }
@@ -66,7 +86,17 @@ export class Image {
             if (typeof field_val?.toDict === 'function') {
                 d['width'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['width'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['width'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['width'] = field_val.toString();
             } else {
                 d['width'] = field_val;
             }
@@ -77,7 +107,17 @@ export class Image {
             if (typeof field_val?.toDict === 'function') {
                 d['encoding'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['encoding'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['encoding'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['encoding'] = field_val.toString();
             } else {
                 d['encoding'] = field_val;
             }
@@ -88,7 +128,17 @@ export class Image {
             if (typeof field_val?.toDict === 'function') {
                 d['is_bigendian'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['is_bigendian'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['is_bigendian'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['is_bigendian'] = field_val.toString();
             } else {
                 d['is_bigendian'] = field_val;
             }
@@ -99,7 +149,17 @@ export class Image {
             if (typeof field_val?.toDict === 'function') {
                 d['step'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['step'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['step'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['step'] = field_val.toString();
             } else {
                 d['step'] = field_val;
             }
@@ -110,7 +170,17 @@ export class Image {
             if (typeof field_val?.toDict === 'function') {
                 d['data'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['data'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['data'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['data'] = field_val.toString();
             } else {
                 d['data'] = field_val;
             }

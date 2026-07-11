@@ -33,7 +33,17 @@ export class RegisterClientResponse {
             if (typeof field_val?.toDict === 'function') {
                 d['service_id'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['service_id'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['service_id'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['service_id'] = field_val.toString();
             } else {
                 d['service_id'] = field_val;
             }
@@ -44,7 +54,17 @@ export class RegisterClientResponse {
             if (typeof field_val?.toDict === 'function') {
                 d['client_id'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['client_id'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['client_id'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['client_id'] = field_val.toString();
             } else {
                 d['client_id'] = field_val;
             }
@@ -55,7 +75,17 @@ export class RegisterClientResponse {
             if (typeof field_val?.toDict === 'function') {
                 d['request_channel_id'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['request_channel_id'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['request_channel_id'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['request_channel_id'] = field_val.toString();
             } else {
                 d['request_channel_id'] = field_val;
             }
@@ -66,7 +96,17 @@ export class RegisterClientResponse {
             if (typeof field_val?.toDict === 'function') {
                 d['response_channel_id'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['response_channel_id'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['response_channel_id'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['response_channel_id'] = field_val.toString();
             } else {
                 d['response_channel_id'] = field_val;
             }

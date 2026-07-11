@@ -56,7 +56,17 @@ export class ImpulseCollision {
             if (typeof field_val?.toDict === 'function') {
                 d['collision'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['collision'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['collision'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['collision'] = field_val.toString();
             } else {
                 d['collision'] = field_val;
             }
@@ -67,7 +77,17 @@ export class ImpulseCollision {
             if (typeof field_val?.toDict === 'function') {
                 d['is_target_static'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['is_target_static'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['is_target_static'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['is_target_static'] = field_val.toString();
             } else {
                 d['is_target_static'] = field_val;
             }
@@ -78,7 +98,17 @@ export class ImpulseCollision {
             if (typeof field_val?.toDict === 'function') {
                 d['restitution_coefficient'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['restitution_coefficient'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['restitution_coefficient'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['restitution_coefficient'] = field_val.toString();
             } else {
                 d['restitution_coefficient'] = field_val;
             }
@@ -89,7 +119,17 @@ export class ImpulseCollision {
             if (typeof field_val?.toDict === 'function') {
                 d['self_contact_vector'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['self_contact_vector'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['self_contact_vector'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['self_contact_vector'] = field_val.toString();
             } else {
                 d['self_contact_vector'] = field_val;
             }
@@ -100,7 +140,17 @@ export class ImpulseCollision {
             if (typeof field_val?.toDict === 'function') {
                 d['normal'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['normal'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['normal'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['normal'] = field_val.toString();
             } else {
                 d['normal'] = field_val;
             }
@@ -111,7 +161,17 @@ export class ImpulseCollision {
             if (typeof field_val?.toDict === 'function') {
                 d['target_contact_vector'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['target_contact_vector'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['target_contact_vector'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['target_contact_vector'] = field_val.toString();
             } else {
                 d['target_contact_vector'] = field_val;
             }
@@ -122,7 +182,17 @@ export class ImpulseCollision {
             if (typeof field_val?.toDict === 'function') {
                 d['target_velocity'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['target_velocity'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['target_velocity'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['target_velocity'] = field_val.toString();
             } else {
                 d['target_velocity'] = field_val;
             }
@@ -133,7 +203,17 @@ export class ImpulseCollision {
             if (typeof field_val?.toDict === 'function') {
                 d['target_angular_velocity'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['target_angular_velocity'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['target_angular_velocity'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['target_angular_velocity'] = field_val.toString();
             } else {
                 d['target_angular_velocity'] = field_val;
             }
@@ -144,7 +224,17 @@ export class ImpulseCollision {
             if (typeof field_val?.toDict === 'function') {
                 d['target_euler'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['target_euler'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['target_euler'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['target_euler'] = field_val.toString();
             } else {
                 d['target_euler'] = field_val;
             }
@@ -155,7 +245,17 @@ export class ImpulseCollision {
             if (typeof field_val?.toDict === 'function') {
                 d['target_inertia'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['target_inertia'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['target_inertia'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['target_inertia'] = field_val.toString();
             } else {
                 d['target_inertia'] = field_val;
             }
@@ -166,7 +266,17 @@ export class ImpulseCollision {
             if (typeof field_val?.toDict === 'function') {
                 d['target_mass'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['target_mass'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['target_mass'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['target_mass'] = field_val.toString();
             } else {
                 d['target_mass'] = field_val;
             }

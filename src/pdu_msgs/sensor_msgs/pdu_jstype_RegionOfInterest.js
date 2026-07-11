@@ -36,7 +36,17 @@ export class RegionOfInterest {
             if (typeof field_val?.toDict === 'function') {
                 d['x_offset'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['x_offset'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['x_offset'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['x_offset'] = field_val.toString();
             } else {
                 d['x_offset'] = field_val;
             }
@@ -47,7 +57,17 @@ export class RegionOfInterest {
             if (typeof field_val?.toDict === 'function') {
                 d['y_offset'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['y_offset'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['y_offset'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['y_offset'] = field_val.toString();
             } else {
                 d['y_offset'] = field_val;
             }
@@ -58,7 +78,17 @@ export class RegionOfInterest {
             if (typeof field_val?.toDict === 'function') {
                 d['height'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['height'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['height'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['height'] = field_val.toString();
             } else {
                 d['height'] = field_val;
             }
@@ -69,7 +99,17 @@ export class RegionOfInterest {
             if (typeof field_val?.toDict === 'function') {
                 d['width'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['width'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['width'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['width'] = field_val.toString();
             } else {
                 d['width'] = field_val;
             }
@@ -80,7 +120,17 @@ export class RegionOfInterest {
             if (typeof field_val?.toDict === 'function') {
                 d['do_rectify'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['do_rectify'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['do_rectify'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['do_rectify'] = field_val.toString();
             } else {
                 d['do_rectify'] = field_val;
             }

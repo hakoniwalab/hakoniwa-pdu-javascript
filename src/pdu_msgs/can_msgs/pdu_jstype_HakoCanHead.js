@@ -36,7 +36,17 @@ export class HakoCanHead {
             if (typeof field_val?.toDict === 'function') {
                 d['channel'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['channel'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['channel'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['channel'] = field_val.toString();
             } else {
                 d['channel'] = field_val;
             }
@@ -47,7 +57,17 @@ export class HakoCanHead {
             if (typeof field_val?.toDict === 'function') {
                 d['ide'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['ide'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['ide'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['ide'] = field_val.toString();
             } else {
                 d['ide'] = field_val;
             }
@@ -58,7 +78,17 @@ export class HakoCanHead {
             if (typeof field_val?.toDict === 'function') {
                 d['rtr'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['rtr'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['rtr'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['rtr'] = field_val.toString();
             } else {
                 d['rtr'] = field_val;
             }
@@ -69,7 +99,17 @@ export class HakoCanHead {
             if (typeof field_val?.toDict === 'function') {
                 d['dlc'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['dlc'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['dlc'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['dlc'] = field_val.toString();
             } else {
                 d['dlc'] = field_val;
             }
@@ -80,7 +120,17 @@ export class HakoCanHead {
             if (typeof field_val?.toDict === 'function') {
                 d['canid'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['canid'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['canid'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['canid'] = field_val.toString();
             } else {
                 d['canid'] = field_val;
             }

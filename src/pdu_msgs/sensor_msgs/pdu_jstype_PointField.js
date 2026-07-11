@@ -33,7 +33,17 @@ export class PointField {
             if (typeof field_val?.toDict === 'function') {
                 d['name'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['name'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['name'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['name'] = field_val.toString();
             } else {
                 d['name'] = field_val;
             }
@@ -44,7 +54,17 @@ export class PointField {
             if (typeof field_val?.toDict === 'function') {
                 d['offset'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['offset'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['offset'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['offset'] = field_val.toString();
             } else {
                 d['offset'] = field_val;
             }
@@ -55,7 +75,17 @@ export class PointField {
             if (typeof field_val?.toDict === 'function') {
                 d['datatype'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['datatype'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['datatype'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['datatype'] = field_val.toString();
             } else {
                 d['datatype'] = field_val;
             }
@@ -66,7 +96,17 @@ export class PointField {
             if (typeof field_val?.toDict === 'function') {
                 d['count'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['count'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['count'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['count'] = field_val.toString();
             } else {
                 d['count'] = field_val;
             }

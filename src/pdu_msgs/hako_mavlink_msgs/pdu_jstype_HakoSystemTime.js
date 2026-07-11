@@ -27,7 +27,17 @@ export class HakoSystemTime {
             if (typeof field_val?.toDict === 'function') {
                 d['time_unix_usec'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['time_unix_usec'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['time_unix_usec'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['time_unix_usec'] = field_val.toString();
             } else {
                 d['time_unix_usec'] = field_val;
             }
@@ -38,7 +48,17 @@ export class HakoSystemTime {
             if (typeof field_val?.toDict === 'function') {
                 d['time_boot_ms'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['time_boot_ms'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['time_boot_ms'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['time_boot_ms'] = field_val.toString();
             } else {
                 d['time_boot_ms'] = field_val;
             }
@@ -53,10 +73,10 @@ export class HakoSystemTime {
     static fromDict(d) {
         const obj = new HakoSystemTime();
         if (d.hasOwnProperty('time_unix_usec')) {
-            obj.time_unix_usec = d.time_unix_usec;
+            obj.time_unix_usec = BigInt(d.time_unix_usec);
         }
         if (d.hasOwnProperty('time_boot_ms')) {
-            obj.time_boot_ms = d.time_boot_ms;
+            obj.time_boot_ms = BigInt(d.time_boot_ms);
         }
         return obj;
     }

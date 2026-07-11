@@ -29,7 +29,17 @@ export class TwistWithCovariance {
             if (typeof field_val?.toDict === 'function') {
                 d['twist'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['twist'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['twist'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['twist'] = field_val.toString();
             } else {
                 d['twist'] = field_val;
             }
@@ -40,7 +50,17 @@ export class TwistWithCovariance {
             if (typeof field_val?.toDict === 'function') {
                 d['covariance'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['covariance'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['covariance'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['covariance'] = field_val.toString();
             } else {
                 d['covariance'] = field_val;
             }

@@ -29,7 +29,17 @@ export class AccelWithCovariance {
             if (typeof field_val?.toDict === 'function') {
                 d['accel'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['accel'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['accel'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['accel'] = field_val.toString();
             } else {
                 d['accel'] = field_val;
             }
@@ -40,7 +50,17 @@ export class AccelWithCovariance {
             if (typeof field_val?.toDict === 'function') {
                 d['covariance'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['covariance'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['covariance'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['covariance'] = field_val.toString();
             } else {
                 d['covariance'] = field_val;
             }

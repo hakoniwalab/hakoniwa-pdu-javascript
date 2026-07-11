@@ -24,7 +24,17 @@ export class SystemControlRequest {
             if (typeof field_val?.toDict === 'function') {
                 d['opcode'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['opcode'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['opcode'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['opcode'] = field_val.toString();
             } else {
                 d['opcode'] = field_val;
             }

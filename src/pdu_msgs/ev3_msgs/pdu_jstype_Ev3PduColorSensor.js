@@ -36,7 +36,17 @@ export class Ev3PduColorSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['color'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['color'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['color'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['color'] = field_val.toString();
             } else {
                 d['color'] = field_val;
             }
@@ -47,7 +57,17 @@ export class Ev3PduColorSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['reflect'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['reflect'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['reflect'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['reflect'] = field_val.toString();
             } else {
                 d['reflect'] = field_val;
             }
@@ -58,7 +78,17 @@ export class Ev3PduColorSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['rgb_r'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['rgb_r'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['rgb_r'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['rgb_r'] = field_val.toString();
             } else {
                 d['rgb_r'] = field_val;
             }
@@ -69,7 +99,17 @@ export class Ev3PduColorSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['rgb_g'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['rgb_g'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['rgb_g'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['rgb_g'] = field_val.toString();
             } else {
                 d['rgb_g'] = field_val;
             }
@@ -80,7 +120,17 @@ export class Ev3PduColorSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['rgb_b'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['rgb_b'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['rgb_b'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['rgb_b'] = field_val.toString();
             } else {
                 d['rgb_b'] = field_val;
             }

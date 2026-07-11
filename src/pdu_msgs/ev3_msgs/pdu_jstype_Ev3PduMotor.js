@@ -30,7 +30,17 @@ export class Ev3PduMotor {
             if (typeof field_val?.toDict === 'function') {
                 d['power'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['power'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['power'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['power'] = field_val.toString();
             } else {
                 d['power'] = field_val;
             }
@@ -41,7 +51,17 @@ export class Ev3PduMotor {
             if (typeof field_val?.toDict === 'function') {
                 d['stop'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['stop'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['stop'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['stop'] = field_val.toString();
             } else {
                 d['stop'] = field_val;
             }
@@ -52,7 +72,17 @@ export class Ev3PduMotor {
             if (typeof field_val?.toDict === 'function') {
                 d['reset_angle'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['reset_angle'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['reset_angle'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['reset_angle'] = field_val.toString();
             } else {
                 d['reset_angle'] = field_val;
             }

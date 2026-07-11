@@ -33,7 +33,17 @@ export class ColorRGBA {
             if (typeof field_val?.toDict === 'function') {
                 d['r'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['r'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['r'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['r'] = field_val.toString();
             } else {
                 d['r'] = field_val;
             }
@@ -44,7 +54,17 @@ export class ColorRGBA {
             if (typeof field_val?.toDict === 'function') {
                 d['g'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['g'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['g'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['g'] = field_val.toString();
             } else {
                 d['g'] = field_val;
             }
@@ -55,7 +75,17 @@ export class ColorRGBA {
             if (typeof field_val?.toDict === 'function') {
                 d['b'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['b'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['b'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['b'] = field_val.toString();
             } else {
                 d['b'] = field_val;
             }
@@ -66,7 +96,17 @@ export class ColorRGBA {
             if (typeof field_val?.toDict === 'function') {
                 d['a'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['a'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['a'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['a'] = field_val.toString();
             } else {
                 d['a'] = field_val;
             }

@@ -40,7 +40,17 @@ export class AttitudeTarget {
             if (typeof field_val?.toDict === 'function') {
                 d['header'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['header'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['header'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['header'] = field_val.toString();
             } else {
                 d['header'] = field_val;
             }
@@ -51,7 +61,17 @@ export class AttitudeTarget {
             if (typeof field_val?.toDict === 'function') {
                 d['type_mask'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['type_mask'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['type_mask'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['type_mask'] = field_val.toString();
             } else {
                 d['type_mask'] = field_val;
             }
@@ -62,7 +82,17 @@ export class AttitudeTarget {
             if (typeof field_val?.toDict === 'function') {
                 d['orientation'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['orientation'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['orientation'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['orientation'] = field_val.toString();
             } else {
                 d['orientation'] = field_val;
             }
@@ -73,7 +103,17 @@ export class AttitudeTarget {
             if (typeof field_val?.toDict === 'function') {
                 d['body_rate'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['body_rate'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['body_rate'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['body_rate'] = field_val.toString();
             } else {
                 d['body_rate'] = field_val;
             }
@@ -84,7 +124,17 @@ export class AttitudeTarget {
             if (typeof field_val?.toDict === 'function') {
                 d['thrust'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['thrust'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['thrust'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['thrust'] = field_val.toString();
             } else {
                 d['thrust'] = field_val;
             }

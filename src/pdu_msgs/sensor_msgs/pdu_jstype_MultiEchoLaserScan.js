@@ -54,7 +54,17 @@ export class MultiEchoLaserScan {
             if (typeof field_val?.toDict === 'function') {
                 d['header'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['header'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['header'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['header'] = field_val.toString();
             } else {
                 d['header'] = field_val;
             }
@@ -65,7 +75,17 @@ export class MultiEchoLaserScan {
             if (typeof field_val?.toDict === 'function') {
                 d['angle_min'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['angle_min'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['angle_min'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['angle_min'] = field_val.toString();
             } else {
                 d['angle_min'] = field_val;
             }
@@ -76,7 +96,17 @@ export class MultiEchoLaserScan {
             if (typeof field_val?.toDict === 'function') {
                 d['angle_max'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['angle_max'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['angle_max'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['angle_max'] = field_val.toString();
             } else {
                 d['angle_max'] = field_val;
             }
@@ -87,7 +117,17 @@ export class MultiEchoLaserScan {
             if (typeof field_val?.toDict === 'function') {
                 d['angle_increment'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['angle_increment'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['angle_increment'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['angle_increment'] = field_val.toString();
             } else {
                 d['angle_increment'] = field_val;
             }
@@ -98,7 +138,17 @@ export class MultiEchoLaserScan {
             if (typeof field_val?.toDict === 'function') {
                 d['time_increment'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['time_increment'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['time_increment'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['time_increment'] = field_val.toString();
             } else {
                 d['time_increment'] = field_val;
             }
@@ -109,7 +159,17 @@ export class MultiEchoLaserScan {
             if (typeof field_val?.toDict === 'function') {
                 d['scan_time'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['scan_time'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['scan_time'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['scan_time'] = field_val.toString();
             } else {
                 d['scan_time'] = field_val;
             }
@@ -120,7 +180,17 @@ export class MultiEchoLaserScan {
             if (typeof field_val?.toDict === 'function') {
                 d['range_min'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['range_min'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['range_min'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['range_min'] = field_val.toString();
             } else {
                 d['range_min'] = field_val;
             }
@@ -131,7 +201,17 @@ export class MultiEchoLaserScan {
             if (typeof field_val?.toDict === 'function') {
                 d['range_max'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['range_max'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['range_max'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['range_max'] = field_val.toString();
             } else {
                 d['range_max'] = field_val;
             }
@@ -142,7 +222,17 @@ export class MultiEchoLaserScan {
             if (typeof field_val?.toDict === 'function') {
                 d['ranges'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['ranges'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['ranges'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['ranges'] = field_val.toString();
             } else {
                 d['ranges'] = field_val;
             }
@@ -153,7 +243,17 @@ export class MultiEchoLaserScan {
             if (typeof field_val?.toDict === 'function') {
                 d['intensities'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['intensities'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['intensities'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['intensities'] = field_val.toString();
             } else {
                 d['intensities'] = field_val;
             }

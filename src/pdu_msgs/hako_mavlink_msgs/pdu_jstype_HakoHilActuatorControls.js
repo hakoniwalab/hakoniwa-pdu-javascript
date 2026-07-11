@@ -33,7 +33,17 @@ export class HakoHilActuatorControls {
             if (typeof field_val?.toDict === 'function') {
                 d['time_usec'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['time_usec'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['time_usec'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['time_usec'] = field_val.toString();
             } else {
                 d['time_usec'] = field_val;
             }
@@ -44,7 +54,17 @@ export class HakoHilActuatorControls {
             if (typeof field_val?.toDict === 'function') {
                 d['controls'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['controls'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['controls'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['controls'] = field_val.toString();
             } else {
                 d['controls'] = field_val;
             }
@@ -55,7 +75,17 @@ export class HakoHilActuatorControls {
             if (typeof field_val?.toDict === 'function') {
                 d['mode'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['mode'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['mode'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['mode'] = field_val.toString();
             } else {
                 d['mode'] = field_val;
             }
@@ -66,7 +96,17 @@ export class HakoHilActuatorControls {
             if (typeof field_val?.toDict === 'function') {
                 d['flags'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['flags'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['flags'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['flags'] = field_val.toString();
             } else {
                 d['flags'] = field_val;
             }
@@ -81,7 +121,7 @@ export class HakoHilActuatorControls {
     static fromDict(d) {
         const obj = new HakoHilActuatorControls();
         if (d.hasOwnProperty('time_usec')) {
-            obj.time_usec = d.time_usec;
+            obj.time_usec = BigInt(d.time_usec);
         }
         if (d.hasOwnProperty('controls')) {
             obj.controls = d.controls;
@@ -90,7 +130,7 @@ export class HakoHilActuatorControls {
             obj.mode = d.mode;
         }
         if (d.hasOwnProperty('flags')) {
-            obj.flags = d.flags;
+            obj.flags = BigInt(d.flags);
         }
         return obj;
     }

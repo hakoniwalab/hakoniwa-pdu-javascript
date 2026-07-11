@@ -40,7 +40,17 @@ export class MapMetaData {
             if (typeof field_val?.toDict === 'function') {
                 d['map_load_time'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['map_load_time'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['map_load_time'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['map_load_time'] = field_val.toString();
             } else {
                 d['map_load_time'] = field_val;
             }
@@ -51,7 +61,17 @@ export class MapMetaData {
             if (typeof field_val?.toDict === 'function') {
                 d['resolution'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['resolution'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['resolution'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['resolution'] = field_val.toString();
             } else {
                 d['resolution'] = field_val;
             }
@@ -62,7 +82,17 @@ export class MapMetaData {
             if (typeof field_val?.toDict === 'function') {
                 d['width'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['width'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['width'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['width'] = field_val.toString();
             } else {
                 d['width'] = field_val;
             }
@@ -73,7 +103,17 @@ export class MapMetaData {
             if (typeof field_val?.toDict === 'function') {
                 d['height'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['height'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['height'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['height'] = field_val.toString();
             } else {
                 d['height'] = field_val;
             }
@@ -84,7 +124,17 @@ export class MapMetaData {
             if (typeof field_val?.toDict === 'function') {
                 d['origin'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['origin'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['origin'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['origin'] = field_val.toString();
             } else {
                 d['origin'] = field_val;
             }

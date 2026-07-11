@@ -33,7 +33,17 @@ export class ShareObjectOwnerResponse {
             if (typeof field_val?.toDict === 'function') {
                 d['object_name'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['object_name'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['object_name'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['object_name'] = field_val.toString();
             } else {
                 d['object_name'] = field_val;
             }
@@ -44,7 +54,17 @@ export class ShareObjectOwnerResponse {
             if (typeof field_val?.toDict === 'function') {
                 d['request_type'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['request_type'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['request_type'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['request_type'] = field_val.toString();
             } else {
                 d['request_type'] = field_val;
             }
@@ -55,7 +75,17 @@ export class ShareObjectOwnerResponse {
             if (typeof field_val?.toDict === 'function') {
                 d['owner_id'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['owner_id'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['owner_id'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['owner_id'] = field_val.toString();
             } else {
                 d['owner_id'] = field_val;
             }
@@ -66,7 +96,17 @@ export class ShareObjectOwnerResponse {
             if (typeof field_val?.toDict === 'function') {
                 d['accepted'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['accepted'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['accepted'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['accepted'] = field_val.toString();
             } else {
                 d['accepted'] = field_val;
             }

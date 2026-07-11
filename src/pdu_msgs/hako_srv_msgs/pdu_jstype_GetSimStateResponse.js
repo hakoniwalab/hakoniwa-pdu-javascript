@@ -36,7 +36,17 @@ export class GetSimStateResponse {
             if (typeof field_val?.toDict === 'function') {
                 d['sim_state'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['sim_state'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['sim_state'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['sim_state'] = field_val.toString();
             } else {
                 d['sim_state'] = field_val;
             }
@@ -47,7 +57,17 @@ export class GetSimStateResponse {
             if (typeof field_val?.toDict === 'function') {
                 d['master_time'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['master_time'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['master_time'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['master_time'] = field_val.toString();
             } else {
                 d['master_time'] = field_val;
             }
@@ -58,7 +78,17 @@ export class GetSimStateResponse {
             if (typeof field_val?.toDict === 'function') {
                 d['is_pdu_created'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['is_pdu_created'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['is_pdu_created'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['is_pdu_created'] = field_val.toString();
             } else {
                 d['is_pdu_created'] = field_val;
             }
@@ -69,7 +99,17 @@ export class GetSimStateResponse {
             if (typeof field_val?.toDict === 'function') {
                 d['is_simulation_mode'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['is_simulation_mode'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['is_simulation_mode'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['is_simulation_mode'] = field_val.toString();
             } else {
                 d['is_simulation_mode'] = field_val;
             }
@@ -80,7 +120,17 @@ export class GetSimStateResponse {
             if (typeof field_val?.toDict === 'function') {
                 d['is_pdu_sync_mode'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['is_pdu_sync_mode'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['is_pdu_sync_mode'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['is_pdu_sync_mode'] = field_val.toString();
             } else {
                 d['is_pdu_sync_mode'] = field_val;
             }
@@ -98,7 +148,7 @@ export class GetSimStateResponse {
             obj.sim_state = d.sim_state;
         }
         if (d.hasOwnProperty('master_time')) {
-            obj.master_time = d.master_time;
+            obj.master_time = BigInt(d.master_time);
         }
         if (d.hasOwnProperty('is_pdu_created')) {
             obj.is_pdu_created = d.is_pdu_created;

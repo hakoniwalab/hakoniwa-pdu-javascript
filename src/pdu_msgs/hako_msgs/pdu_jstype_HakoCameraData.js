@@ -30,7 +30,17 @@ export class HakoCameraData {
             if (typeof field_val?.toDict === 'function') {
                 d['request_id'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['request_id'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['request_id'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['request_id'] = field_val.toString();
             } else {
                 d['request_id'] = field_val;
             }
@@ -41,7 +51,17 @@ export class HakoCameraData {
             if (typeof field_val?.toDict === 'function') {
                 d['image'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['image'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['image'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['image'] = field_val.toString();
             } else {
                 d['image'] = field_val;
             }

@@ -46,7 +46,17 @@ export class Inertia {
             if (typeof field_val?.toDict === 'function') {
                 d['m'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['m'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['m'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['m'] = field_val.toString();
             } else {
                 d['m'] = field_val;
             }
@@ -57,7 +67,17 @@ export class Inertia {
             if (typeof field_val?.toDict === 'function') {
                 d['com'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['com'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['com'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['com'] = field_val.toString();
             } else {
                 d['com'] = field_val;
             }
@@ -68,7 +88,17 @@ export class Inertia {
             if (typeof field_val?.toDict === 'function') {
                 d['ixx'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['ixx'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['ixx'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['ixx'] = field_val.toString();
             } else {
                 d['ixx'] = field_val;
             }
@@ -79,7 +109,17 @@ export class Inertia {
             if (typeof field_val?.toDict === 'function') {
                 d['ixy'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['ixy'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['ixy'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['ixy'] = field_val.toString();
             } else {
                 d['ixy'] = field_val;
             }
@@ -90,7 +130,17 @@ export class Inertia {
             if (typeof field_val?.toDict === 'function') {
                 d['ixz'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['ixz'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['ixz'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['ixz'] = field_val.toString();
             } else {
                 d['ixz'] = field_val;
             }
@@ -101,7 +151,17 @@ export class Inertia {
             if (typeof field_val?.toDict === 'function') {
                 d['iyy'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['iyy'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['iyy'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['iyy'] = field_val.toString();
             } else {
                 d['iyy'] = field_val;
             }
@@ -112,7 +172,17 @@ export class Inertia {
             if (typeof field_val?.toDict === 'function') {
                 d['iyz'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['iyz'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['iyz'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['iyz'] = field_val.toString();
             } else {
                 d['iyz'] = field_val;
             }
@@ -123,7 +193,17 @@ export class Inertia {
             if (typeof field_val?.toDict === 'function') {
                 d['izz'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['izz'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['izz'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['izz'] = field_val.toString();
             } else {
                 d['izz'] = field_val;
             }

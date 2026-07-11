@@ -45,7 +45,17 @@ export class NavSatFix {
             if (typeof field_val?.toDict === 'function') {
                 d['header'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['header'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['header'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['header'] = field_val.toString();
             } else {
                 d['header'] = field_val;
             }
@@ -56,7 +66,17 @@ export class NavSatFix {
             if (typeof field_val?.toDict === 'function') {
                 d['status'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['status'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['status'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['status'] = field_val.toString();
             } else {
                 d['status'] = field_val;
             }
@@ -67,7 +87,17 @@ export class NavSatFix {
             if (typeof field_val?.toDict === 'function') {
                 d['latitude'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['latitude'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['latitude'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['latitude'] = field_val.toString();
             } else {
                 d['latitude'] = field_val;
             }
@@ -78,7 +108,17 @@ export class NavSatFix {
             if (typeof field_val?.toDict === 'function') {
                 d['longitude'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['longitude'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['longitude'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['longitude'] = field_val.toString();
             } else {
                 d['longitude'] = field_val;
             }
@@ -89,7 +129,17 @@ export class NavSatFix {
             if (typeof field_val?.toDict === 'function') {
                 d['altitude'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['altitude'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['altitude'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['altitude'] = field_val.toString();
             } else {
                 d['altitude'] = field_val;
             }
@@ -100,7 +150,17 @@ export class NavSatFix {
             if (typeof field_val?.toDict === 'function') {
                 d['position_covariance'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['position_covariance'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['position_covariance'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['position_covariance'] = field_val.toString();
             } else {
                 d['position_covariance'] = field_val;
             }
@@ -111,7 +171,17 @@ export class NavSatFix {
             if (typeof field_val?.toDict === 'function') {
                 d['position_covariance_type'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['position_covariance_type'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['position_covariance_type'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['position_covariance_type'] = field_val.toString();
             } else {
                 d['position_covariance_type'] = field_val;
             }

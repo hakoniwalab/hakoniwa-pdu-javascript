@@ -33,7 +33,17 @@ export class PoseWithCovarianceStamped {
             if (typeof field_val?.toDict === 'function') {
                 d['header'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['header'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['header'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['header'] = field_val.toString();
             } else {
                 d['header'] = field_val;
             }
@@ -44,7 +54,17 @@ export class PoseWithCovarianceStamped {
             if (typeof field_val?.toDict === 'function') {
                 d['pose'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['pose'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['pose'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['pose'] = field_val.toString();
             } else {
                 d['pose'] = field_val;
             }

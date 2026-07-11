@@ -27,7 +27,17 @@ export class TF2Error {
             if (typeof field_val?.toDict === 'function') {
                 d['error'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['error'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['error'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['error'] = field_val.toString();
             } else {
                 d['error'] = field_val;
             }
@@ -38,7 +48,17 @@ export class TF2Error {
             if (typeof field_val?.toDict === 'function') {
                 d['error_string'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['error_string'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['error_string'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['error_string'] = field_val.toString();
             } else {
                 d['error_string'] = field_val;
             }

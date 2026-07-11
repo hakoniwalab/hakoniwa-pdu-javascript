@@ -24,7 +24,17 @@ export class UInt64 {
             if (typeof field_val?.toDict === 'function') {
                 d['data'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['data'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['data'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['data'] = field_val.toString();
             } else {
                 d['data'] = field_val;
             }
@@ -39,7 +49,7 @@ export class UInt64 {
     static fromDict(d) {
         const obj = new UInt64();
         if (d.hasOwnProperty('data')) {
-            obj.data = d.data;
+            obj.data = BigInt(d.data);
         }
         return obj;
     }

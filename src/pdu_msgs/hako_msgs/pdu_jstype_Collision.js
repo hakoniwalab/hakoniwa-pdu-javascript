@@ -38,7 +38,17 @@ export class Collision {
             if (typeof field_val?.toDict === 'function') {
                 d['collision'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['collision'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['collision'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['collision'] = field_val.toString();
             } else {
                 d['collision'] = field_val;
             }
@@ -49,7 +59,17 @@ export class Collision {
             if (typeof field_val?.toDict === 'function') {
                 d['contact_num'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['contact_num'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['contact_num'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['contact_num'] = field_val.toString();
             } else {
                 d['contact_num'] = field_val;
             }
@@ -60,7 +80,17 @@ export class Collision {
             if (typeof field_val?.toDict === 'function') {
                 d['relative_velocity'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['relative_velocity'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['relative_velocity'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['relative_velocity'] = field_val.toString();
             } else {
                 d['relative_velocity'] = field_val;
             }
@@ -71,7 +101,17 @@ export class Collision {
             if (typeof field_val?.toDict === 'function') {
                 d['contact_position'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['contact_position'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['contact_position'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['contact_position'] = field_val.toString();
             } else {
                 d['contact_position'] = field_val;
             }
@@ -82,7 +122,17 @@ export class Collision {
             if (typeof field_val?.toDict === 'function') {
                 d['restitution_coefficient'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['restitution_coefficient'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['restitution_coefficient'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['restitution_coefficient'] = field_val.toString();
             } else {
                 d['restitution_coefficient'] = field_val;
             }

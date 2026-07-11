@@ -28,7 +28,17 @@ export class Wrench {
             if (typeof field_val?.toDict === 'function') {
                 d['force'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['force'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['force'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['force'] = field_val.toString();
             } else {
                 d['force'] = field_val;
             }
@@ -39,7 +49,17 @@ export class Wrench {
             if (typeof field_val?.toDict === 'function') {
                 d['torque'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['torque'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['torque'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['torque'] = field_val.toString();
             } else {
                 d['torque'] = field_val;
             }

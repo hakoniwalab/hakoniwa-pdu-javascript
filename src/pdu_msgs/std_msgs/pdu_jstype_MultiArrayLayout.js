@@ -28,7 +28,17 @@ export class MultiArrayLayout {
             if (typeof field_val?.toDict === 'function') {
                 d['dim'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['dim'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['dim'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['dim'] = field_val.toString();
             } else {
                 d['dim'] = field_val;
             }
@@ -39,7 +49,17 @@ export class MultiArrayLayout {
             if (typeof field_val?.toDict === 'function') {
                 d['data_offset'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['data_offset'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['data_offset'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['data_offset'] = field_val.toString();
             } else {
                 d['data_offset'] = field_val;
             }

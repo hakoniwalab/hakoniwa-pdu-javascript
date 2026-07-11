@@ -30,7 +30,17 @@ export class HakoCmdHeader {
             if (typeof field_val?.toDict === 'function') {
                 d['request'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['request'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['request'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['request'] = field_val.toString();
             } else {
                 d['request'] = field_val;
             }
@@ -41,7 +51,17 @@ export class HakoCmdHeader {
             if (typeof field_val?.toDict === 'function') {
                 d['result'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['result'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['result'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['result'] = field_val.toString();
             } else {
                 d['result'] = field_val;
             }
@@ -52,7 +72,17 @@ export class HakoCmdHeader {
             if (typeof field_val?.toDict === 'function') {
                 d['result_code'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['result_code'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['result_code'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['result_code'] = field_val.toString();
             } else {
                 d['result_code'] = field_val;
             }

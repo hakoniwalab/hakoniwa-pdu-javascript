@@ -33,7 +33,17 @@ export class ExecutionUnitRuntimeContext {
             if (typeof field_val?.toDict === 'function') {
                 d['config_hash'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['config_hash'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['config_hash'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['config_hash'] = field_val.toString();
             } else {
                 d['config_hash'] = field_val;
             }
@@ -44,7 +54,17 @@ export class ExecutionUnitRuntimeContext {
             if (typeof field_val?.toDict === 'function') {
                 d['epoch'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['epoch'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['epoch'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['epoch'] = field_val.toString();
             } else {
                 d['epoch'] = field_val;
             }
@@ -55,7 +75,17 @@ export class ExecutionUnitRuntimeContext {
             if (typeof field_val?.toDict === 'function') {
                 d['owner_id'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['owner_id'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['owner_id'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['owner_id'] = field_val.toString();
             } else {
                 d['owner_id'] = field_val;
             }
@@ -66,7 +96,17 @@ export class ExecutionUnitRuntimeContext {
             if (typeof field_val?.toDict === 'function') {
                 d['context'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['context'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['context'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['context'] = field_val.toString();
             } else {
                 d['context'] = field_val;
             }

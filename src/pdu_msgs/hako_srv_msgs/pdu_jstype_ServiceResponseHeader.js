@@ -39,7 +39,17 @@ export class ServiceResponseHeader {
             if (typeof field_val?.toDict === 'function') {
                 d['request_id'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['request_id'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['request_id'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['request_id'] = field_val.toString();
             } else {
                 d['request_id'] = field_val;
             }
@@ -50,7 +60,17 @@ export class ServiceResponseHeader {
             if (typeof field_val?.toDict === 'function') {
                 d['service_name'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['service_name'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['service_name'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['service_name'] = field_val.toString();
             } else {
                 d['service_name'] = field_val;
             }
@@ -61,7 +81,17 @@ export class ServiceResponseHeader {
             if (typeof field_val?.toDict === 'function') {
                 d['client_name'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['client_name'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['client_name'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['client_name'] = field_val.toString();
             } else {
                 d['client_name'] = field_val;
             }
@@ -72,7 +102,17 @@ export class ServiceResponseHeader {
             if (typeof field_val?.toDict === 'function') {
                 d['status'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['status'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['status'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['status'] = field_val.toString();
             } else {
                 d['status'] = field_val;
             }
@@ -83,7 +123,17 @@ export class ServiceResponseHeader {
             if (typeof field_val?.toDict === 'function') {
                 d['processing_percentage'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['processing_percentage'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['processing_percentage'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['processing_percentage'] = field_val.toString();
             } else {
                 d['processing_percentage'] = field_val;
             }
@@ -94,7 +144,17 @@ export class ServiceResponseHeader {
             if (typeof field_val?.toDict === 'function') {
                 d['result_code'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['result_code'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['result_code'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['result_code'] = field_val.toString();
             } else {
                 d['result_code'] = field_val;
             }

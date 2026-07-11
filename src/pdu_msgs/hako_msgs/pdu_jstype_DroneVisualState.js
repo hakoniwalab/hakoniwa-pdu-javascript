@@ -42,7 +42,17 @@ export class DroneVisualState {
             if (typeof field_val?.toDict === 'function') {
                 d['x'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['x'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['x'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['x'] = field_val.toString();
             } else {
                 d['x'] = field_val;
             }
@@ -53,7 +63,17 @@ export class DroneVisualState {
             if (typeof field_val?.toDict === 'function') {
                 d['y'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['y'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['y'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['y'] = field_val.toString();
             } else {
                 d['y'] = field_val;
             }
@@ -64,7 +84,17 @@ export class DroneVisualState {
             if (typeof field_val?.toDict === 'function') {
                 d['z'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['z'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['z'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['z'] = field_val.toString();
             } else {
                 d['z'] = field_val;
             }
@@ -75,7 +105,17 @@ export class DroneVisualState {
             if (typeof field_val?.toDict === 'function') {
                 d['roll'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['roll'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['roll'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['roll'] = field_val.toString();
             } else {
                 d['roll'] = field_val;
             }
@@ -86,7 +126,17 @@ export class DroneVisualState {
             if (typeof field_val?.toDict === 'function') {
                 d['pitch'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['pitch'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['pitch'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['pitch'] = field_val.toString();
             } else {
                 d['pitch'] = field_val;
             }
@@ -97,7 +147,17 @@ export class DroneVisualState {
             if (typeof field_val?.toDict === 'function') {
                 d['yaw'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['yaw'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['yaw'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['yaw'] = field_val.toString();
             } else {
                 d['yaw'] = field_val;
             }
@@ -108,7 +168,17 @@ export class DroneVisualState {
             if (typeof field_val?.toDict === 'function') {
                 d['pwm_duty'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['pwm_duty'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['pwm_duty'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['pwm_duty'] = field_val.toString();
             } else {
                 d['pwm_duty'] = field_val;
             }

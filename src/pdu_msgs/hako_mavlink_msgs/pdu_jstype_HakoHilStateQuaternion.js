@@ -69,7 +69,17 @@ export class HakoHilStateQuaternion {
             if (typeof field_val?.toDict === 'function') {
                 d['time_usec'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['time_usec'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['time_usec'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['time_usec'] = field_val.toString();
             } else {
                 d['time_usec'] = field_val;
             }
@@ -80,7 +90,17 @@ export class HakoHilStateQuaternion {
             if (typeof field_val?.toDict === 'function') {
                 d['attitude_quaternion'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['attitude_quaternion'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['attitude_quaternion'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['attitude_quaternion'] = field_val.toString();
             } else {
                 d['attitude_quaternion'] = field_val;
             }
@@ -91,7 +111,17 @@ export class HakoHilStateQuaternion {
             if (typeof field_val?.toDict === 'function') {
                 d['rollspeed'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['rollspeed'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['rollspeed'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['rollspeed'] = field_val.toString();
             } else {
                 d['rollspeed'] = field_val;
             }
@@ -102,7 +132,17 @@ export class HakoHilStateQuaternion {
             if (typeof field_val?.toDict === 'function') {
                 d['pitchspeed'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['pitchspeed'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['pitchspeed'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['pitchspeed'] = field_val.toString();
             } else {
                 d['pitchspeed'] = field_val;
             }
@@ -113,7 +153,17 @@ export class HakoHilStateQuaternion {
             if (typeof field_val?.toDict === 'function') {
                 d['yawspeed'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['yawspeed'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['yawspeed'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['yawspeed'] = field_val.toString();
             } else {
                 d['yawspeed'] = field_val;
             }
@@ -124,7 +174,17 @@ export class HakoHilStateQuaternion {
             if (typeof field_val?.toDict === 'function') {
                 d['lat'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['lat'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['lat'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['lat'] = field_val.toString();
             } else {
                 d['lat'] = field_val;
             }
@@ -135,7 +195,17 @@ export class HakoHilStateQuaternion {
             if (typeof field_val?.toDict === 'function') {
                 d['lon'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['lon'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['lon'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['lon'] = field_val.toString();
             } else {
                 d['lon'] = field_val;
             }
@@ -146,7 +216,17 @@ export class HakoHilStateQuaternion {
             if (typeof field_val?.toDict === 'function') {
                 d['alt'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['alt'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['alt'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['alt'] = field_val.toString();
             } else {
                 d['alt'] = field_val;
             }
@@ -157,7 +237,17 @@ export class HakoHilStateQuaternion {
             if (typeof field_val?.toDict === 'function') {
                 d['vx'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['vx'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['vx'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['vx'] = field_val.toString();
             } else {
                 d['vx'] = field_val;
             }
@@ -168,7 +258,17 @@ export class HakoHilStateQuaternion {
             if (typeof field_val?.toDict === 'function') {
                 d['vy'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['vy'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['vy'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['vy'] = field_val.toString();
             } else {
                 d['vy'] = field_val;
             }
@@ -179,7 +279,17 @@ export class HakoHilStateQuaternion {
             if (typeof field_val?.toDict === 'function') {
                 d['vz'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['vz'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['vz'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['vz'] = field_val.toString();
             } else {
                 d['vz'] = field_val;
             }
@@ -190,7 +300,17 @@ export class HakoHilStateQuaternion {
             if (typeof field_val?.toDict === 'function') {
                 d['ind_airspeed'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['ind_airspeed'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['ind_airspeed'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['ind_airspeed'] = field_val.toString();
             } else {
                 d['ind_airspeed'] = field_val;
             }
@@ -201,7 +321,17 @@ export class HakoHilStateQuaternion {
             if (typeof field_val?.toDict === 'function') {
                 d['true_airspeed'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['true_airspeed'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['true_airspeed'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['true_airspeed'] = field_val.toString();
             } else {
                 d['true_airspeed'] = field_val;
             }
@@ -212,7 +342,17 @@ export class HakoHilStateQuaternion {
             if (typeof field_val?.toDict === 'function') {
                 d['xacc'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['xacc'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['xacc'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['xacc'] = field_val.toString();
             } else {
                 d['xacc'] = field_val;
             }
@@ -223,7 +363,17 @@ export class HakoHilStateQuaternion {
             if (typeof field_val?.toDict === 'function') {
                 d['yacc'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['yacc'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['yacc'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['yacc'] = field_val.toString();
             } else {
                 d['yacc'] = field_val;
             }
@@ -234,7 +384,17 @@ export class HakoHilStateQuaternion {
             if (typeof field_val?.toDict === 'function') {
                 d['zacc'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['zacc'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['zacc'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['zacc'] = field_val.toString();
             } else {
                 d['zacc'] = field_val;
             }
@@ -249,7 +409,7 @@ export class HakoHilStateQuaternion {
     static fromDict(d) {
         const obj = new HakoHilStateQuaternion();
         if (d.hasOwnProperty('time_usec')) {
-            obj.time_usec = d.time_usec;
+            obj.time_usec = BigInt(d.time_usec);
         }
         if (d.hasOwnProperty('attitude_quaternion')) {
             obj.attitude_quaternion = d.attitude_quaternion;

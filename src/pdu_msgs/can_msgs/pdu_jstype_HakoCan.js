@@ -29,7 +29,17 @@ export class HakoCan {
             if (typeof field_val?.toDict === 'function') {
                 d['head'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['head'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['head'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['head'] = field_val.toString();
             } else {
                 d['head'] = field_val;
             }
@@ -40,7 +50,17 @@ export class HakoCan {
             if (typeof field_val?.toDict === 'function') {
                 d['body'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['body'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['body'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['body'] = field_val.toString();
             } else {
                 d['body'] = field_val;
             }

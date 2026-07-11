@@ -75,7 +75,17 @@ export class HakoSERVO_OUTPUT_RAW {
             if (typeof field_val?.toDict === 'function') {
                 d['time_usec'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['time_usec'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['time_usec'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['time_usec'] = field_val.toString();
             } else {
                 d['time_usec'] = field_val;
             }
@@ -86,7 +96,17 @@ export class HakoSERVO_OUTPUT_RAW {
             if (typeof field_val?.toDict === 'function') {
                 d['port'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['port'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['port'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['port'] = field_val.toString();
             } else {
                 d['port'] = field_val;
             }
@@ -97,7 +117,17 @@ export class HakoSERVO_OUTPUT_RAW {
             if (typeof field_val?.toDict === 'function') {
                 d['servo1_raw'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['servo1_raw'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['servo1_raw'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['servo1_raw'] = field_val.toString();
             } else {
                 d['servo1_raw'] = field_val;
             }
@@ -108,7 +138,17 @@ export class HakoSERVO_OUTPUT_RAW {
             if (typeof field_val?.toDict === 'function') {
                 d['servo2_raw'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['servo2_raw'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['servo2_raw'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['servo2_raw'] = field_val.toString();
             } else {
                 d['servo2_raw'] = field_val;
             }
@@ -119,7 +159,17 @@ export class HakoSERVO_OUTPUT_RAW {
             if (typeof field_val?.toDict === 'function') {
                 d['servo3_raw'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['servo3_raw'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['servo3_raw'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['servo3_raw'] = field_val.toString();
             } else {
                 d['servo3_raw'] = field_val;
             }
@@ -130,7 +180,17 @@ export class HakoSERVO_OUTPUT_RAW {
             if (typeof field_val?.toDict === 'function') {
                 d['servo4_raw'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['servo4_raw'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['servo4_raw'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['servo4_raw'] = field_val.toString();
             } else {
                 d['servo4_raw'] = field_val;
             }
@@ -141,7 +201,17 @@ export class HakoSERVO_OUTPUT_RAW {
             if (typeof field_val?.toDict === 'function') {
                 d['servo5_raw'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['servo5_raw'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['servo5_raw'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['servo5_raw'] = field_val.toString();
             } else {
                 d['servo5_raw'] = field_val;
             }
@@ -152,7 +222,17 @@ export class HakoSERVO_OUTPUT_RAW {
             if (typeof field_val?.toDict === 'function') {
                 d['servo6_raw'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['servo6_raw'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['servo6_raw'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['servo6_raw'] = field_val.toString();
             } else {
                 d['servo6_raw'] = field_val;
             }
@@ -163,7 +243,17 @@ export class HakoSERVO_OUTPUT_RAW {
             if (typeof field_val?.toDict === 'function') {
                 d['servo7_raw'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['servo7_raw'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['servo7_raw'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['servo7_raw'] = field_val.toString();
             } else {
                 d['servo7_raw'] = field_val;
             }
@@ -174,7 +264,17 @@ export class HakoSERVO_OUTPUT_RAW {
             if (typeof field_val?.toDict === 'function') {
                 d['servo8_raw'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['servo8_raw'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['servo8_raw'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['servo8_raw'] = field_val.toString();
             } else {
                 d['servo8_raw'] = field_val;
             }
@@ -185,7 +285,17 @@ export class HakoSERVO_OUTPUT_RAW {
             if (typeof field_val?.toDict === 'function') {
                 d['servo9_raw'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['servo9_raw'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['servo9_raw'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['servo9_raw'] = field_val.toString();
             } else {
                 d['servo9_raw'] = field_val;
             }
@@ -196,7 +306,17 @@ export class HakoSERVO_OUTPUT_RAW {
             if (typeof field_val?.toDict === 'function') {
                 d['servo10_raw'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['servo10_raw'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['servo10_raw'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['servo10_raw'] = field_val.toString();
             } else {
                 d['servo10_raw'] = field_val;
             }
@@ -207,7 +327,17 @@ export class HakoSERVO_OUTPUT_RAW {
             if (typeof field_val?.toDict === 'function') {
                 d['servo11_raw'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['servo11_raw'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['servo11_raw'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['servo11_raw'] = field_val.toString();
             } else {
                 d['servo11_raw'] = field_val;
             }
@@ -218,7 +348,17 @@ export class HakoSERVO_OUTPUT_RAW {
             if (typeof field_val?.toDict === 'function') {
                 d['servo12_raw'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['servo12_raw'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['servo12_raw'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['servo12_raw'] = field_val.toString();
             } else {
                 d['servo12_raw'] = field_val;
             }
@@ -229,7 +369,17 @@ export class HakoSERVO_OUTPUT_RAW {
             if (typeof field_val?.toDict === 'function') {
                 d['servo13_raw'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['servo13_raw'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['servo13_raw'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['servo13_raw'] = field_val.toString();
             } else {
                 d['servo13_raw'] = field_val;
             }
@@ -240,7 +390,17 @@ export class HakoSERVO_OUTPUT_RAW {
             if (typeof field_val?.toDict === 'function') {
                 d['servo14_raw'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['servo14_raw'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['servo14_raw'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['servo14_raw'] = field_val.toString();
             } else {
                 d['servo14_raw'] = field_val;
             }
@@ -251,7 +411,17 @@ export class HakoSERVO_OUTPUT_RAW {
             if (typeof field_val?.toDict === 'function') {
                 d['servo15_raw'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['servo15_raw'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['servo15_raw'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['servo15_raw'] = field_val.toString();
             } else {
                 d['servo15_raw'] = field_val;
             }
@@ -262,7 +432,17 @@ export class HakoSERVO_OUTPUT_RAW {
             if (typeof field_val?.toDict === 'function') {
                 d['servo16_raw'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['servo16_raw'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['servo16_raw'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['servo16_raw'] = field_val.toString();
             } else {
                 d['servo16_raw'] = field_val;
             }

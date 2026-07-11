@@ -69,7 +69,17 @@ export class HakoHilSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['time_usec'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['time_usec'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['time_usec'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['time_usec'] = field_val.toString();
             } else {
                 d['time_usec'] = field_val;
             }
@@ -80,7 +90,17 @@ export class HakoHilSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['xacc'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['xacc'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['xacc'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['xacc'] = field_val.toString();
             } else {
                 d['xacc'] = field_val;
             }
@@ -91,7 +111,17 @@ export class HakoHilSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['yacc'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['yacc'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['yacc'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['yacc'] = field_val.toString();
             } else {
                 d['yacc'] = field_val;
             }
@@ -102,7 +132,17 @@ export class HakoHilSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['zacc'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['zacc'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['zacc'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['zacc'] = field_val.toString();
             } else {
                 d['zacc'] = field_val;
             }
@@ -113,7 +153,17 @@ export class HakoHilSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['xgyro'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['xgyro'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['xgyro'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['xgyro'] = field_val.toString();
             } else {
                 d['xgyro'] = field_val;
             }
@@ -124,7 +174,17 @@ export class HakoHilSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['ygyro'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['ygyro'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['ygyro'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['ygyro'] = field_val.toString();
             } else {
                 d['ygyro'] = field_val;
             }
@@ -135,7 +195,17 @@ export class HakoHilSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['zgyro'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['zgyro'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['zgyro'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['zgyro'] = field_val.toString();
             } else {
                 d['zgyro'] = field_val;
             }
@@ -146,7 +216,17 @@ export class HakoHilSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['xmag'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['xmag'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['xmag'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['xmag'] = field_val.toString();
             } else {
                 d['xmag'] = field_val;
             }
@@ -157,7 +237,17 @@ export class HakoHilSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['ymag'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['ymag'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['ymag'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['ymag'] = field_val.toString();
             } else {
                 d['ymag'] = field_val;
             }
@@ -168,7 +258,17 @@ export class HakoHilSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['zmag'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['zmag'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['zmag'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['zmag'] = field_val.toString();
             } else {
                 d['zmag'] = field_val;
             }
@@ -179,7 +279,17 @@ export class HakoHilSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['abs_pressure'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['abs_pressure'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['abs_pressure'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['abs_pressure'] = field_val.toString();
             } else {
                 d['abs_pressure'] = field_val;
             }
@@ -190,7 +300,17 @@ export class HakoHilSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['diff_pressure'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['diff_pressure'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['diff_pressure'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['diff_pressure'] = field_val.toString();
             } else {
                 d['diff_pressure'] = field_val;
             }
@@ -201,7 +321,17 @@ export class HakoHilSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['pressure_alt'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['pressure_alt'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['pressure_alt'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['pressure_alt'] = field_val.toString();
             } else {
                 d['pressure_alt'] = field_val;
             }
@@ -212,7 +342,17 @@ export class HakoHilSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['temperature'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['temperature'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['temperature'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['temperature'] = field_val.toString();
             } else {
                 d['temperature'] = field_val;
             }
@@ -223,7 +363,17 @@ export class HakoHilSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['fields_updated'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['fields_updated'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['fields_updated'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['fields_updated'] = field_val.toString();
             } else {
                 d['fields_updated'] = field_val;
             }
@@ -234,7 +384,17 @@ export class HakoHilSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['id'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['id'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['id'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['id'] = field_val.toString();
             } else {
                 d['id'] = field_val;
             }
@@ -249,7 +409,7 @@ export class HakoHilSensor {
     static fromDict(d) {
         const obj = new HakoHilSensor();
         if (d.hasOwnProperty('time_usec')) {
-            obj.time_usec = d.time_usec;
+            obj.time_usec = BigInt(d.time_usec);
         }
         if (d.hasOwnProperty('xacc')) {
             obj.xacc = d.xacc;

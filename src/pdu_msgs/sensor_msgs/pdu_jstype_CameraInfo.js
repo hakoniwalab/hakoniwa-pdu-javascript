@@ -57,7 +57,17 @@ export class CameraInfo {
             if (typeof field_val?.toDict === 'function') {
                 d['header'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['header'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['header'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['header'] = field_val.toString();
             } else {
                 d['header'] = field_val;
             }
@@ -68,7 +78,17 @@ export class CameraInfo {
             if (typeof field_val?.toDict === 'function') {
                 d['height'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['height'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['height'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['height'] = field_val.toString();
             } else {
                 d['height'] = field_val;
             }
@@ -79,7 +99,17 @@ export class CameraInfo {
             if (typeof field_val?.toDict === 'function') {
                 d['width'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['width'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['width'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['width'] = field_val.toString();
             } else {
                 d['width'] = field_val;
             }
@@ -90,7 +120,17 @@ export class CameraInfo {
             if (typeof field_val?.toDict === 'function') {
                 d['distortion_model'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['distortion_model'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['distortion_model'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['distortion_model'] = field_val.toString();
             } else {
                 d['distortion_model'] = field_val;
             }
@@ -101,7 +141,17 @@ export class CameraInfo {
             if (typeof field_val?.toDict === 'function') {
                 d['d'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['d'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['d'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['d'] = field_val.toString();
             } else {
                 d['d'] = field_val;
             }
@@ -112,7 +162,17 @@ export class CameraInfo {
             if (typeof field_val?.toDict === 'function') {
                 d['k'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['k'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['k'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['k'] = field_val.toString();
             } else {
                 d['k'] = field_val;
             }
@@ -123,7 +183,17 @@ export class CameraInfo {
             if (typeof field_val?.toDict === 'function') {
                 d['r'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['r'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['r'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['r'] = field_val.toString();
             } else {
                 d['r'] = field_val;
             }
@@ -134,7 +204,17 @@ export class CameraInfo {
             if (typeof field_val?.toDict === 'function') {
                 d['p'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['p'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['p'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['p'] = field_val.toString();
             } else {
                 d['p'] = field_val;
             }
@@ -145,7 +225,17 @@ export class CameraInfo {
             if (typeof field_val?.toDict === 'function') {
                 d['binning_x'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['binning_x'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['binning_x'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['binning_x'] = field_val.toString();
             } else {
                 d['binning_x'] = field_val;
             }
@@ -156,7 +246,17 @@ export class CameraInfo {
             if (typeof field_val?.toDict === 'function') {
                 d['binning_y'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['binning_y'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['binning_y'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['binning_y'] = field_val.toString();
             } else {
                 d['binning_y'] = field_val;
             }
@@ -167,7 +267,17 @@ export class CameraInfo {
             if (typeof field_val?.toDict === 'function') {
                 d['roi'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['roi'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['roi'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['roi'] = field_val.toString();
             } else {
                 d['roi'] = field_val;
             }

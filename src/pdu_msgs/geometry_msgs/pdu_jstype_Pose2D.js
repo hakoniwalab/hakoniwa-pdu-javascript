@@ -30,7 +30,17 @@ export class Pose2D {
             if (typeof field_val?.toDict === 'function') {
                 d['x'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['x'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['x'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['x'] = field_val.toString();
             } else {
                 d['x'] = field_val;
             }
@@ -41,7 +51,17 @@ export class Pose2D {
             if (typeof field_val?.toDict === 'function') {
                 d['y'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['y'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['y'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['y'] = field_val.toString();
             } else {
                 d['y'] = field_val;
             }
@@ -52,7 +72,17 @@ export class Pose2D {
             if (typeof field_val?.toDict === 'function') {
                 d['theta'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['theta'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['theta'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['theta'] = field_val.toString();
             } else {
                 d['theta'] = field_val;
             }

@@ -30,7 +30,17 @@ export class MagnetGrabRequest {
             if (typeof field_val?.toDict === 'function') {
                 d['drone_name'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['drone_name'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['drone_name'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['drone_name'] = field_val.toString();
             } else {
                 d['drone_name'] = field_val;
             }
@@ -41,7 +51,17 @@ export class MagnetGrabRequest {
             if (typeof field_val?.toDict === 'function') {
                 d['grab_on'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['grab_on'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['grab_on'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['grab_on'] = field_val.toString();
             } else {
                 d['grab_on'] = field_val;
             }
@@ -52,7 +72,17 @@ export class MagnetGrabRequest {
             if (typeof field_val?.toDict === 'function') {
                 d['timeout_sec'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['timeout_sec'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['timeout_sec'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['timeout_sec'] = field_val.toString();
             } else {
                 d['timeout_sec'] = field_val;
             }

@@ -46,7 +46,17 @@ export class Imu {
             if (typeof field_val?.toDict === 'function') {
                 d['header'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['header'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['header'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['header'] = field_val.toString();
             } else {
                 d['header'] = field_val;
             }
@@ -57,7 +67,17 @@ export class Imu {
             if (typeof field_val?.toDict === 'function') {
                 d['orientation'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['orientation'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['orientation'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['orientation'] = field_val.toString();
             } else {
                 d['orientation'] = field_val;
             }
@@ -68,7 +88,17 @@ export class Imu {
             if (typeof field_val?.toDict === 'function') {
                 d['orientation_covariance'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['orientation_covariance'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['orientation_covariance'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['orientation_covariance'] = field_val.toString();
             } else {
                 d['orientation_covariance'] = field_val;
             }
@@ -79,7 +109,17 @@ export class Imu {
             if (typeof field_val?.toDict === 'function') {
                 d['angular_velocity'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['angular_velocity'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['angular_velocity'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['angular_velocity'] = field_val.toString();
             } else {
                 d['angular_velocity'] = field_val;
             }
@@ -90,7 +130,17 @@ export class Imu {
             if (typeof field_val?.toDict === 'function') {
                 d['angular_velocity_covariance'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['angular_velocity_covariance'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['angular_velocity_covariance'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['angular_velocity_covariance'] = field_val.toString();
             } else {
                 d['angular_velocity_covariance'] = field_val;
             }
@@ -101,7 +151,17 @@ export class Imu {
             if (typeof field_val?.toDict === 'function') {
                 d['linear_acceleration'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['linear_acceleration'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['linear_acceleration'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['linear_acceleration'] = field_val.toString();
             } else {
                 d['linear_acceleration'] = field_val;
             }
@@ -112,7 +172,17 @@ export class Imu {
             if (typeof field_val?.toDict === 'function') {
                 d['linear_acceleration_covariance'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['linear_acceleration_covariance'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['linear_acceleration_covariance'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['linear_acceleration_covariance'] = field_val.toString();
             } else {
                 d['linear_acceleration_covariance'] = field_val;
             }

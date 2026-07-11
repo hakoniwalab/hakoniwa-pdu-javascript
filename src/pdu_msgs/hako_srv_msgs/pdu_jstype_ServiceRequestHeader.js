@@ -36,7 +36,17 @@ export class ServiceRequestHeader {
             if (typeof field_val?.toDict === 'function') {
                 d['request_id'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['request_id'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['request_id'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['request_id'] = field_val.toString();
             } else {
                 d['request_id'] = field_val;
             }
@@ -47,7 +57,17 @@ export class ServiceRequestHeader {
             if (typeof field_val?.toDict === 'function') {
                 d['service_name'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['service_name'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['service_name'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['service_name'] = field_val.toString();
             } else {
                 d['service_name'] = field_val;
             }
@@ -58,7 +78,17 @@ export class ServiceRequestHeader {
             if (typeof field_val?.toDict === 'function') {
                 d['client_name'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['client_name'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['client_name'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['client_name'] = field_val.toString();
             } else {
                 d['client_name'] = field_val;
             }
@@ -69,7 +99,17 @@ export class ServiceRequestHeader {
             if (typeof field_val?.toDict === 'function') {
                 d['opcode'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['opcode'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['opcode'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['opcode'] = field_val.toString();
             } else {
                 d['opcode'] = field_val;
             }
@@ -80,7 +120,17 @@ export class ServiceRequestHeader {
             if (typeof field_val?.toDict === 'function') {
                 d['status_poll_interval_msec'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['status_poll_interval_msec'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['status_poll_interval_msec'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['status_poll_interval_msec'] = field_val.toString();
             } else {
                 d['status_poll_interval_msec'] = field_val;
             }

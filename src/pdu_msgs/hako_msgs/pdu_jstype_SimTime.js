@@ -24,7 +24,17 @@ export class SimTime {
             if (typeof field_val?.toDict === 'function') {
                 d['time_usec'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['time_usec'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['time_usec'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['time_usec'] = field_val.toString();
             } else {
                 d['time_usec'] = field_val;
             }
@@ -39,7 +49,7 @@ export class SimTime {
     static fromDict(d) {
         const obj = new SimTime();
         if (d.hasOwnProperty('time_usec')) {
-            obj.time_usec = d.time_usec;
+            obj.time_usec = BigInt(d.time_usec);
         }
         return obj;
     }

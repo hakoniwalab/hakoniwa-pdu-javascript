@@ -29,7 +29,17 @@ export class Int32MultiArray {
             if (typeof field_val?.toDict === 'function') {
                 d['layout'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['layout'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['layout'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['layout'] = field_val.toString();
             } else {
                 d['layout'] = field_val;
             }
@@ -40,7 +50,17 @@ export class Int32MultiArray {
             if (typeof field_val?.toDict === 'function') {
                 d['data'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['data'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['data'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['data'] = field_val.toString();
             } else {
                 d['data'] = field_val;
             }

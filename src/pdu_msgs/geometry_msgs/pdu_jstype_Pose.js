@@ -29,7 +29,17 @@ export class Pose {
             if (typeof field_val?.toDict === 'function') {
                 d['position'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['position'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['position'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['position'] = field_val.toString();
             } else {
                 d['position'] = field_val;
             }
@@ -40,7 +50,17 @@ export class Pose {
             if (typeof field_val?.toDict === 'function') {
                 d['orientation'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['orientation'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['orientation'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['orientation'] = field_val.toString();
             } else {
                 d['orientation'] = field_val;
             }

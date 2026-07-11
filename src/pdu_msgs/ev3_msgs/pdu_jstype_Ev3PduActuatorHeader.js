@@ -36,7 +36,17 @@ export class Ev3PduActuatorHeader {
             if (typeof field_val?.toDict === 'function') {
                 d['name'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['name'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['name'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['name'] = field_val.toString();
             } else {
                 d['name'] = field_val;
             }
@@ -47,7 +57,17 @@ export class Ev3PduActuatorHeader {
             if (typeof field_val?.toDict === 'function') {
                 d['version'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['version'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['version'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['version'] = field_val.toString();
             } else {
                 d['version'] = field_val;
             }
@@ -58,7 +78,17 @@ export class Ev3PduActuatorHeader {
             if (typeof field_val?.toDict === 'function') {
                 d['asset_time'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['asset_time'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['asset_time'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['asset_time'] = field_val.toString();
             } else {
                 d['asset_time'] = field_val;
             }
@@ -69,7 +99,17 @@ export class Ev3PduActuatorHeader {
             if (typeof field_val?.toDict === 'function') {
                 d['ext_off'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['ext_off'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['ext_off'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['ext_off'] = field_val.toString();
             } else {
                 d['ext_off'] = field_val;
             }
@@ -80,7 +120,17 @@ export class Ev3PduActuatorHeader {
             if (typeof field_val?.toDict === 'function') {
                 d['ext_size'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['ext_size'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['ext_size'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['ext_size'] = field_val.toString();
             } else {
                 d['ext_size'] = field_val;
             }
@@ -101,7 +151,7 @@ export class Ev3PduActuatorHeader {
             obj.version = d.version;
         }
         if (d.hasOwnProperty('asset_time')) {
-            obj.asset_time = d.asset_time;
+            obj.asset_time = BigInt(d.asset_time);
         }
         if (d.hasOwnProperty('ext_off')) {
             obj.ext_off = d.ext_off;

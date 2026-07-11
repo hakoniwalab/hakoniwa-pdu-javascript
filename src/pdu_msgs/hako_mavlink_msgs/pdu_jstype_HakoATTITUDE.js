@@ -42,7 +42,17 @@ export class HakoATTITUDE {
             if (typeof field_val?.toDict === 'function') {
                 d['time_boot_ms'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['time_boot_ms'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['time_boot_ms'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['time_boot_ms'] = field_val.toString();
             } else {
                 d['time_boot_ms'] = field_val;
             }
@@ -53,7 +63,17 @@ export class HakoATTITUDE {
             if (typeof field_val?.toDict === 'function') {
                 d['roll'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['roll'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['roll'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['roll'] = field_val.toString();
             } else {
                 d['roll'] = field_val;
             }
@@ -64,7 +84,17 @@ export class HakoATTITUDE {
             if (typeof field_val?.toDict === 'function') {
                 d['pitch'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['pitch'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['pitch'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['pitch'] = field_val.toString();
             } else {
                 d['pitch'] = field_val;
             }
@@ -75,7 +105,17 @@ export class HakoATTITUDE {
             if (typeof field_val?.toDict === 'function') {
                 d['yaw'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['yaw'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['yaw'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['yaw'] = field_val.toString();
             } else {
                 d['yaw'] = field_val;
             }
@@ -86,7 +126,17 @@ export class HakoATTITUDE {
             if (typeof field_val?.toDict === 'function') {
                 d['rollspeed'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['rollspeed'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['rollspeed'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['rollspeed'] = field_val.toString();
             } else {
                 d['rollspeed'] = field_val;
             }
@@ -97,7 +147,17 @@ export class HakoATTITUDE {
             if (typeof field_val?.toDict === 'function') {
                 d['pitchspeed'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['pitchspeed'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['pitchspeed'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['pitchspeed'] = field_val.toString();
             } else {
                 d['pitchspeed'] = field_val;
             }
@@ -108,7 +168,17 @@ export class HakoATTITUDE {
             if (typeof field_val?.toDict === 'function') {
                 d['yawspeed'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['yawspeed'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['yawspeed'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['yawspeed'] = field_val.toString();
             } else {
                 d['yawspeed'] = field_val;
             }

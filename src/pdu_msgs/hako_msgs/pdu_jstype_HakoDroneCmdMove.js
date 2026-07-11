@@ -40,7 +40,17 @@ export class HakoDroneCmdMove {
             if (typeof field_val?.toDict === 'function') {
                 d['header'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['header'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['header'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['header'] = field_val.toString();
             } else {
                 d['header'] = field_val;
             }
@@ -51,7 +61,17 @@ export class HakoDroneCmdMove {
             if (typeof field_val?.toDict === 'function') {
                 d['x'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['x'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['x'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['x'] = field_val.toString();
             } else {
                 d['x'] = field_val;
             }
@@ -62,7 +82,17 @@ export class HakoDroneCmdMove {
             if (typeof field_val?.toDict === 'function') {
                 d['y'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['y'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['y'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['y'] = field_val.toString();
             } else {
                 d['y'] = field_val;
             }
@@ -73,7 +103,17 @@ export class HakoDroneCmdMove {
             if (typeof field_val?.toDict === 'function') {
                 d['z'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['z'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['z'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['z'] = field_val.toString();
             } else {
                 d['z'] = field_val;
             }
@@ -84,7 +124,17 @@ export class HakoDroneCmdMove {
             if (typeof field_val?.toDict === 'function') {
                 d['speed'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['speed'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['speed'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['speed'] = field_val.toString();
             } else {
                 d['speed'] = field_val;
             }
@@ -95,7 +145,17 @@ export class HakoDroneCmdMove {
             if (typeof field_val?.toDict === 'function') {
                 d['yaw_deg'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['yaw_deg'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['yaw_deg'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['yaw_deg'] = field_val.toString();
             } else {
                 d['yaw_deg'] = field_val;
             }

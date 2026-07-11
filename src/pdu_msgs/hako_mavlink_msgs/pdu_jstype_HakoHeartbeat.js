@@ -39,7 +39,17 @@ export class HakoHeartbeat {
             if (typeof field_val?.toDict === 'function') {
                 d['type'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['type'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['type'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['type'] = field_val.toString();
             } else {
                 d['type'] = field_val;
             }
@@ -50,7 +60,17 @@ export class HakoHeartbeat {
             if (typeof field_val?.toDict === 'function') {
                 d['autopilot'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['autopilot'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['autopilot'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['autopilot'] = field_val.toString();
             } else {
                 d['autopilot'] = field_val;
             }
@@ -61,7 +81,17 @@ export class HakoHeartbeat {
             if (typeof field_val?.toDict === 'function') {
                 d['base_mode'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['base_mode'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['base_mode'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['base_mode'] = field_val.toString();
             } else {
                 d['base_mode'] = field_val;
             }
@@ -72,7 +102,17 @@ export class HakoHeartbeat {
             if (typeof field_val?.toDict === 'function') {
                 d['custom_mode'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['custom_mode'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['custom_mode'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['custom_mode'] = field_val.toString();
             } else {
                 d['custom_mode'] = field_val;
             }
@@ -83,7 +123,17 @@ export class HakoHeartbeat {
             if (typeof field_val?.toDict === 'function') {
                 d['system_status'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['system_status'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['system_status'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['system_status'] = field_val.toString();
             } else {
                 d['system_status'] = field_val;
             }
@@ -94,7 +144,17 @@ export class HakoHeartbeat {
             if (typeof field_val?.toDict === 'function') {
                 d['mavlink_version'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['mavlink_version'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['mavlink_version'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['mavlink_version'] = field_val.toString();
             } else {
                 d['mavlink_version'] = field_val;
             }

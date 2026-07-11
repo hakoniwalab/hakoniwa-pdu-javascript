@@ -34,7 +34,17 @@ export class DroneStatus {
             if (typeof field_val?.toDict === 'function') {
                 d['flight_mode'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['flight_mode'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['flight_mode'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['flight_mode'] = field_val.toString();
             } else {
                 d['flight_mode'] = field_val;
             }
@@ -45,7 +55,17 @@ export class DroneStatus {
             if (typeof field_val?.toDict === 'function') {
                 d['internal_state'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['internal_state'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['internal_state'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['internal_state'] = field_val.toString();
             } else {
                 d['internal_state'] = field_val;
             }
@@ -56,7 +76,17 @@ export class DroneStatus {
             if (typeof field_val?.toDict === 'function') {
                 d['propeller_wind'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['propeller_wind'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['propeller_wind'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['propeller_wind'] = field_val.toString();
             } else {
                 d['propeller_wind'] = field_val;
             }
@@ -67,7 +97,17 @@ export class DroneStatus {
             if (typeof field_val?.toDict === 'function') {
                 d['collided_counts'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['collided_counts'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['collided_counts'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['collided_counts'] = field_val.toString();
             } else {
                 d['collided_counts'] = field_val;
             }

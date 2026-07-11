@@ -35,7 +35,17 @@ export class ShareObjectOwner {
             if (typeof field_val?.toDict === 'function') {
                 d['object_name'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['object_name'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['object_name'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['object_name'] = field_val.toString();
             } else {
                 d['object_name'] = field_val;
             }
@@ -46,7 +56,17 @@ export class ShareObjectOwner {
             if (typeof field_val?.toDict === 'function') {
                 d['owner_id'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['owner_id'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['owner_id'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['owner_id'] = field_val.toString();
             } else {
                 d['owner_id'] = field_val;
             }
@@ -57,7 +77,17 @@ export class ShareObjectOwner {
             if (typeof field_val?.toDict === 'function') {
                 d['last_update'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['last_update'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['last_update'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['last_update'] = field_val.toString();
             } else {
                 d['last_update'] = field_val;
             }
@@ -68,7 +98,17 @@ export class ShareObjectOwner {
             if (typeof field_val?.toDict === 'function') {
                 d['pos'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['pos'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['pos'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['pos'] = field_val.toString();
             } else {
                 d['pos'] = field_val;
             }
@@ -89,7 +129,7 @@ export class ShareObjectOwner {
             obj.owner_id = d.owner_id;
         }
         if (d.hasOwnProperty('last_update')) {
-            obj.last_update = d.last_update;
+            obj.last_update = BigInt(d.last_update);
         }
         if (d.hasOwnProperty('pos')) {
             const field_class = Twist;

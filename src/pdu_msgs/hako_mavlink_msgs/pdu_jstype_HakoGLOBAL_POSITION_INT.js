@@ -48,7 +48,17 @@ export class HakoGLOBAL_POSITION_INT {
             if (typeof field_val?.toDict === 'function') {
                 d['time_boot_ms'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['time_boot_ms'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['time_boot_ms'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['time_boot_ms'] = field_val.toString();
             } else {
                 d['time_boot_ms'] = field_val;
             }
@@ -59,7 +69,17 @@ export class HakoGLOBAL_POSITION_INT {
             if (typeof field_val?.toDict === 'function') {
                 d['lat'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['lat'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['lat'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['lat'] = field_val.toString();
             } else {
                 d['lat'] = field_val;
             }
@@ -70,7 +90,17 @@ export class HakoGLOBAL_POSITION_INT {
             if (typeof field_val?.toDict === 'function') {
                 d['lon'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['lon'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['lon'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['lon'] = field_val.toString();
             } else {
                 d['lon'] = field_val;
             }
@@ -81,7 +111,17 @@ export class HakoGLOBAL_POSITION_INT {
             if (typeof field_val?.toDict === 'function') {
                 d['alt'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['alt'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['alt'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['alt'] = field_val.toString();
             } else {
                 d['alt'] = field_val;
             }
@@ -92,7 +132,17 @@ export class HakoGLOBAL_POSITION_INT {
             if (typeof field_val?.toDict === 'function') {
                 d['relative_alt'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['relative_alt'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['relative_alt'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['relative_alt'] = field_val.toString();
             } else {
                 d['relative_alt'] = field_val;
             }
@@ -103,7 +153,17 @@ export class HakoGLOBAL_POSITION_INT {
             if (typeof field_val?.toDict === 'function') {
                 d['vx'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['vx'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['vx'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['vx'] = field_val.toString();
             } else {
                 d['vx'] = field_val;
             }
@@ -114,7 +174,17 @@ export class HakoGLOBAL_POSITION_INT {
             if (typeof field_val?.toDict === 'function') {
                 d['vy'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['vy'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['vy'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['vy'] = field_val.toString();
             } else {
                 d['vy'] = field_val;
             }
@@ -125,7 +195,17 @@ export class HakoGLOBAL_POSITION_INT {
             if (typeof field_val?.toDict === 'function') {
                 d['vz'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['vz'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['vz'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['vz'] = field_val.toString();
             } else {
                 d['vz'] = field_val;
             }
@@ -136,7 +216,17 @@ export class HakoGLOBAL_POSITION_INT {
             if (typeof field_val?.toDict === 'function') {
                 d['hdg'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['hdg'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['hdg'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['hdg'] = field_val.toString();
             } else {
                 d['hdg'] = field_val;
             }

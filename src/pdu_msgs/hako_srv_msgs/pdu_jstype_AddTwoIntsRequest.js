@@ -27,7 +27,17 @@ export class AddTwoIntsRequest {
             if (typeof field_val?.toDict === 'function') {
                 d['a'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['a'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['a'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['a'] = field_val.toString();
             } else {
                 d['a'] = field_val;
             }
@@ -38,7 +48,17 @@ export class AddTwoIntsRequest {
             if (typeof field_val?.toDict === 'function') {
                 d['b'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['b'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['b'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['b'] = field_val.toString();
             } else {
                 d['b'] = field_val;
             }
@@ -53,10 +73,10 @@ export class AddTwoIntsRequest {
     static fromDict(d) {
         const obj = new AddTwoIntsRequest();
         if (d.hasOwnProperty('a')) {
-            obj.a = d.a;
+            obj.a = BigInt(d.a);
         }
         if (d.hasOwnProperty('b')) {
-            obj.b = d.b;
+            obj.b = BigInt(d.b);
         }
         return obj;
     }

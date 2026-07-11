@@ -51,7 +51,17 @@ export class PointCloud2 {
             if (typeof field_val?.toDict === 'function') {
                 d['header'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['header'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['header'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['header'] = field_val.toString();
             } else {
                 d['header'] = field_val;
             }
@@ -62,7 +72,17 @@ export class PointCloud2 {
             if (typeof field_val?.toDict === 'function') {
                 d['height'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['height'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['height'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['height'] = field_val.toString();
             } else {
                 d['height'] = field_val;
             }
@@ -73,7 +93,17 @@ export class PointCloud2 {
             if (typeof field_val?.toDict === 'function') {
                 d['width'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['width'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['width'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['width'] = field_val.toString();
             } else {
                 d['width'] = field_val;
             }
@@ -84,7 +114,17 @@ export class PointCloud2 {
             if (typeof field_val?.toDict === 'function') {
                 d['fields'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['fields'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['fields'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['fields'] = field_val.toString();
             } else {
                 d['fields'] = field_val;
             }
@@ -95,7 +135,17 @@ export class PointCloud2 {
             if (typeof field_val?.toDict === 'function') {
                 d['is_bigendian'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['is_bigendian'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['is_bigendian'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['is_bigendian'] = field_val.toString();
             } else {
                 d['is_bigendian'] = field_val;
             }
@@ -106,7 +156,17 @@ export class PointCloud2 {
             if (typeof field_val?.toDict === 'function') {
                 d['point_step'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['point_step'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['point_step'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['point_step'] = field_val.toString();
             } else {
                 d['point_step'] = field_val;
             }
@@ -117,7 +177,17 @@ export class PointCloud2 {
             if (typeof field_val?.toDict === 'function') {
                 d['row_step'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['row_step'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['row_step'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['row_step'] = field_val.toString();
             } else {
                 d['row_step'] = field_val;
             }
@@ -128,7 +198,17 @@ export class PointCloud2 {
             if (typeof field_val?.toDict === 'function') {
                 d['data'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['data'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['data'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['data'] = field_val.toString();
             } else {
                 d['data'] = field_val;
             }
@@ -139,7 +219,17 @@ export class PointCloud2 {
             if (typeof field_val?.toDict === 'function') {
                 d['is_dense'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['is_dense'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['is_dense'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['is_dense'] = field_val.toString();
             } else {
                 d['is_dense'] = field_val;
             }

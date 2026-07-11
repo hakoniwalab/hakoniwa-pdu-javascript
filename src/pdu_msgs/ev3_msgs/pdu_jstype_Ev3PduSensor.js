@@ -54,7 +54,17 @@ export class Ev3PduSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['head'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['head'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['head'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['head'] = field_val.toString();
             } else {
                 d['head'] = field_val;
             }
@@ -65,7 +75,17 @@ export class Ev3PduSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['buttons'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['buttons'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['buttons'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['buttons'] = field_val.toString();
             } else {
                 d['buttons'] = field_val;
             }
@@ -76,7 +96,17 @@ export class Ev3PduSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['color_sensors'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['color_sensors'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['color_sensors'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['color_sensors'] = field_val.toString();
             } else {
                 d['color_sensors'] = field_val;
             }
@@ -87,7 +117,17 @@ export class Ev3PduSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['touch_sensors'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['touch_sensors'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['touch_sensors'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['touch_sensors'] = field_val.toString();
             } else {
                 d['touch_sensors'] = field_val;
             }
@@ -98,7 +138,17 @@ export class Ev3PduSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['motor_angle'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['motor_angle'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['motor_angle'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['motor_angle'] = field_val.toString();
             } else {
                 d['motor_angle'] = field_val;
             }
@@ -109,7 +159,17 @@ export class Ev3PduSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['gyro_degree'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['gyro_degree'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['gyro_degree'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['gyro_degree'] = field_val.toString();
             } else {
                 d['gyro_degree'] = field_val;
             }
@@ -120,7 +180,17 @@ export class Ev3PduSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['gyro_degree_rate'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['gyro_degree_rate'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['gyro_degree_rate'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['gyro_degree_rate'] = field_val.toString();
             } else {
                 d['gyro_degree_rate'] = field_val;
             }
@@ -131,7 +201,17 @@ export class Ev3PduSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['sensor_ultrasonic'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['sensor_ultrasonic'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['sensor_ultrasonic'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['sensor_ultrasonic'] = field_val.toString();
             } else {
                 d['sensor_ultrasonic'] = field_val;
             }
@@ -142,7 +222,17 @@ export class Ev3PduSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['gps_lat'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['gps_lat'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['gps_lat'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['gps_lat'] = field_val.toString();
             } else {
                 d['gps_lat'] = field_val;
             }
@@ -153,7 +243,17 @@ export class Ev3PduSensor {
             if (typeof field_val?.toDict === 'function') {
                 d['gps_lon'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['gps_lon'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['gps_lon'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['gps_lon'] = field_val.toString();
             } else {
                 d['gps_lon'] = field_val;
             }

@@ -27,7 +27,17 @@ export class NavSatStatus {
             if (typeof field_val?.toDict === 'function') {
                 d['status'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['status'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['status'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['status'] = field_val.toString();
             } else {
                 d['status'] = field_val;
             }
@@ -38,7 +48,17 @@ export class NavSatStatus {
             if (typeof field_val?.toDict === 'function') {
                 d['service'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['service'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['service'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['service'] = field_val.toString();
             } else {
                 d['service'] = field_val;
             }

@@ -30,7 +30,17 @@ export class MultiArrayDimension {
             if (typeof field_val?.toDict === 'function') {
                 d['label'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['label'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['label'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['label'] = field_val.toString();
             } else {
                 d['label'] = field_val;
             }
@@ -41,7 +51,17 @@ export class MultiArrayDimension {
             if (typeof field_val?.toDict === 'function') {
                 d['size'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['size'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['size'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['size'] = field_val.toString();
             } else {
                 d['size'] = field_val;
             }
@@ -52,7 +72,17 @@ export class MultiArrayDimension {
             if (typeof field_val?.toDict === 'function') {
                 d['stride'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['stride'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['stride'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['stride'] = field_val.toString();
             } else {
                 d['stride'] = field_val;
             }

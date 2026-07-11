@@ -24,7 +24,17 @@ export class AddTwoIntsResponse {
             if (typeof field_val?.toDict === 'function') {
                 d['sum'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['sum'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['sum'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['sum'] = field_val.toString();
             } else {
                 d['sum'] = field_val;
             }
@@ -39,7 +49,7 @@ export class AddTwoIntsResponse {
     static fromDict(d) {
         const obj = new AddTwoIntsResponse();
         if (d.hasOwnProperty('sum')) {
-            obj.sum = d.sum;
+            obj.sum = BigInt(d.sum);
         }
         return obj;
     }

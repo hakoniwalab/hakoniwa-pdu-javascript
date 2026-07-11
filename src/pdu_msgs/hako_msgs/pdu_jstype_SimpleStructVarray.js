@@ -37,7 +37,17 @@ export class SimpleStructVarray {
             if (typeof field_val?.toDict === 'function') {
                 d['aaa'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['aaa'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['aaa'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['aaa'] = field_val.toString();
             } else {
                 d['aaa'] = field_val;
             }
@@ -48,7 +58,17 @@ export class SimpleStructVarray {
             if (typeof field_val?.toDict === 'function') {
                 d['fixed_str'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['fixed_str'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['fixed_str'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['fixed_str'] = field_val.toString();
             } else {
                 d['fixed_str'] = field_val;
             }
@@ -59,7 +79,17 @@ export class SimpleStructVarray {
             if (typeof field_val?.toDict === 'function') {
                 d['varray_str'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['varray_str'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['varray_str'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['varray_str'] = field_val.toString();
             } else {
                 d['varray_str'] = field_val;
             }
@@ -70,7 +100,17 @@ export class SimpleStructVarray {
             if (typeof field_val?.toDict === 'function') {
                 d['fixed_array'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['fixed_array'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['fixed_array'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['fixed_array'] = field_val.toString();
             } else {
                 d['fixed_array'] = field_val;
             }
@@ -81,7 +121,17 @@ export class SimpleStructVarray {
             if (typeof field_val?.toDict === 'function') {
                 d['data'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['data'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['data'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['data'] = field_val.toString();
             } else {
                 d['data'] = field_val;
             }

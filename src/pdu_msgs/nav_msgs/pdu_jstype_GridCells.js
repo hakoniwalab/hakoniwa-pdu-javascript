@@ -36,7 +36,17 @@ export class GridCells {
             if (typeof field_val?.toDict === 'function') {
                 d['header'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['header'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['header'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['header'] = field_val.toString();
             } else {
                 d['header'] = field_val;
             }
@@ -47,7 +57,17 @@ export class GridCells {
             if (typeof field_val?.toDict === 'function') {
                 d['cell_width'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['cell_width'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['cell_width'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['cell_width'] = field_val.toString();
             } else {
                 d['cell_width'] = field_val;
             }
@@ -58,7 +78,17 @@ export class GridCells {
             if (typeof field_val?.toDict === 'function') {
                 d['cell_height'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['cell_height'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['cell_height'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['cell_height'] = field_val.toString();
             } else {
                 d['cell_height'] = field_val;
             }
@@ -69,7 +99,17 @@ export class GridCells {
             if (typeof field_val?.toDict === 'function') {
                 d['cells'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['cells'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['cells'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['cells'] = field_val.toString();
             } else {
                 d['cells'] = field_val;
             }

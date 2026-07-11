@@ -33,7 +33,17 @@ export class Quaternion {
             if (typeof field_val?.toDict === 'function') {
                 d['x'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['x'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['x'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['x'] = field_val.toString();
             } else {
                 d['x'] = field_val;
             }
@@ -44,7 +54,17 @@ export class Quaternion {
             if (typeof field_val?.toDict === 'function') {
                 d['y'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['y'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['y'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['y'] = field_val.toString();
             } else {
                 d['y'] = field_val;
             }
@@ -55,7 +75,17 @@ export class Quaternion {
             if (typeof field_val?.toDict === 'function') {
                 d['z'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['z'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['z'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['z'] = field_val.toString();
             } else {
                 d['z'] = field_val;
             }
@@ -66,7 +96,17 @@ export class Quaternion {
             if (typeof field_val?.toDict === 'function') {
                 d['w'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['w'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['w'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['w'] = field_val.toString();
             } else {
                 d['w'] = field_val;
             }

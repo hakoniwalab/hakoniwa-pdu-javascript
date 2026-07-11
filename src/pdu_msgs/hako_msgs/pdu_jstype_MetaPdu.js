@@ -54,7 +54,17 @@ export class MetaPdu {
             if (typeof field_val?.toDict === 'function') {
                 d['total_len'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['total_len'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['total_len'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['total_len'] = field_val.toString();
             } else {
                 d['total_len'] = field_val;
             }
@@ -65,7 +75,17 @@ export class MetaPdu {
             if (typeof field_val?.toDict === 'function') {
                 d['magicno'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['magicno'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['magicno'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['magicno'] = field_val.toString();
             } else {
                 d['magicno'] = field_val;
             }
@@ -76,7 +96,17 @@ export class MetaPdu {
             if (typeof field_val?.toDict === 'function') {
                 d['version'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['version'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['version'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['version'] = field_val.toString();
             } else {
                 d['version'] = field_val;
             }
@@ -87,7 +117,17 @@ export class MetaPdu {
             if (typeof field_val?.toDict === 'function') {
                 d['flags'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['flags'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['flags'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['flags'] = field_val.toString();
             } else {
                 d['flags'] = field_val;
             }
@@ -98,7 +138,17 @@ export class MetaPdu {
             if (typeof field_val?.toDict === 'function') {
                 d['meta_request_type'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['meta_request_type'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['meta_request_type'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['meta_request_type'] = field_val.toString();
             } else {
                 d['meta_request_type'] = field_val;
             }
@@ -109,7 +159,17 @@ export class MetaPdu {
             if (typeof field_val?.toDict === 'function') {
                 d['hako_time_us'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['hako_time_us'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['hako_time_us'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['hako_time_us'] = field_val.toString();
             } else {
                 d['hako_time_us'] = field_val;
             }
@@ -120,7 +180,17 @@ export class MetaPdu {
             if (typeof field_val?.toDict === 'function') {
                 d['asset_time_us'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['asset_time_us'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['asset_time_us'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['asset_time_us'] = field_val.toString();
             } else {
                 d['asset_time_us'] = field_val;
             }
@@ -131,7 +201,17 @@ export class MetaPdu {
             if (typeof field_val?.toDict === 'function') {
                 d['real_time_us'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['real_time_us'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['real_time_us'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['real_time_us'] = field_val.toString();
             } else {
                 d['real_time_us'] = field_val;
             }
@@ -142,7 +222,17 @@ export class MetaPdu {
             if (typeof field_val?.toDict === 'function') {
                 d['robot_name'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['robot_name'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['robot_name'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['robot_name'] = field_val.toString();
             } else {
                 d['robot_name'] = field_val;
             }
@@ -153,7 +243,17 @@ export class MetaPdu {
             if (typeof field_val?.toDict === 'function') {
                 d['channel_id'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['channel_id'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['channel_id'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['channel_id'] = field_val.toString();
             } else {
                 d['channel_id'] = field_val;
             }
@@ -164,7 +264,17 @@ export class MetaPdu {
             if (typeof field_val?.toDict === 'function') {
                 d['body_len'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['body_len'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['body_len'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['body_len'] = field_val.toString();
             } else {
                 d['body_len'] = field_val;
             }
@@ -194,13 +304,13 @@ export class MetaPdu {
             obj.meta_request_type = d.meta_request_type;
         }
         if (d.hasOwnProperty('hako_time_us')) {
-            obj.hako_time_us = d.hako_time_us;
+            obj.hako_time_us = BigInt(d.hako_time_us);
         }
         if (d.hasOwnProperty('asset_time_us')) {
-            obj.asset_time_us = d.asset_time_us;
+            obj.asset_time_us = BigInt(d.asset_time_us);
         }
         if (d.hasOwnProperty('real_time_us')) {
-            obj.real_time_us = d.real_time_us;
+            obj.real_time_us = BigInt(d.real_time_us);
         }
         if (d.hasOwnProperty('robot_name')) {
             obj.robot_name = d.robot_name;

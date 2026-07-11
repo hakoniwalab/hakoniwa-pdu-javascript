@@ -29,7 +29,17 @@ export class Transform {
             if (typeof field_val?.toDict === 'function') {
                 d['translation'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['translation'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['translation'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['translation'] = field_val.toString();
             } else {
                 d['translation'] = field_val;
             }
@@ -40,7 +50,17 @@ export class Transform {
             if (typeof field_val?.toDict === 'function') {
                 d['rotation'] = field_val.toDict();
             } else if (Array.isArray(field_val)) {
-                d['rotation'] = field_val.map(item => typeof item?.toDict === 'function' ? item.toDict() : item);
+                d['rotation'] = field_val.map(item => {
+                    if (typeof item?.toDict === 'function') {
+                        return item.toDict();
+                    }
+                    if (typeof item === 'bigint') {
+                        return item.toString();
+                    }
+                    return item;
+                });
+            } else if (typeof field_val === 'bigint') {
+                d['rotation'] = field_val.toString();
             } else {
                 d['rotation'] = field_val;
             }
