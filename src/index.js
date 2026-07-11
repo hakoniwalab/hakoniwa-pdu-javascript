@@ -1,4 +1,5 @@
 import { PduManager } from './PduManager.js';
+import { PduEncoding } from './PduEncoding.js';
 import { ICommunicationService } from './impl/ICommunicationService.js';
 import { PduChannelConfig } from './impl/PduChannelConfig.js';
 import { PduConvertor } from './impl/PduConvertor.js';
@@ -26,7 +27,7 @@ import { MagnetGrabRequest } from './pdu_msgs/drone_srv_msgs/pdu_jstype_MagnetGr
 import { Vector3 } from './pdu_msgs/geometry_msgs/pdu_jstype_Vector3.js';
 
 // Main class
-export { PduManager };
+export { PduManager, PduEncoding };
 
 // Communication Services
 export { 

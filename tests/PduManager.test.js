@@ -1,4 +1,6 @@
 import { PduManager } from '../src/PduManager.js';
+import { PduEncoding } from '../src/PduEncoding.js';
+import { UInt64 } from '../src/pdu_msgs/std_msgs/pdu_jstype_UInt64.js';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import { createCompactPdudefFixture } from './testUtils.js';
@@ -48,6 +50,7 @@ describe('PduManager', () => {
     it('should be instantiable', () => {
         const manager = new PduManager();
         expect(manager).toBeInstanceOf(PduManager);
+        expect(manager.pdu_encoding).toBe(PduEncoding.HAKO);
     });
 
     it('should initialize from a compact pdudef and expose existing lookup APIs', async () => {
@@ -69,6 +72,39 @@ describe('PduManager', () => {
             expect(manager.get_pdu_channel_id('sample_robot', 'actuator_command')).toBe(2);
             expect(manager.get_pdu_size('sample_robot', 'sensor_state')).toBe(8);
             expect(manager.get_pdu_size('sample_robot', 'actuator_command')).toBe(8);
+            expect(manager.pdu_convertor.pdu_encoding).toBe(PduEncoding.HAKO);
+        } finally {
+            compactFixture.cleanup();
+        }
+    });
+
+    it('should pass CDR encoding to the convertor and convert UInt64 payloads', async () => {
+        const compactFixture = createCompactPdudefFixture(
+            __dirname,
+            'temp_pdu_manager_cdr_',
+            ['sample_robot'],
+            SAMPLE_PDUTYPES
+        );
+
+        try {
+            const manager = new PduManager({
+                wire_version: 'v2',
+                pdu_encoding: PduEncoding.CDR,
+            });
+            const commService = new MockCommunicationService();
+
+            await manager.initialize(compactFixture.pdudefPath, commService);
+
+            const source = new UInt64();
+            source.data = 123456789n;
+
+            const raw = await manager.pdu_convertor.convert_json_to_binary('sample_robot', 'sensor_state', source);
+            const restored = await manager.pdu_convertor.convert_binary_to_json('sample_robot', 'sensor_state', raw);
+
+            expect(manager.pdu_convertor.pdu_encoding).toBe(PduEncoding.CDR);
+            expect(raw).toBeInstanceOf(ArrayBuffer);
+            expect(restored).toBeInstanceOf(UInt64);
+            expect(restored.data).toBe(source.data);
         } finally {
             compactFixture.cleanup();
         }

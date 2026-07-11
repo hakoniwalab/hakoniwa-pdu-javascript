@@ -1,3 +1,5 @@
+import { PduEncoding, normalizePduEncoding } from '../PduEncoding.js';
+
 /**
  * Handles the conversion between binary PDU data and JavaScript objects.
  * It acts as a dispatcher, dynamically calling the appropriate converter 
@@ -7,27 +9,35 @@ export class PduConvertor {
     /**
      * @param {string} hakoBinaryPath - Path to the offset directory (for compatibility with Python version, not strictly used in JS version).
      * @param {import('./PduChannelConfig').PduChannelConfig} pduConfig 
+     * @param {{pdu_encoding?: string}} options
      */
-    constructor(hakoBinaryPath, pduConfig) {
+    constructor(hakoBinaryPath, pduConfig, { pdu_encoding = PduEncoding.HAKO } = {}) {
         this.hakoBinaryPath = hakoBinaryPath; // Not used in JS, but kept for API consistency
         this.pduConfig = pduConfig;
+        this.pdu_encoding = normalizePduEncoding(pdu_encoding);
     }
 
     /**
      * Constructs the path to the converter module and the function names.
      * @private
      * @param {string} pduType - e.g., "std_msgs/String"
-     * @returns {{modulePath: string, toJsFunc: string, toPduFunc: string} | null}
+     * @returns {{modulePath: string, toJsFunc?: string, toPduFunc?: string, converterClass?: string} | null}
      */
     _getConverterInfo(pduType) {
         if (!pduType || !pduType.includes('/')) {
             return null;
         }
         const [pkg, name] = pduType.split('/');
-        const modulePath = `../pdu_msgs/${pkg}/pdu_conv_${name}.js`;
-        const toJsFunc = `pduToJs_${name}`;
-        const toPduFunc = `jsToPdu_${name}`;
-        return { modulePath, toJsFunc, toPduFunc };
+        if (this.pdu_encoding === PduEncoding.CDR) {
+            const modulePath = `../pdu_msgs/${pkg}/pdu_cdr_conv_${name}.js`;
+            const converterClass = `Pdu${name}Converter`;
+            return { modulePath, converterClass };
+        } else {
+            const modulePath = `../pdu_msgs/${pkg}/pdu_conv_${name}.js`;
+            const toJsFunc = `pduToJs_${name}`;
+            const toPduFunc = `jsToPdu_${name}`;
+            return { modulePath, toJsFunc, toPduFunc };
+        }
     }
 
     /**
@@ -52,6 +62,15 @@ export class PduConvertor {
 
         try {
             const module = await import(converterInfo.modulePath);
+            if (this.pdu_encoding === PduEncoding.CDR) {
+                const converterClass = module[converterInfo.converterClass];
+                if (!converterClass || typeof converterClass.from_cdr !== 'function') {
+                    console.error(`[PduConvertor] Converter ${converterInfo.converterClass}.from_cdr not found in ${converterInfo.modulePath}`);
+                    return null;
+                }
+                return converterClass.from_cdr(binaryData);
+            }
+
             const converterFunc = module[converterInfo.toJsFunc];
             if (typeof converterFunc !== 'function') {
                 console.error(`[PduConvertor] Function ${converterInfo.toJsFunc} not found in ${converterInfo.modulePath}`);
@@ -86,6 +105,15 @@ export class PduConvertor {
 
         try {
             const module = await import(converterInfo.modulePath);
+            if (this.pdu_encoding === PduEncoding.CDR) {
+                const converterClass = module[converterInfo.converterClass];
+                if (!converterClass || typeof converterClass.to_cdr !== 'function') {
+                    console.error(`[PduConvertor] Converter ${converterInfo.converterClass}.to_cdr not found in ${converterInfo.modulePath}`);
+                    return null;
+                }
+                return converterClass.to_cdr(jsonData);
+            }
+
             const converterFunc = module[converterInfo.toPduFunc];
             if (typeof converterFunc !== 'function') {
                 console.error(`[PduConvertor] Function ${converterInfo.toPduFunc} not found in ${converterInfo.modulePath}`);

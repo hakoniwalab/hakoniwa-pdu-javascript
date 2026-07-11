@@ -77,12 +77,15 @@ The following example shows the minimum setup: load a PDU definition file, conne
 ```javascript
 import {
   PduManager,
-  PduConvertor,
+  PduEncoding,
   WebSocketCommunicationService
 } from 'hakoniwa-pdu-javascript';
 
 async function main() {
-  const manager = new PduManager({ wire_version: 'v2' });
+  const manager = new PduManager({
+    wire_version: 'v2',
+    pdu_encoding: PduEncoding.HAKO,
+  });
   const transport = new WebSocketCommunicationService('v2');
 
   // Reuse the PDU definition file provided by hakoniwa-drone-core
@@ -91,14 +94,13 @@ async function main() {
 
   const channelId = manager.get_pdu_channel_id('Drone', 'pos');
   const pduSize = manager.get_pdu_size('Drone', 'pos');
-  const convertor = new PduConvertor('', manager.pdu_config);
 
   console.log('channelId =', channelId);
   console.log('pduSize =', pduSize);
 
   const raw = manager.read_pdu_raw_data('Drone', 'pos');
   if (raw) {
-    const pos = await convertor.convert_binary_to_json('Drone', 'pos', raw);
+    const pos = await manager.pdu_convertor.convert_binary_to_json('Drone', 'pos', raw);
     console.log(pos);
   }
 
@@ -116,8 +118,7 @@ To read a PDU as structured data:
 ```javascript
 const raw = manager.read_pdu_raw_data('Drone', 'pos');
 if (raw) {
-  const convertor = new PduConvertor('', manager.pdu_config);
-  const pos = await convertor.convert_binary_to_json('Drone', 'pos', raw);
+  const pos = await manager.pdu_convertor.convert_binary_to_json('Drone', 'pos', raw);
   console.log(pos);
 }
 ```
@@ -133,6 +134,21 @@ await manager.flush_pdu_raw_data('Drone', 'motor', raw);
 ```
 
 In the drone simulator, commonly used PDUs include `pos`, `velocity`, `status`, and `motor`. For a first step, starting with read-only access to `pos` or `status` is the easiest path.
+
+## PDU Encoding
+
+Select the PDU body encoding with `pdu_encoding` on `PduManager`. The default is `PduEncoding.HAKO` for backward compatibility.
+
+```javascript
+const manager = new PduManager({
+  wire_version: 'v2',
+  pdu_encoding: PduEncoding.CDR,
+});
+```
+
+When `PduEncoding.CDR` is selected, `manager.pdu_convertor` uses the CDR converters to convert between JavaScript objects and CDR binary payloads. `read_pdu_raw_data()` and `flush_pdu_raw_data()` are raw byte APIs, so they do not interpret the PDU body encoding directly.
+
+`get_pdu_size()` returns the `pdu_size` value from the PDU definition file. If you need CDR-specific sizes, define that policy in the PDU definition file you use.
 
 ## About PDU Definition Files
 
@@ -191,10 +207,12 @@ Main classes:
   - Loads PDU definition files
   - Initializes the communication service
   - Reads and writes PDUs
+  - Selects the PDU body encoding
 - `WebSocketCommunicationService`
   - Connects to the WebSocket bridge
 - `PduConvertor`
   - Converts between binary PDUs and JavaScript objects
+  - Uses the `hako` / `cdr` encoding selected by `PduManager`
 - `RemotePduServiceClientManager` / `RemotePduServiceServerManager`
   - Helpers for RPC-oriented usage
 

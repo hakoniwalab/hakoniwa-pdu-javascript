@@ -2,6 +2,7 @@ import { CommunicationBuffer } from './impl/CommunicationBuffer.js';
 import { DataPacket, DECLARE_PDU_FOR_READ, DECLARE_PDU_FOR_WRITE, PDU_DATA, REQUEST_PDU_READ } from './impl/DataPacket.js';
 import { PduChannelConfig } from './impl/PduChannelConfig.js';
 import { PduConvertor } from './impl/PduConvertor.js';
+import { PduEncoding, normalizePduEncoding } from './PduEncoding.js';
 
 /**
  * PduManager is the core interface for PDU communication in the Hakoniwa simulation framework.
@@ -9,8 +10,9 @@ import { PduConvertor } from './impl/PduConvertor.js';
 export class PduManager {
     /**
      * @param {string} wire_version - "v1" or "v2"
+     * @param {string} pdu_encoding - "hako" or "cdr"
      */
-    constructor({ wire_version = "v1" } = {}) {
+    constructor({ wire_version = "v1", pdu_encoding = PduEncoding.HAKO } = {}) {
         /** @type {CommunicationBuffer | null} */
         this.comm_buffer = null;
         /** @type {import('./impl/ICommunicationService').ICommunicationService | null} */
@@ -23,7 +25,8 @@ export class PduManager {
         this.b_is_initialized = false;
         this.b_last_known_service_state = false;
         this.wire_version = wire_version;
-        console.log(`[INFO] PduManager created with wire version: ${this.wire_version}`);
+        this.pdu_encoding = normalizePduEncoding(pdu_encoding);
+        console.log(`[INFO] PduManager created with wire version: ${this.wire_version}, PDU encoding: ${this.pdu_encoding}`);
     }
 
     /**
@@ -44,7 +47,7 @@ export class PduManager {
         
         // In JS, the path to offset files is not needed as conversion logic is in generated code.
         // We pass an empty string for API consistency.
-        this.pdu_convertor = new PduConvertor("", this.pdu_config);
+        this.pdu_convertor = new PduConvertor("", this.pdu_config, { pdu_encoding: this.pdu_encoding });
 
         this.b_is_initialized = true;
         console.log("[INFO] PduManager initialized");

@@ -77,12 +77,15 @@ npm install
 ```javascript
 import {
   PduManager,
-  PduConvertor,
+  PduEncoding,
   WebSocketCommunicationService
 } from 'hakoniwa-pdu-javascript';
 
 async function main() {
-  const manager = new PduManager({ wire_version: 'v2' });
+  const manager = new PduManager({
+    wire_version: 'v2',
+    pdu_encoding: PduEncoding.HAKO,
+  });
   const transport = new WebSocketCommunicationService('v2');
 
   // まずは hakoniwa-drone-core 側で使っている PDU 定義ファイルをそのまま使う想定
@@ -91,14 +94,13 @@ async function main() {
 
   const channelId = manager.get_pdu_channel_id('Drone', 'pos');
   const pduSize = manager.get_pdu_size('Drone', 'pos');
-  const convertor = new PduConvertor('', manager.pdu_config);
 
   console.log('channelId =', channelId);
   console.log('pduSize =', pduSize);
 
   const raw = manager.read_pdu_raw_data('Drone', 'pos');
   if (raw) {
-    const pos = await convertor.convert_binary_to_json('Drone', 'pos', raw);
+    const pos = await manager.pdu_convertor.convert_binary_to_json('Drone', 'pos', raw);
     console.log(pos);
   }
 
@@ -116,8 +118,7 @@ PDU を構造化データとして読む場合:
 ```javascript
 const raw = manager.read_pdu_raw_data('Drone', 'pos');
 if (raw) {
-  const convertor = new PduConvertor('', manager.pdu_config);
-  const pos = await convertor.convert_binary_to_json('Drone', 'pos', raw);
+  const pos = await manager.pdu_convertor.convert_binary_to_json('Drone', 'pos', raw);
   console.log(pos);
 }
 ```
@@ -133,6 +134,21 @@ await manager.flush_pdu_raw_data('Drone', 'motor', raw);
 ```
 
 箱庭ドローンでは、実際には `pos`、`velocity`、`status`、`motor` などの PDU を扱うことが多くなります。最初は read-only で `pos` や `status` を読むところから始めるのが分かりやすいです。
+
+## PDU エンコーディング
+
+PDU 本体のエンコーディングは `PduManager` の `pdu_encoding` で選択します。デフォルトは既存互換の `PduEncoding.HAKO` です。
+
+```javascript
+const manager = new PduManager({
+  wire_version: 'v2',
+  pdu_encoding: PduEncoding.CDR,
+});
+```
+
+`PduEncoding.CDR` を指定すると、`manager.pdu_convertor` は CDR 版の converter を使って JavaScript オブジェクトと CDR バイナリを相互変換します。`read_pdu_raw_data()` と `flush_pdu_raw_data()` は raw bytes を扱う API なので、PDU 本体の形式を直接解釈しません。
+
+`get_pdu_size()` は PDU 定義ファイルに書かれた `pdu_size` を返します。CDR 用のサイズをどう扱うかは、利用する PDU 定義ファイル側で決めてください。
 
 ## PDU 定義ファイルについて
 
@@ -191,10 +207,12 @@ npm test
   - PDU 定義ファイルの読み込み
   - 通信サービスの初期化
   - PDU の read / write
+  - PDU 本体エンコーディングの選択
 - `WebSocketCommunicationService`
   - WebSocket ブリッジへの接続
 - `PduConvertor`
   - バイナリ PDU と JavaScript オブジェクトの変換
+  - `PduManager` が選択した `hako` / `cdr` エンコーディングに従って変換
 - `RemotePduServiceClientManager` / `RemotePduServiceServerManager`
   - RPC 用の補助
 
