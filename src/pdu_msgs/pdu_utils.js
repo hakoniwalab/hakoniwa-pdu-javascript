@@ -150,10 +150,9 @@ export function binToValue(type_name, bin) {
         case 'bool':
             return view.getUint32(0, littleEndian) !== 0;
         case 'byte':
+        case 'char':
         case 'uint8':
             return view.getUint8(0);
-        case 'char': // Assuming char is treated as a single byte
-            return String.fromCharCode(view.getUint8(0));
         case 'int8':
             return view.getInt8(0);
         case 'int16':
@@ -203,6 +202,7 @@ export function binToArrayValues(type_name, bin, count, element_size = 0) {
                 type_size = 4;
                 break;
             case 'byte':
+            case 'char':
             case 'uint8':
                 values.push(view.getUint8(offset));
                 type_size = 1;
@@ -270,6 +270,7 @@ export function typeToBin(type_name, value, size) {
     switch (type_name) {
         case 'bool': view.setUint32(0, value ? 1 : 0, littleEndian); break;
         case 'byte':
+        case 'char':
         case 'uint8': view.setUint8(0, value); break;
         case 'int8': view.setInt8(0, value); break;
         case 'int16': view.setInt16(0, value, littleEndian); break;
@@ -302,7 +303,7 @@ export function typesToBin(type_name, values, element_size = 0) {
     // Determine size of a single element
     switch (type_name) {
         case 'bool': type_size = 4; break;
-        case 'byte': case 'uint8': case 'int8': type_size = 1; break;
+        case 'byte': case 'char': case 'uint8': case 'int8': type_size = 1; break;
         case 'int16': case 'uint16': type_size = 2; break;
         case 'int32': case 'uint32': case 'float32': type_size = 4; break;
         case 'int64': case 'uint64': case 'float64': type_size = 8; break;
@@ -319,6 +320,7 @@ export function typesToBin(type_name, values, element_size = 0) {
         switch (type_name) {
             case 'bool': view.setUint32(offset, value ? 1 : 0, littleEndian); break;
             case 'byte':
+            case 'char':
             case 'uint8': view.setUint8(offset, value); break;
             case 'int8': view.setInt8(offset, value); break;
             case 'int16': view.setInt16(offset, value, littleEndian); break;
