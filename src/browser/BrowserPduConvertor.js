@@ -1,5 +1,5 @@
 import { PduConvertor } from '../impl/PduConvertor.js';
-import { PduEncoding } from '../PduEncoding.js';
+import { getBrowserConverterLoader } from './generatedConverterRegistry.js';
 
 /**
  * Browser convertor whose import pattern can be enumerated by bundlers.
@@ -8,9 +8,12 @@ import { PduEncoding } from '../PduEncoding.js';
 export class BrowserPduConvertor extends PduConvertor {
     async _loadConverterModule(converterInfo) {
         const { pkg, name } = converterInfo;
-        if (this.pdu_encoding === PduEncoding.CDR) {
-            return await import(`../pdu_msgs/${pkg}/pdu_cdr_conv_${name}.js`);
+        const loader = getBrowserConverterLoader(this.pdu_encoding, pkg, name);
+        if (!loader) {
+            throw new Error(
+                `No browser converter registered for ${this.pdu_encoding}:${pkg}/${name}`
+            );
         }
-        return await import(`../pdu_msgs/${pkg}/pdu_conv_${name}.js`);
+        return await loader();
     }
 }
