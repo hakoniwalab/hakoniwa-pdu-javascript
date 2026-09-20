@@ -9,7 +9,8 @@ async function resolveWsServerCtor() {
   if (!isNodeEnv()) {
     throw new Error('WebSocketServerCommunicationService is only available in Node.js runtime.');
   }
-  const mod = await import('ws'); // ESM: package.json に "type": "module" が必要
+  const wsPackage = 'ws';
+  const mod = await import(/* @vite-ignore */ wsPackage); // Node.js only
   // ws@8+: Server は named export。環境差吸収。
   return mod.WebSocketServer || mod.Server || mod.default?.Server;
 }

@@ -9,6 +9,10 @@
     ".": {
       "import": "./src/index.js",
       "default": "./src/index.js"
+    },
+    "./browser": {
+      "import": "./src/browser.js",
+      "default": "./src/browser.js"
     }
   },
   "files": [

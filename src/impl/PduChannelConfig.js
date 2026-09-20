@@ -2,6 +2,10 @@
  * Parses and stores PDU channel configuration from a JSON object.
  * Use `PduChannelConfig.load(pathOrUrl)` to create from a file/URL.
  */
+async function loadNodeModule(specifier) {
+    return await import(/* @vite-ignore */ specifier);
+}
+
 export class PduChannelConfig {
     /**
      * @param {object} normalizedConfig A compact-normalized JSON object for the PDU config.
@@ -28,8 +32,8 @@ export class PduChannelConfig {
 
         if (isNode) {
             try {
-                const pathModule = await import('path');
-                const { readFileSync } = await import('fs');
+                const pathModule = await loadNodeModule('path');
+                const { readFileSync } = await loadNodeModule('fs');
                 const text = readFileSync(pathOrUrl, 'utf8');
                 const json = JSON.parse(text);
                 const baseDir = pathModule.dirname(pathOrUrl);
@@ -110,8 +114,8 @@ export class PduChannelConfig {
             return [];
         }
         if (isNode) {
-            const pathModule = await import('path');
-            const { readFileSync } = await import('fs');
+            const pathModule = await loadNodeModule('path');
+            const { readFileSync } = await loadNodeModule('fs');
             const resolvedPath = pathModule.isAbsolute(pathInfo.path)
                 ? pathInfo.path
                 : pathModule.join(baseRef, pathInfo.path);

@@ -79,7 +79,7 @@ import {
   PduManager,
   PduEncoding,
   WebSocketCommunicationService
-} from 'hakoniwa-pdu-javascript';
+} from 'hakoniwa-pdu-javascript/browser';
 
 async function main() {
   const manager = new PduManager({
@@ -112,6 +112,11 @@ main().catch((err) => {
   process.exit(1);
 });
 ```
+
+Use the `/browser` entry in browser applications. It exposes only WebSocket
+PDU client communication and data conversion, keeping the Node.js-only
+WebSocket server and RPC helpers out of browser bundles. Node.js applications
+can continue to import `hakoniwa-pdu-javascript`.
 
 To read a PDU as structured data:
 

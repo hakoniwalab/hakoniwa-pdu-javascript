@@ -79,7 +79,7 @@ import {
   PduManager,
   PduEncoding,
   WebSocketCommunicationService
-} from 'hakoniwa-pdu-javascript';
+} from 'hakoniwa-pdu-javascript/browser';
 
 async function main() {
   const manager = new PduManager({
@@ -112,6 +112,11 @@ main().catch((err) => {
   process.exit(1);
 });
 ```
+
+ブラウザでは `/browser` エントリを使用します。このエントリは PDU の
+WebSocket クライアント通信とデータ変換だけを公開し、Node.js 専用の
+WebSocket サーバーや RPC 補助をブラウザバンドルへ含めません。Node.js
+アプリケーションでは従来どおり `hakoniwa-pdu-javascript` を使用できます。
 
 PDU を構造化データとして読む場合:
 

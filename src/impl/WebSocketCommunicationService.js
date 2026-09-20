@@ -9,7 +9,10 @@ function isNodeEnv() {
 // WebSocket コンストラクタを実行時に解決（ブラウザ: window.WebSocket / Node: ws）
 async function resolveWebSocketCtor() {
   if (isNodeEnv()) {
-    const mod = await import('ws');
+    // Keep the Node-only dependency out of browser bundle resolution. The
+    // variable import remains a normal package import when executed by Node.
+    const wsPackage = 'ws';
+    const mod = await import(/* @vite-ignore */ wsPackage);
     return mod.WebSocket || mod.default; // ws@8 以降は default
   }
   return window.WebSocket;

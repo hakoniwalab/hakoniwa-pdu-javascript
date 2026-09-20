@@ -21,7 +21,7 @@ export class PduConvertor {
      * Constructs the path to the converter module and the function names.
      * @private
      * @param {string} pduType - e.g., "std_msgs/String"
-     * @returns {{modulePath: string, toJsFunc?: string, toPduFunc?: string, converterClass?: string} | null}
+     * @returns {{pkg: string, name: string, modulePath: string, toJsFunc?: string, toPduFunc?: string, converterClass?: string} | null}
      */
     _getConverterInfo(pduType) {
         if (!pduType || !pduType.includes('/')) {
@@ -31,13 +31,18 @@ export class PduConvertor {
         if (this.pdu_encoding === PduEncoding.CDR) {
             const modulePath = `../pdu_msgs/${pkg}/pdu_cdr_conv_${name}.js`;
             const converterClass = `Pdu${name}Converter`;
-            return { modulePath, converterClass };
+            return { pkg, name, modulePath, converterClass };
         } else {
             const modulePath = `../pdu_msgs/${pkg}/pdu_conv_${name}.js`;
             const toJsFunc = `pduToJs_${name}`;
             const toPduFunc = `jsToPdu_${name}`;
-            return { modulePath, toJsFunc, toPduFunc };
+            return { pkg, name, modulePath, toJsFunc, toPduFunc };
         }
+    }
+
+    /** @private */
+    async _loadConverterModule(converterInfo) {
+        return await import(/* @vite-ignore */ converterInfo.modulePath);
     }
 
     /**
@@ -61,7 +66,7 @@ export class PduConvertor {
         }
 
         try {
-            const module = await import(converterInfo.modulePath);
+            const module = await this._loadConverterModule(converterInfo);
             if (this.pdu_encoding === PduEncoding.CDR) {
                 const converterClass = module[converterInfo.converterClass];
                 if (!converterClass || typeof converterClass.from_cdr !== 'function') {
@@ -104,7 +109,7 @@ export class PduConvertor {
         }
 
         try {
-            const module = await import(converterInfo.modulePath);
+            const module = await this._loadConverterModule(converterInfo);
             if (this.pdu_encoding === PduEncoding.CDR) {
                 const converterClass = module[converterInfo.converterClass];
                 if (!converterClass || typeof converterClass.to_cdr !== 'function') {
